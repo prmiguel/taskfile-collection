@@ -4,17 +4,36 @@ version: '3'
 
 tasks:
   install:
-    desc: Install Visual Studio Code (Debian/Ubuntu)
+    desc: Install Visual Studio Code
     cmds:
-      - sudo apt update
-      - sudo apt install -y software-properties-common apt-transport-https wget
-      - wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
-      - sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-      - sudo apt install -y code
+      - cmd: |
+          sudo apt update
+          sudo apt install -y software-properties-common apt-transport-https wget
+          wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+          sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+          sudo apt install -y code
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm code
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install --cask visual-studio-code
+        platforms: [darwin]
+      - cmd: winget install --id Microsoft.VisualStudioCode --source winget
+        platforms: [windows]
     silent: true
 
   install-cursor:
-    desc: Install Cursor editor (via snap)
+    desc: Install Cursor AI editor
     cmds:
-      - sudo snap install github-copilot-cursor --classic
+      - cmd: sudo snap install cursor --classic
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: yay -S --noconfirm cursor-bin
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install --cask cursor
+        platforms: [darwin]
+      - cmd: winget install --id Cursor.Cursor --source winget
+        platforms: [windows]
     silent: true

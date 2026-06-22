@@ -125,6 +125,17 @@ task --parallel vscode:install chrome:install
 task --dry-run vscode:install
 ```
 
+## Supported Platforms
+
+Each task auto-detects the OS and distro using `platforms:` and `if:` conditions. No flags needed.
+
+| Platform | Detected By | Package Manager |
+|----------|-------------|----------------|
+| Ubuntu / Debian | `test -f /etc/debian_version` | `apt`, `snap` |
+| Arch Linux | `test -f /etc/arch-release` | `pacman`, `yay` (AUR) |
+| macOS | `platforms: [darwin]` | `brew` |
+| Windows | `platforms: [windows]` | `winget` |
+
 ## Adding a New Task
 
 1. Pick the right category file or create a new one under `tools/`, `system/`, etc.

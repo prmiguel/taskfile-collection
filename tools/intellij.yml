@@ -4,8 +4,16 @@ version: '3'
 
 tasks:
   install:
-    desc: Install IntelliJ IDEA Community Edition (Debian/Ubuntu)
+    desc: Install IntelliJ IDEA Community Edition
     cmds:
-      - sudo apt update
-      - sudo snap install intellij-idea-community --classic
+      - cmd: sudo snap install intellij-idea-community --classic
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm intellij-idea-community-edition
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install --cask intellij-idea-ce
+        platforms: [darwin]
+      - cmd: winget install --id JetBrains.IntelliJIDEA.Community --source winget
+        platforms: [windows]
     silent: true

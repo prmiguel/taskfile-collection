@@ -4,28 +4,54 @@ version: '3'
 
 tasks:
   update:
-    desc: Update package lists (apt)
+    desc: Update package lists
     cmds:
-      - sudo apt update
+      - cmd: sudo apt update
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -Sy
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew update
+        platforms: [darwin]
+      - cmd: winget upgrade --source winget
+        platforms: [windows]
     silent: true
 
   upgrade:
-    desc: Upgrade all packages (apt)
+    desc: Upgrade all packages
     cmds:
-      - sudo apt upgrade -y
+      - cmd: sudo apt upgrade -y
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -Su --noconfirm
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew upgrade
+        platforms: [darwin]
+      - cmd: winget upgrade --all
+        platforms: [windows]
     silent: true
 
   cleanup:
     desc: Remove unused packages and clean cache
     cmds:
-      - sudo apt autoremove -y
-      - sudo apt autoclean
+      - cmd: sudo apt autoremove -y && sudo apt autoclean
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -Rns $(pacman -Qtdq 2>/dev/null) 2>/dev/null; sudo pacman -Sc --noconfirm
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew cleanup
+        platforms: [darwin]
     silent: true
 
   snap-install:
-    desc: Install a snap package (usage: task system:snap-install PACKAGE=<name>)
+    desc: Install a snap package (usage: task snap-install PACKAGE=<name>)
     cmds:
-      - sudo snap install {{.PACKAGE}} --classic
+      - cmd: sudo snap install {{.PACKAGE}} --classic
+        platforms: [linux]
+        if: test -f /etc/debian_version
     silent: true
     requires:
       vars: [PACKAGE]

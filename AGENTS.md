@@ -27,9 +27,18 @@ Tasks are namespaced by include name:
 - `ci:check-taskfile` — Validate taskfile YAML
 - `ci:lint` — Run yamllint
 
+## Supported Platforms
+
+- **Ubuntu** (Debian) — `apt`, `snap`
+- **Arch Linux** — `pacman`, `yay` (AUR)
+- **macOS** — `brew`
+- **Windows** — `winget`
+
 ## Conventions
 
 - Use `includes:` in the main `Taskfile.yml` to add new sub-files
 - Group related tasks into a single file under `tools/` or `system/`
 - Use `desc` on every task
 - Keep `silent: true` for install commands to reduce noise
+- For Linux distro-specific commands, use `platforms: [linux]` + `if: test -f /etc/debian_version` or `if: test -f /etc/arch-release`
+- For macOS/Windows, use `platforms: [darwin]` / `platforms: [windows]`

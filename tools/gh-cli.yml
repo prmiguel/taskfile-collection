@@ -4,8 +4,16 @@ version: '3'
 
 tasks:
   install:
-    desc: Install GitHub CLI (Debian/Ubuntu)
+    desc: Install GitHub CLI
     cmds:
-      - sudo apt update
-      - sudo apt install -y gh
+      - cmd: sudo apt install -y gh
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm github-cli
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install gh
+        platforms: [darwin]
+      - cmd: winget install --id GitHub.cli --source winget
+        platforms: [windows]
     silent: true

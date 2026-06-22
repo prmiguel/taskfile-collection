@@ -4,9 +4,19 @@ version: '3'
 
 tasks:
   install:
-    desc: Install Google Chrome (Debian/Ubuntu)
+    desc: Install Google Chrome
     cmds:
-      - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      - sudo apt install -y ./google-chrome-stable_current_amd64.deb
-      - rm -f google-chrome-stable_current_amd64.deb
+      - cmd: |
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+          rm -f google-chrome-stable_current_amd64.deb
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: yay -S --noconfirm google-chrome
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install --cask google-chrome
+        platforms: [darwin]
+      - cmd: winget install --id Google.Chrome --source winget
+        platforms: [windows]
     silent: true
