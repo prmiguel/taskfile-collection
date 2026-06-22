@@ -1,0 +1,77 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  run:
+    desc: Run a tool inside a Docker container
+    summary: |
+      Pulls a Docker image and runs a command inside it.
+      Usage: task container:run IMAGE=node:22 CMD="node --version" MOUNTS="-v $PWD:/workspace"
+    cmds:
+      - docker pull {{.IMAGE}}
+      - docker run --rm -it {{.MOUNTS | default ""}} {{.IMAGE}} {{.CMD}}
+    preconditions:
+      - sh: docker --version
+        msg: "Docker is required. Run 'task docker:install-cli' first."
+    requires:
+      vars: [IMAGE, CMD]
+
+  exec:
+    desc: Execute a task in a container with a Dockerfile
+    summary: |
+      Builds a Dockerfile from the container/ directory and runs it.
+      Usage: task container:exec DOCKERFILE=claude
+    cmds:
+      - docker build -t taskfile/{{.DOCKERFILE}} -f container/{{.DOCKERFILE}}.Dockerfile .
+      - docker run --rm -it taskfile/{{.DOCKERFILE}} {{.ARGS | default ""}}
+    preconditions:
+      - sh: docker --version
+        msg: "Docker is required. Run 'task docker:install-cli' first."
+    requires:
+      vars: [DOCKERFILE]
+
+  node:
+    desc: Run Node.js in a Docker container
+    summary: |
+      Runs a Node.js command in a container without installing Node locally.
+      Usage: task container:node CMD="node --version"
+      Usage: task container:node CMD="npm install" MOUNTS="-v $PWD:/app -w /app"
+    cmds:
+      - task: run
+        vars:
+          IMAGE: node:22
+          CMD: '{{.CMD}}'
+          MOUNTS: '{{.MOUNTS | default ""}}'
+    preconditions:
+      - sh: docker --version
+        msg: "Docker is required. Run 'task docker:install-cli' first."
+    requires:
+      vars: [CMD]
+
+  npm:
+    desc: Run npm in a Docker container (no local Node.js needed)
+    summary: |
+      Runs npm commands inside a Node.js container.
+      Usage: task container:npm CMD="install" MOUNTS="-v $PWD:/app -w /app"
+    cmds:
+      - task: run
+        vars:
+          IMAGE: node:22
+          CMD: 'npm {{.CMD}}'
+          MOUNTS: '{{.MOUNTS | default "-v $PWD:/app -w /app"}}'
+    preconditions:
+      - sh: docker --version
+        msg: "Docker is required. Run 'task docker:install-cli' first."
+    requires:
+      vars: [CMD]
+
+  claude-cli:
+    desc: Run Claude CLI in a Docker container
+    cmds:
+      - docker pull ghcr.io/anthropics/claude-code:latest
+      - docker run --rm -it -v $HOME/.claude:/home/user/.claude ghcr.io/anthropics/claude-code:latest {{.ARGS | default ""}}
+    preconditions:
+      - sh: docker --version
+        msg: "Docker is required. Run 'task docker:install-cli' first."
+    silent: true

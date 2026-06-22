@@ -8,6 +8,9 @@ tasks:
     cmds:
       - cmd: npm install -g @anthropic-ai/claude-code
         platforms: [linux, darwin, windows]
+    preconditions:
+      - sh: node --version && npm --version
+        msg: "Node.js and npm are required. Run 'task node:install-22' or 'task container:npm' to use Docker instead."
     silent: true
 
   install-desktop:

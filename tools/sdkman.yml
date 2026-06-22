@@ -11,4 +11,9 @@ tasks:
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk version
         platforms: [linux, darwin, windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to install SDKMAN."
+      - sh: command -v java && java -version
+        msg: "Java is recommended before installing SDKMAN."
     silent: true

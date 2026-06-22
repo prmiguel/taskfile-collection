@@ -58,6 +58,28 @@ This repository is a Taskfile-based automation collection for system setup and d
 - `ci:check-taskfile` — Validate taskfile YAML
 - `ci:lint` — Run yamllint
 
+## Execution Modes
+
+Each tool can be run in different modes depending on preference:
+
+| Mode | Description | Example |
+|------|-------------|---------|
+| `native` | Installed directly on the host OS | `task gh:install` |
+| `npm` | Installed via npm (requires Node.js) | `task claude:install-cli` |
+| `container` | Run inside a Docker container (no native install) | `task container:claude-cli` |
+
+Use `container:` tasks when you want to avoid polluting your host OS or when a tool doesn't have a native package for your platform.
+
+## Prerequisites
+
+Tasks declare `preconditions:` that must be met before running. If a precondition fails, Task shows a message and stops.
+
+| Prerequisite | Checks For | Used By |
+|-------------|------------|---------|
+| `command -v docker` | Docker CLI | `container:*`, `docker:setup-repo` |
+| `node --version && npm --version` | Node.js + npm | `claude:install-cli` |
+| `command -v curl` | curl | `node:install-nvm`, `sdkman:install`, `docker:setup-repo` |
+
 ## Supported Platforms
 
 | Platform | Detection | Manager |
@@ -66,12 +88,14 @@ This repository is a Taskfile-based automation collection for system setup and d
 | Arch Linux | `test -f /etc/arch-release` + `platforms: [linux]` | `pacman`, `yay` |
 | macOS | `platforms: [darwin]` | `brew` |
 | Windows | `platforms: [windows]` | `winget` |
+| Container | `docker --version` | Docker (any OS) |
 
 ## Conventions
 
 - Use `includes:` in the main `Taskfile.yml` to add new sub-files
-- Group related tasks into a single file under `tools/` or `system/`
-- Use `desc` on every task
+- Group related tasks into a single file under `tools/`, `system/`, or `container/`
+- Use `desc` and `summary` on every task
 - Keep `silent: true` for install commands to reduce noise
 - For Linux distro-specific commands, use `platforms: [linux]` + `if: test -f <release-file>`
 - For macOS/Windows, use `platforms: [darwin]` / `platforms: [windows]`
+- Add `preconditions:` for any required tool (Docker, npm, curl, etc.)

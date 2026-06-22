@@ -15,6 +15,9 @@ tasks:
       - cmd: |
           winget install --id CoreyButler.NVMforWindows --source winget
         platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to install nvm."
     silent: true
 
   install-18:

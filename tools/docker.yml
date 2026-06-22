@@ -16,6 +16,9 @@ tasks:
           sudo apt update
         platforms: [linux]
         if: test -f /etc/debian_version
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to add Docker's repository."
     silent: true
 
   install-cli:

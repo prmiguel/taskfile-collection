@@ -144,6 +144,54 @@ task --parallel vscode:install chrome:install
 task --dry-run vscode:install
 ```
 
+## Execution Modes
+
+Each tool can be installed or run in different modes:
+
+| Mode | Description | When to Use |
+|------|-------------|-------------|
+| **Native** | Installed directly on the host OS | Full integration, CLI in PATH |
+| **npm** | Installed via npm (requires Node.js) | JS/TS tools, cross-platform CLIs |
+| **Container** | Runs inside a Docker container | Avoid host pollution, no native package |
+
+Choose the mode that fits your workflow. Container tasks are prefixed with `container:`, npm tasks use `preconditions` to verify Node.js is installed.
+
+## Container Platform
+
+Some tools can run inside Docker containers instead of being installed natively. Container tasks live under `container/` and are namespaced with `container:`.
+
+```sh
+# Run Node.js in a container (no local install needed)
+task container:node CMD="node --version"
+
+# Run npm in a container
+task container:npm CMD="install" MOUNTS="-v $PWD:/app -w /app"
+
+# Run Claude CLI in a container
+task container:claude-cli ARGS="--help"
+
+# Generic container runner
+task container:run IMAGE=python:3 CMD="python --version"
+```
+
+All container tasks require Docker CLI. They auto-check with `preconditions:`.
+
+## Prerequisites
+
+Tasks declare what they need using `preconditions:` and `requires:`. If a prerequisite is missing, Task shows a clear message and stops.
+
+```sh
+# Example: claude:install-cli checks for Node.js first
+$ task claude:install-cli
+task: "claude:install-cli" failed: Node.js and npm are required. Run 'task node:install-22' first.
+```
+
+| Prerequisite | Check | Needed By |
+|-------------|-------|-----------|
+| Docker CLI | `docker --version` | `container:*`, `docker:setup-repo` |
+| Node.js + npm | `node --version && npm --version` | `claude:install-cli` |
+| curl | `command -v curl` | `node:install-nvm`, `sdkman:install`, `docker:setup-repo` |
+
 ## Supported Platforms
 
 Each task auto-detects the OS and distro using `platforms:` and `if:` conditions. No flags needed.
@@ -154,10 +202,11 @@ Each task auto-detects the OS and distro using `platforms:` and `if:` conditions
 | Arch Linux | `test -f /etc/arch-release` | `pacman`, `yay` (AUR) |
 | macOS | `platforms: [darwin]` | `brew` |
 | Windows | `platforms: [windows]` | `winget` |
+| Container | `docker --version` | Docker (any OS) |
 
 ## Adding a New Task
 
-1. Pick the right category file or create a new one under `tools/`, `system/`, etc.
+1. Pick the right category file or create a new one under `tools/`, `system/`, or `container/`.
 2. Define your task using the [Taskfile schema](https://taskfile.dev/#/usage):
    ```yaml
    tasks:
@@ -165,6 +214,9 @@ Each task auto-detects the OS and distro using `platforms:` and `if:` conditions
        desc: Install My Tool
        cmds:
          - curl -fsSL https://example.com/install.sh | sh
+       preconditions:
+         - sh: command -v curl
+           msg: "curl is required."
    ```
 3. If it's a separate file, include it in the main `Taskfile.yml` using `includes:`.
 

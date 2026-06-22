@@ -16,6 +16,7 @@ includes:
   git: ./tools/git.yml
   node: ./tools/node.yml
   sdkman: ./tools/sdkman.yml
+  container: ./container
   ci: ./ci
 
 tasks:
