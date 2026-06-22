@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  update:
+    desc: Update package lists (apt)
+    cmds:
+      - sudo apt update
+    silent: true
+
+  upgrade:
+    desc: Upgrade all packages (apt)
+    cmds:
+      - sudo apt upgrade -y
+    silent: true
+
+  cleanup:
+    desc: Remove unused packages and clean cache
+    cmds:
+      - sudo apt autoremove -y
+      - sudo apt autoclean
+    silent: true
+
+  snap-install:
+    desc: Install a snap package (usage: task system:snap-install PACKAGE=<name>)
+    cmds:
+      - sudo snap install {{.PACKAGE}} --classic
+    silent: true
+    requires:
+      vars: [PACKAGE]

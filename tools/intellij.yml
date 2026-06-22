@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install IntelliJ IDEA Community Edition (Debian/Ubuntu)
+    cmds:
+      - sudo apt update
+      - sudo snap install intellij-idea-community --classic
+    silent: true

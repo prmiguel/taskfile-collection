@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install GitHub CLI (Debian/Ubuntu)
+    cmds:
+      - sudo apt update
+      - sudo apt install -y gh
+    silent: true

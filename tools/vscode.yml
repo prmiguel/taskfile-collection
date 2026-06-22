@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install Visual Studio Code (Debian/Ubuntu)
+    cmds:
+      - sudo apt update
+      - sudo apt install -y software-properties-common apt-transport-https wget
+      - wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+      - sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+      - sudo apt install -y code
+    silent: true
+
+  install-cursor:
+    desc: Install Cursor editor (via snap)
+    cmds:
+      - sudo snap install github-copilot-cursor --classic
+    silent: true

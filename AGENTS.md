@@ -1,29 +1,35 @@
 # AI Agent Instructions
 
-This repository is a small Taskfile-based automation project.
+This repository is a Taskfile-based automation collection for system setup and dev tool installation.
 
-## What to know
+## Structure
 
-- The only project metadata is in `Taskfile.yml`.
-- There is no application source tree, package manifest, or standard build system in this repository.
-- `Taskfile.yml` defines the available commands and is the authoritative entrypoint for automation.
+- `Taskfile.yml` — main entrypoint, includes all sub-files
+- `system/Taskfile.yml` — system tasks (update, upgrade, cleanup)
+- `tools/vscode.yml` — VS Code + Cursor
+- `tools/chrome.yml` — Google Chrome
+- `tools/gh-cli.yml` — GitHub CLI
+- `tools/intellij.yml` — IntelliJ IDEA CE
+- `ci/Taskfile.yml` — CI validation helpers
 
-## Key file
+## Usage
 
-- `Taskfile.yml` — contains task definitions and commands.
+Tasks are namespaced by include name:
 
-## How to act
+- `vscode:install` — Install VS Code
+- `vscode:install-cursor` — Install Cursor editor
+- `chrome:install` — Install Google Chrome
+- `gh:install` — Install GitHub CLI
+- `intellij:install` — Install IntelliJ IDEA CE
+- `system:update` — Update apt package lists
+- `system:upgrade` — Upgrade all packages
+- `system:cleanup` — Remove unused packages
+- `ci:check-taskfile` — Validate taskfile YAML
+- `ci:lint` — Run yamllint
 
-- Inspect `Taskfile.yml` first when asked about project behavior or automation.
-- If a task change is requested, update `Taskfile.yml` using the existing Taskfile schema.
-- Do not assume there are backend/frontend frameworks, tests, or package managers unless the user adds them.
+## Conventions
 
-## Existing tasks
-
-- `default` — prints a greeting message.
-- `install_vscode` — installs Visual Studio Code on Debian/Ubuntu systems.
-- `install_chrome` — installs Google Chrome on Debian/Ubuntu systems.
-
-## When in doubt
-
-- Ask the user for clarification before adding non-Taskfile files or creating a broader application structure.
+- Use `includes:` in the main `Taskfile.yml` to add new sub-files
+- Group related tasks into a single file under `tools/` or `system/`
+- Use `desc` on every task
+- Keep `silent: true` for install commands to reduce noise

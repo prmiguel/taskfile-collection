@@ -61,16 +61,16 @@ Taskfiles are organized by category. Each file covers a related set of tasks.
 
 ```
 taskfile-collection/
-├── Taskfile.yml          # Main entrypoint (includes or runs tasks from sub-files)
+├── Taskfile.yml          # Main entrypoint (includes all sub-directories)
 ├── system/               # System-level tasks
-│   ├── Taskfile.yml      #   apt, snap, services, etc.
-│   └── Taskfile.yml      #   (future: Docker, networking, etc.)
+│   └── Taskfile.yml      #   apt update, upgrade, cleanup, snap
 ├── tools/                # Dev tool installations
-│   ├── vscode.yml        #   VS Code installation
-│   ├── chrome.yml        #   Chrome installation
-│   └── intellij.yml      #   IntelliJ installation
-├── ci/                   # CI/CD pipeline helpers
-│   └── Taskfile.yml
+│   ├── vscode.yml        #   VS Code + Cursor
+│   ├── chrome.yml        #   Google Chrome
+│   ├── gh-cli.yml        #   GitHub CLI
+│   └── intellij.yml      #   IntelliJ IDEA CE
+├── ci/                   # CI/CD helpers
+│   └── Taskfile.yml      #   YAML lint, validation
 ├── README.md
 └── LINKS.md
 ```
@@ -83,45 +83,46 @@ taskfile-collection/
 task --list
 ```
 
-### Run a specific task
+### List all tasks
 
 ```sh
-task install_vscode
+task --list-all
+```
+
+### Run a specific task
+
+Tasks are namespaced by their include name:
+
+```sh
+task vscode:install
+task chrome:install
+task gh:install
+task intellij:install
+task system:update
 ```
 
 ### Run multiple tasks
 
 ```sh
-task install_chrome install_vscode
+task vscode:install chrome:install
 ```
 
-### Run a task from a specific file
-
-If tasks are split across files, use `-t` or `--taskfile`:
+### Run a task directly from a file
 
 ```sh
 task -t tools/vscode.yml install
 ```
 
-### Include tasks from sub-files (main Taskfile.yml)
-
-Tasks from included files are available directly from the root:
-
-```sh
-task setup:dotfiles
-task install:node
-```
-
 ### Run tasks in parallel
 
 ```sh
-task --parallel install_chrome install_vscode
+task --parallel vscode:install chrome:install
 ```
 
-### Dry run (see what would run)
+### Dry run (see what would run without executing)
 
 ```sh
-task --dry-run install_vscode
+task --dry-run vscode:install
 ```
 
 ## Adding a New Task

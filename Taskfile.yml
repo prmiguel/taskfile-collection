@@ -2,44 +2,17 @@
 
 version: '3'
 
-vars:
-  GREETING: Hello, world!
+includes:
+  system: ./system
+  vscode: ./tools/vscode.yml
+  chrome: ./tools/chrome.yml
+  gh: ./tools/gh-cli.yml
+  intellij: ./tools/intellij.yml
+  ci: ./ci
 
 tasks:
   default:
-    desc: Print a greeting message
+    desc: List all available tasks
     cmds:
-      - echo "{{.GREETING}}"
-    silent: true
-  install_vscode:
-    desc: Install VSCode
-    cmds:
-      - sudo apt update
-      - sudo apt install -y software-properties-common apt-transport-https wget
-      - wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
-      - sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-      - sudo apt install -y code
-    silent: true
-  install_chrome:
-    desc: Install Chrome
-    cmds:
-      - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      - sudo apt install -y ./google-chrome-stable_current_amd64.deb
-    silent: true
-  install_gh_cli:
-    desc: Install GitHub CLI
-    cmds:
-      - sudo apt update
-      - sudo apt install -y gh
-    silent: true
-  install_intellij:
-    desc: Install IntelliJ IDEA Community Edition
-    cmds:
-      - sudo apt update
-      - sudo apt install -y intellij-idea-community
-    silent: true
-  install_cursor:
-    desc: Install GitHub Copilot Cursor
-    cmds:
-      - sudo snap install github-copilot-cursor --classic
+      - task --list-all
     silent: true
