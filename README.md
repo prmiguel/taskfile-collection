@@ -63,12 +63,20 @@ Taskfiles are organized by category. Each file covers a related set of tasks.
 taskfile-collection/
 ├── Taskfile.yml          # Main entrypoint (includes all sub-directories)
 ├── system/               # System-level tasks
-│   └── Taskfile.yml      #   apt update, upgrade, cleanup, snap
+│   └── Taskfile.yml      #   update, upgrade, cleanup, snap
 ├── tools/                # Dev tool installations
-│   ├── vscode.yml        #   VS Code + Cursor
+│   ├── vscode.yml        #   VS Code, Insiders, Cursor
 │   ├── chrome.yml        #   Google Chrome
 │   ├── gh-cli.yml        #   GitHub CLI
-│   └── intellij.yml      #   IntelliJ IDEA CE
+│   ├── intellij.yml      #   IntelliJ IDEA CE
+│   ├── cursor.yml        #   Cursor AI editor + CLI
+│   ├── windsurf.yml      #   Windsurf AI editor
+│   ├── antigravity.yml   #   Antigravity (Docker)
+│   ├── claude.yml        #   Claude CLI + Desktop
+│   ├── docker.yml        #   CLI, Engine, Desktop
+│   ├── git.yml           #   Git
+│   ├── node.yml          #   nvm + Node.js versions
+│   └── sdkman.yml        #   SDKMAN
 ├── ci/                   # CI/CD helpers
 │   └── Taskfile.yml      #   YAML lint, validation
 ├── README.md
@@ -98,6 +106,17 @@ task vscode:install
 task chrome:install
 task gh:install
 task intellij:install
+task cursor:install
+task cursor:install-cli
+task windsurf:install
+task claude:install-cli
+task claude:install-desktop
+task docker:install-cli
+task docker:install-engine
+task docker:install-desktop
+task git:install
+task node:install-22
+task sdkman:install
 task system:update
 ```
 

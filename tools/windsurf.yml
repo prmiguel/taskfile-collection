@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install Windsurf AI editor (Codeium)
+    cmds:
+      - cmd: |
+          curl -fsSL https://windsurf.com/install.sh | sudo sh
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: yay -S --noconfirm windsurf
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install --cask windsurf
+        platforms: [darwin]
+      - cmd: winget install --id Windsurf.Windsurf --source winget
+        platforms: [windows]
+    silent: true

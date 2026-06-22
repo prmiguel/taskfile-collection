@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  setup-repo:
+    desc: Add Docker's official APT repository (Ubuntu)
+    cmds:
+      - cmd: |
+          sudo apt update
+          sudo apt install -y ca-certificates curl
+          sudo install -m 0755 -d /etc/apt/keyrings
+          sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+          sudo chmod a+r /etc/apt/keyrings/docker.asc
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+          sudo apt update
+        platforms: [linux]
+        if: test -f /etc/debian_version
+    silent: true
+
+  install-cli:
+    desc: Install Docker CLI (client only)
+    deps:
+      - setup-repo
+    cmds:
+      - cmd: sudo apt install -y docker-ce-cli
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm docker-cli
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install docker
+        platforms: [darwin]
+      - cmd: winget install --id Docker.DockerCLI --source winget
+        platforms: [windows]
+    silent: true
+
+  install-engine:
+    desc: Install Docker Engine (client + daemon)
+    deps:
+      - setup-repo
+    cmds:
+      - cmd: sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin && sudo usermod -aG docker $USER
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm docker docker-compose && sudo systemctl enable --now docker && sudo usermod -aG docker $USER
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install docker
+        platforms: [darwin]
+      - cmd: winget install --id Docker.DockerEngine --source winget
+        platforms: [windows]
+    silent: true
+
+  install-desktop:
+    desc: Install Docker Desktop
+    cmds:
+      - cmd: |
+          curl -fsSL https://desktop.docker.com/linux/ubuntu/amd64/docker-desktop-amd64.deb -o /tmp/docker-desktop.deb
+          sudo apt install -y /tmp/docker-desktop.deb
+          rm -f /tmp/docker-desktop.deb
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: yay -S --noconfirm docker-desktop
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install --cask docker
+        platforms: [darwin]
+      - cmd: winget install --id Docker.DockerDesktop --source winget
+        platforms: [windows]
+    silent: true

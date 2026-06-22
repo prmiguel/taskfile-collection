@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install Cursor AI editor
+    cmds:
+      - cmd: sudo snap install cursor --classic
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: yay -S --noconfirm cursor-bin
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install --cask cursor
+        platforms: [darwin]
+      - cmd: winget install --id Cursor.Cursor --source winget
+        platforms: [windows]
+    silent: true
+
+  install-cli:
+    desc: Install Cursor CLI (cursor command in PATH)
+    cmds:
+      - cmd: |
+          which cursor 2>/dev/null || sudo snap install cursor --classic
+          cursor --install-extension "cursor.cli" 2>/dev/null || true
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: |
+          which cursor 2>/dev/null || yay -S --noconfirm cursor-bin
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: |
+          brew install --cask cursor
+          ln -sf /Applications/Cursor.app/Contents/Resources/app/bin/cursor /usr/local/bin/cursor 2>/dev/null || true
+        platforms: [darwin]
+      - cmd: winget install --id Cursor.Cursor --source winget
+        platforms: [windows]
+    silent: true

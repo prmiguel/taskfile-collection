@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install Git
+    cmds:
+      - cmd: sudo apt install -y git
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm git
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install git
+        platforms: [darwin]
+      - cmd: winget install --id Git.Git --source winget
+        platforms: [windows]
+    silent: true

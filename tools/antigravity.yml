@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install Antigravity (via Docker container)
+    cmds:
+      - cmd: |
+          docker pull ghcr.io/prmiguel/antigravity:latest
+          echo "Run 'docker run -d -p 8080:8080 ghcr.io/prmiguel/antigravity:latest' to start"
+        platforms: [linux, darwin]
+      - cmd: |
+          docker pull ghcr.io/prmiguel/antigravity:latest
+          echo "Run 'docker run -d -p 8080:8080 ghcr.io/prmiguel/antigravity:latest' to start"
+        platforms: [windows]
+    silent: true

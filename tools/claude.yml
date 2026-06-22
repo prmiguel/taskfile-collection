@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install-cli:
+    desc: Install Claude CLI (Anthropic)
+    cmds:
+      - cmd: npm install -g @anthropic-ai/claude-code
+        platforms: [linux, darwin, windows]
+    silent: true
+
+  install-desktop:
+    desc: Install Claude Desktop app
+    cmds:
+      - cmd: |
+          curl -fsSL https://storage.googleapis.com/claude-desktop-public/claude-desktop-latest_amd64.deb -o /tmp/claude.deb
+          sudo apt install -y /tmp/claude.deb
+          rm -f /tmp/claude.deb
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: yay -S --noconfirm claude-desktop
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install --cask claude
+        platforms: [darwin]
+      - cmd: winget install --id Anthropic.Claude --source winget
+        platforms: [windows]
+    silent: true

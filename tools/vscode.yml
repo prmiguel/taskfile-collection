@@ -23,6 +23,26 @@ tasks:
         platforms: [windows]
     silent: true
 
+  install-insiders:
+    desc: Install Visual Studio Code Insiders
+    cmds:
+      - cmd: |
+          sudo apt update
+          sudo apt install -y software-properties-common apt-transport-https wget
+          wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+          sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+          sudo apt install -y code-insiders
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: yay -S --noconfirm visual-studio-code-insiders
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install --cask visual-studio-code-insiders
+        platforms: [darwin]
+      - cmd: winget install --id Microsoft.VisualStudioCode.Insiders --source winget
+        platforms: [windows]
+    silent: true
+
   install-cursor:
     desc: Install Cursor AI editor
     cmds:

@@ -8,6 +8,14 @@ includes:
   chrome: ./tools/chrome.yml
   gh: ./tools/gh-cli.yml
   intellij: ./tools/intellij.yml
+  cursor: ./tools/cursor.yml
+  windsurf: ./tools/windsurf.yml
+  antigravity: ./tools/antigravity.yml
+  claude: ./tools/claude.yml
+  docker: ./tools/docker.yml
+  git: ./tools/git.yml
+  node: ./tools/node.yml
+  sdkman: ./tools/sdkman.yml
   ci: ./ci
 
 tasks:

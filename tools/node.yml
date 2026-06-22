@@ -1,0 +1,83 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+vars:
+  NVM_VERSION: v0.40.1
+
+tasks:
+  install-nvm:
+    desc: Install nvm (Node Version Manager)
+    cmds:
+      - cmd: |
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/{{.NVM_VERSION}}/install.sh | bash
+        platforms: [linux, darwin]
+      - cmd: |
+          winget install --id CoreyButler.NVMforWindows --source winget
+        platforms: [windows]
+    silent: true
+
+  install-18:
+    desc: Install Node.js 18 (via nvm)
+    deps: [install-nvm]
+    cmds:
+      - cmd: |
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+          nvm install 18
+        platforms: [linux, darwin]
+      - cmd: nvm install 18
+        platforms: [windows]
+    silent: true
+
+  install-20:
+    desc: Install Node.js 20 (via nvm)
+    deps: [install-nvm]
+    cmds:
+      - cmd: |
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+          nvm install 20
+        platforms: [linux, darwin]
+      - cmd: nvm install 20
+        platforms: [windows]
+    silent: true
+
+  install-22:
+    desc: Install Node.js 22 (via nvm)
+    deps: [install-nvm]
+    cmds:
+      - cmd: |
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+          nvm install 22
+        platforms: [linux, darwin]
+      - cmd: nvm install 22
+        platforms: [windows]
+    silent: true
+
+  install-23:
+    desc: Install Node.js 23 (via nvm)
+    deps: [install-nvm]
+    cmds:
+      - cmd: |
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+          nvm install 23
+        platforms: [linux, darwin]
+      - cmd: nvm install 23
+        platforms: [windows]
+    silent: true
+
+  install-24:
+    desc: Install Node.js 24 (via nvm)
+    deps: [install-nvm]
+    cmds:
+      - cmd: |
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+          nvm install 24
+        platforms: [linux, darwin]
+      - cmd: nvm install 24
+        platforms: [windows]
+    silent: true
