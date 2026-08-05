@@ -1,101 +1,45 @@
 # AI Agent Instructions
 
-This repository is a Taskfile-based automation collection for system setup and dev tool installation across Ubuntu, Arch Linux, macOS, and Windows.
+Taskfile (go-task) collection for system setup and dev-tool installation across Ubuntu, Arch Linux, macOS, and Windows. Every Taskfile uses `version: '3'` and the schema header `# yaml-language-server: $schema=https://taskfile.dev/schema.json`.
+
+## Running tasks
+
+```sh
+task --list-all                    # list all tasks (the default task runs this)
+task node:install-22               # run a namespaced task
+task --dry-run vscode:install      # preview without executing
+task --parallel a:install b:install # run tasks in parallel
+task -t tools/vscode.yml install   # run a task from a single file
+```
+
+Tasks are namespaced by the `includes:` name in `Taskfile.yml` (not always the filename: `tools/gh-cli.yml` → `gh:`). Most installs invoke `sudo` internally, so a privileged session is required.
 
 ## Structure
 
-- `Taskfile.yml` — main entrypoint, includes all sub-files
-- `system/Taskfile.yml` — system tasks (update, upgrade, cleanup, snap)
-- `tools/vscode.yml` — VS Code, VS Code Insiders, Cursor
-- `tools/chrome.yml` — Google Chrome
-- `tools/gh-cli.yml` — GitHub CLI
-- `tools/intellij.yml` — IntelliJ IDEA CE
-- `tools/cursor.yml` — Cursor AI editor + CLI
-- `tools/windsurf.yml` — Windsurf AI editor
-- `tools/antigravity.yml` — Antigravity (Docker)
-- `tools/claude.yml` — Claude CLI + Desktop
-- `tools/docker.yml` — Docker CLI, Engine, Desktop
-- `tools/git.yml` — Git
-- `tools/node.yml` — nvm + Node.js (last 5 versions)
-- `tools/sdkman.yml` — SDKMAN
-- `ci/Taskfile.yml` — CI validation helpers
+- `Taskfile.yml` — entrypoint; `includes:` all namespaces below. Register new files here.
+- `system/Taskfile.yml` — update, upgrade, cleanup, snap-install
+- `tools/*.yml` — one file per tool: vscode, chrome, gh-cli, intellij, cursor, windsurf, antigravity, claude, docker, git, node, sdkman
+- `container/Taskfile.yml` — Docker-based tasks (run, exec, node, npm, claude-cli)
+- `ci/Taskfile.yml` — local validation helpers, NOT CI pipelines
 
-## Tasks
+## Gotchas
 
-### System
-- `system:update` — Update package lists (apt/pacman/brew/winget)
-- `system:upgrade` — Upgrade all packages
-- `system:cleanup` — Remove unused packages, clean cache
-- `system:snap-install PACKAGE=<name>` — Install a snap package (Ubuntu)
+- Repo has no `.github/workflows`. `ci:*` are local-only: `ci:check-taskfile` runs `task --list-all` (YAML syntax check); `ci:lint` runs `yamllint .` and requires yamllint to be installed (no config file in repo).
+- `container:exec DOCKERFILE=<name>` builds `container/<name>.Dockerfile` — no Dockerfiles exist yet, so it fails until one is added.
+- `vscode:install-cursor` is a duplicate of `cursor:install`; use `cursor:install`.
+- `docker:setup-repo` requires curl, not Docker (only `container:*` tasks need Docker).
+- `sdkman:install` checks curl AND java.
+- `node:install-*` depend on `install-nvm`; nvm is pinned via `NVM_VERSION: v0.40.1` in `tools/node.yml`. Versions: 18, 20, 22, 23, 24.
+- `system:cleanup` has no Windows branch (update/upgrade do).
+- `container:*` take vars via `requires: vars:`: `container:run IMAGE=<img> CMD=<cmd> [MOUNTS=...]`, `container:exec DOCKERFILE=<name> [ARGS=...]`, `container:npm CMD=...` (defaults `MOUNTS="-v $PWD:/app -w /app"`).
+- YAML quirk: `desc` values containing a colon-space (e.g. `(usage: task snap-install PACKAGE=<name>)`) must be quoted or the file won't parse.
 
-### Tools
-- `vscode:install` — VS Code
-- `vscode:install-insiders` — VS Code Insiders
-- `vscode:install-cursor` — Cursor editor (legacy, prefer cursor:install)
-- `chrome:install` — Google Chrome
-- `gh:install` — GitHub CLI
-- `intellij:install` — IntelliJ IDEA CE
-- `cursor:install` — Cursor AI editor
-- `cursor:install-cli` — Cursor CLI in PATH
-- `windsurf:install` — Windsurf editor
-- `antigravity:install` — Antigravity via Docker
-- `claude:install-cli` — Claude CLI (npm)
-- `claude:install-desktop` — Claude Desktop app
-- `docker:setup-repo` — Add Docker apt repo (Ubuntu)
-- `docker:install-cli` — Docker CLI (client only)
-- `docker:install-engine` — Docker Engine (client + daemon)
-- `docker:install-desktop` — Docker Desktop
-- `git:install` — Git
-- `node:install-nvm` — nvm (Node Version Manager)
-- `node:install-18` — Node.js 18
-- `node:install-20` — Node.js 20
-- `node:install-22` — Node.js 22
-- `node:install-23` — Node.js 23
-- `node:install-24` — Node.js 24
-- `sdkman:install` — SDKMAN
+## Conventions (follow for new tasks)
 
-### CI
-- `ci:check-taskfile` — Validate taskfile YAML
-- `ci:lint` — Run yamllint
-
-## Execution Modes
-
-Each tool can be run in different modes depending on preference:
-
-| Mode | Description | Example |
-|------|-------------|---------|
-| `native` | Installed directly on the host OS | `task gh:install` |
-| `npm` | Installed via npm (requires Node.js) | `task claude:install-cli` |
-| `container` | Run inside a Docker container (no native install) | `task container:claude-cli` |
-
-Use `container:` tasks when you want to avoid polluting your host OS or when a tool doesn't have a native package for your platform.
-
-## Prerequisites
-
-Tasks declare `preconditions:` that must be met before running. If a precondition fails, Task shows a message and stops.
-
-| Prerequisite | Checks For | Used By |
-|-------------|------------|---------|
-| `command -v docker` | Docker CLI | `container:*`, `docker:setup-repo` |
-| `node --version && npm --version` | Node.js + npm | `claude:install-cli` |
-| `command -v curl` | curl | `node:install-nvm`, `sdkman:install`, `docker:setup-repo` |
-
-## Supported Platforms
-
-| Platform | Detection | Manager |
-|----------|-----------|---------|
-| Ubuntu | `test -f /etc/debian_version` + `platforms: [linux]` | `apt`, `snap` |
-| Arch Linux | `test -f /etc/arch-release` + `platforms: [linux]` | `pacman`, `yay` |
-| macOS | `platforms: [darwin]` | `brew` |
-| Windows | `platforms: [windows]` | `winget` |
-| Container | `docker --version` | Docker (any OS) |
-
-## Conventions
-
-- Use `includes:` in the main `Taskfile.yml` to add new sub-files
-- Group related tasks into a single file under `tools/`, `system/`, or `container/`
-- Use `desc` and `summary` on every task
-- Keep `silent: true` for install commands to reduce noise
-- For Linux distro-specific commands, use `platforms: [linux]` + `if: test -f <release-file>`
-- For macOS/Windows, use `platforms: [darwin]` / `platforms: [windows]`
-- Add `preconditions:` for any required tool (Docker, npm, curl, etc.)
+- Group related tasks in one file under `tools/`, `system/`, or `container/`; register via `includes:` in `Taskfile.yml`.
+- Dispatch per platform with `cmd:` blocks + `platforms:` + `if:` for distros:
+  - Ubuntu: `platforms: [linux]` + `if: test -f /etc/debian_version`
+  - Arch: `platforms: [linux]` + `if: test -f /etc/arch-release`
+  - macOS: `platforms: [darwin]`; Windows: `platforms: [windows]`
+- Every task gets `desc` (add `summary` for non-trivial ones) and `silent: true`.
+- Declare `preconditions:` (with `sh:` + `msg:`) and `requires: vars:` for any required tool/var; use `deps:` for ordering.

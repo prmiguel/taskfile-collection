@@ -47,7 +47,7 @@ tasks:
     silent: true
 
   snap-install:
-    desc: Install a snap package (usage: task snap-install PACKAGE=<name>)
+    desc: "Install a snap package (usage: task snap-install PACKAGE=<name>)"
     cmds:
       - cmd: sudo snap install {{.PACKAGE}} --classic
         platforms: [linux]
