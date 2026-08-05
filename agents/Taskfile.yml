@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install-all:
+    desc: Install all AI coding agents
+    summary: |
+      Installs opencode, mimo, kilo, claude-code, and cursor-agent via their
+      platform-native installers.
+    deps:
+      - ':opencode:install'
+      - ':mimocode:install'
+      - ':kilo:install'
+      - ':claude-code:install'
+      - ':cursor-agent:install'
+    silent: true

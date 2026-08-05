@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install Kilo Code CLI (kilo)
+    summary: |
+      Installs the Kilo Code open source coding agent CLI (binary: kilo) from
+      the official installer. Requires curl and tar/unzip.
+    cmds:
+      - cmd: |
+          curl -fsSL https://kilo.ai/cli/install | bash
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to install kilo."
+    silent: true
+
+  install-npm:
+    desc: Install Kilo Code CLI via npm
+    cmds:
+      - cmd: npm install -g @kilocode/cli
+        platforms: [linux, darwin, windows]
+    preconditions:
+      - sh: node --version && npm --version
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true

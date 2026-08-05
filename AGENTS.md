@@ -19,6 +19,8 @@ Tasks are namespaced by the `includes:` name in `Taskfile.yml` (not always the f
 - `Taskfile.yml` — entrypoint; `includes:` all namespaces below. Register new files here.
 - `system/Taskfile.yml` — update, upgrade, cleanup, snap-install
 - `tools/*.yml` — one file per tool: vscode, chrome, gh-cli, intellij, cursor, windsurf, antigravity, claude, docker, git, node, sdkman
+- `agents/*.yml` — one file per AI coding agent: opencode, mimocode, kilo, claude-code, cursor-agent; plus `Taskfile.yml` aggregator (`agents:install-all`)
+- `ai-tools/*.yml` — one file per AI dev tool: rtk; plus `Taskfile.yml` aggregator (`ai-tools:install-all`)
 - `container/Taskfile.yml` — Docker-based tasks (run, exec, node, npm, claude-cli)
 - `ci/Taskfile.yml` — local validation helpers, NOT CI pipelines
 
@@ -27,6 +29,9 @@ Tasks are namespaced by the `includes:` name in `Taskfile.yml` (not always the f
 - Repo has no `.github/workflows`. `ci:*` are local-only: `ci:check-taskfile` runs `task --list-all` (YAML syntax check); `ci:lint` runs `yamllint .` and requires yamllint to be installed (no config file in repo).
 - `container:exec DOCKERFILE=<name>` builds `container/<name>.Dockerfile` — no Dockerfiles exist yet, so it fails until one is added.
 - `vscode:install-cursor` is a duplicate of `cursor:install`; use `cursor:install`.
+- `cursor-agent:install` is the standalone Cursor Agent CLI (binary `agent`), NOT the `cursor` IDE launcher; `cursor:install-cli` covers the launcher.
+- `claude-code:install` is Claude Code's native installer (no Node needed); `claude:install-cli` is the npm route (requires Node). Both install the `claude` binary.
+- `agents:install-all` and `ai-tools:install-all` reference sibling namespaces with a leading colon (`':opencode:install'`) so they resolve at the root instead of under the `agents:`/`ai-tools:` namespace.
 - `docker:setup-repo` requires curl, not Docker (only `container:*` tasks need Docker).
 - `sdkman:install` checks curl AND java.
 - `node:install-*` depend on `install-nvm`; nvm is pinned via `NVM_VERSION: v0.40.1` in `tools/node.yml`. Versions: 18, 20, 22, 23, 24.

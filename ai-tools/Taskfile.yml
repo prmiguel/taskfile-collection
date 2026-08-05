@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install-all:
+    desc: Install all AI tools
+    summary: |
+      Installs every tool in this section. Currently: rtk.
+    deps:
+      - ':rtk:install'
+    silent: true

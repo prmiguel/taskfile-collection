@@ -1,0 +1,51 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install rtk (Rust Token Killer)
+    summary: |
+      rtk is a CLI proxy that cuts LLM token consumption on common dev
+      commands. Installs the prebuilt binary via the official script on Linux,
+      Homebrew on macOS, and a release archive on Windows. Verify with
+      'rtk --version' and enable the Claude Code hook with 'task rtk:init'.
+    cmds:
+      - cmd: |
+          curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/master/install.sh | sh
+        platforms: [linux]
+      - cmd: brew install rtk-ai/tap/rtk
+        platforms: [darwin]
+      - cmd: |
+          powershell -ep Bypass -c "$ProgressPreference='SilentlyContinue'; Invoke-WebRequest -Uri https://github.com/rtk-ai/rtk/releases/latest/download/rtk-x86_64-pc-windows-msvc.zip -OutFile $env:TEMP\rtk.zip; Expand-Archive $env:TEMP\rtk.zip -DestinationPath $env:USERPROFILE\.local\bin -Force"
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to install rtk."
+    silent: true
+
+  install-cargo:
+    desc: Install rtk from source via cargo
+    summary: |
+      Builds rtk from the Git URL so the correct crate is installed, avoiding
+      the name collision with the unrelated 'rtk' crate (Rust Type Kit).
+    cmds:
+      - cmd: cargo install --git https://github.com/rtk-ai/rtk rtk
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v cargo
+        msg: "cargo not found — install Rust from https://rustup.rs/"
+    silent: true
+
+  init:
+    desc: Enable the rtk hook for Claude Code
+    summary: |
+      Patches the global Claude Code settings to route through the rtk token
+      proxy and generates the RTK.md context file.
+    cmds:
+      - cmd: rtk init --global
+        platforms: [linux, darwin, windows]
+    preconditions:
+      - sh: command -v rtk
+        msg: "rtk not found — run 'task rtk:install' first."
+    silent: true

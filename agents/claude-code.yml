@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install Claude Code CLI (native installer)
+    summary: |
+      Installs Claude Code via Anthropic's official native installer
+      (binary: claude). No Node.js required; auto-updates in the background.
+      The npm-based route is available as claude:install-cli.
+    cmds:
+      - cmd: |
+          curl -fsSL https://claude.ai/install.sh | bash
+        platforms: [linux, darwin]
+      - cmd: powershell -ep Bypass -c "irm https://claude.ai/install.ps1 | iex"
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to install claude-code."
+    silent: true

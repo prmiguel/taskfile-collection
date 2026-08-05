@@ -77,6 +77,16 @@ taskfile-collection/
 │   ├── git.yml           #   Git
 │   ├── node.yml          #   nvm + Node.js versions
 │   └── sdkman.yml        #   SDKMAN
+├── agents/               # AI coding agents
+│   ├── opencode.yml      #   OpenCode
+│   ├── mimocode.yml      #   MiMo Code (Xiaomi)
+│   ├── kilo.yml          #   Kilo Code CLI
+│   ├── claude-code.yml   #   Claude Code CLI (native)
+│   ├── cursor-agent.yml  #   Cursor Agent CLI
+│   └── Taskfile.yml      #   install-all aggregator
+├── ai-tools/             # AI dev tools
+│   ├── rtk.yml           #   rtk (Rust Token Killer)
+│   └── Taskfile.yml      #   install-all aggregator
 ├── ci/                   # CI/CD helpers
 │   └── Taskfile.yml      #   YAML lint, validation
 ├── README.md
@@ -118,6 +128,20 @@ task git:install
 task node:install-22
 task sdkman:install
 task system:update
+task opencode:install
+task mimocode:install
+task kilo:install
+task claude-code:install
+task cursor-agent:install
+task rtk:install
+task rtk:init
+```
+
+### Install all AI coding agents / tools
+
+```sh
+task agents:install-all
+task ai-tools:install-all
 ```
 
 ### Run multiple tasks
@@ -189,8 +213,9 @@ task: "claude:install-cli" failed: Node.js and npm are required. Run 'task node:
 | Prerequisite | Check | Needed By |
 |-------------|-------|-----------|
 | Docker CLI | `docker --version` | `container:*`, `docker:setup-repo` |
-| Node.js + npm | `node --version && npm --version` | `claude:install-cli` |
-| curl | `command -v curl` | `node:install-nvm`, `sdkman:install`, `docker:setup-repo` |
+| Node.js + npm | `node --version && npm --version` | `claude:install-cli`, `*:install-npm` |
+| curl | `command -v curl` | `node:install-nvm`, `sdkman:install`, `docker:setup-repo`, agent/tool installs |
+| cargo | `cargo --version` | `rtk:install-cargo` |
 
 ## Supported Platforms
 

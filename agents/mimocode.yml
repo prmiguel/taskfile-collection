@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install MiMo Code AI agent (Xiaomi)
+    summary: |
+      Installs the Xiaomi MiMo Code terminal coding agent (binary: mimo).
+      Uses the official installer on Linux/macOS and the PowerShell installer
+      on Windows.
+    cmds:
+      - cmd: |
+          curl -fsSL https://mimo.xiaomi.com/install | bash
+        platforms: [linux, darwin]
+      - cmd: powershell -ep Bypass -c "irm https://mimo.xiaomi.com/install.ps1 | iex"
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to install mimo."
+    silent: true
+
+  install-npm:
+    desc: Install MiMo Code AI agent via npm
+    cmds:
+      - cmd: npm install -g @mimo-ai/cli
+        platforms: [linux, darwin, windows]
+    preconditions:
+      - sh: node --version && npm --version
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true

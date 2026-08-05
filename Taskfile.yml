@@ -16,6 +16,14 @@ includes:
   git: ./tools/git.yml
   node: ./tools/node.yml
   sdkman: ./tools/sdkman.yml
+  opencode: ./agents/opencode.yml
+  mimocode: ./agents/mimocode.yml
+  kilo: ./agents/kilo.yml
+  claude-code: ./agents/claude-code.yml
+  cursor-agent: ./agents/cursor-agent.yml
+  agents: ./agents
+  rtk: ./ai-tools/rtk.yml
+  ai-tools: ./ai-tools
   container: ./container
   ci: ./ci
 

@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install OpenCode AI agent
+    summary: |
+      Installs the OpenCode terminal coding agent (binary: opencode).
+      Native installer on Linux/macOS, AUR on Arch, Homebrew on macOS, and
+      Chocolatey on Windows.
+    cmds:
+      - cmd: |
+          curl -fsSL https://opencode.ai/install | bash
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: paru -S --noconfirm opencode-bin
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install anomalyco/tap/opencode
+        platforms: [darwin]
+      - cmd: choco install opencode -y
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to install opencode."
+    silent: true
+
+  install-npm:
+    desc: Install OpenCode AI agent via npm
+    cmds:
+      - cmd: npm install -g opencode-ai@latest
+        platforms: [linux, darwin, windows]
+    preconditions:
+      - sh: node --version && npm --version
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true

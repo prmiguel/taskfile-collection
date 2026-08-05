@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install Cursor Agent CLI (agent)
+    summary: |
+      Installs the standalone Cursor Agent CLI (binary: agent) into ~/.local/bin.
+      This is the headless/terminal coding agent, distinct from the 'cursor'
+      IDE launcher installed by cursor:install-cli. Add ~/.local/bin to PATH
+      if it is not already there.
+    cmds:
+      - cmd: |
+          curl https://cursor.com/install -fsS | bash
+        platforms: [linux, darwin]
+      - cmd: powershell -ep Bypass -c "irm 'https://cursor.com/install?win32=true' | iex"
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to install cursor-agent."
+    silent: true
