@@ -90,7 +90,7 @@ taskfile-collection/
 │   ├── gentle-shell.yml  #   gentle-shell
 │   └── Taskfile.yml      #   install-all aggregator
 ├── ai-tools/             # AI dev tools
-│   ├── rtk.yml           #   rtk (Rust Token Killer)
+│   ├── rtk.yml           #   rtk (Rust Token Killer, non-root)
 │   └── Taskfile.yml      #   install-all aggregator
 ├── ci/                   # CI/CD helpers
 │   └── Taskfile.yml      #   YAML lint, validation
@@ -159,6 +159,8 @@ task ai-tools:install-all
 ```
 
 `agents:install-all` installs every agent sequentially into user-owned locations. Agent installs are **non-root**: npm-based agents use the current user's npm prefix (for example, one managed by nvm), while Copilot and Antigravity use vendor installers that write to `~/.local/bin`. No agent task invokes `sudo`; make sure that directory is on your `PATH`.
+
+`rtk:install` is also non-root: the official script writes to `~/.local/bin` on Linux, Homebrew's user-owned prefix on macOS, and `%USERPROFILE%\.local\bin` on Windows. `rtk:install-cargo` uses the user-owned `~/.cargo/bin`.
 
 ### Run multiple tasks
 

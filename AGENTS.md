@@ -47,6 +47,7 @@ task -n -v vscode:install         # preview commands without executing
 - `agents:install-all` runs each `:agent:install` sequentially via `cmds:` (the leading colon resolves siblings at the root namespace) so concurrent npm global installs do not race on one prefix; `ai-tools:install-all` still uses parallel `deps:`.
 - `sdkman:install`'s java `precondition` is blocking even though its message says "recommended".
 - `antigravity:install` is the official non-root Antigravity CLI installer (`agy` → `~/.local/bin`); `antigravity:install-docker` keeps the legacy Docker image pull and its Docker precondition.
+- `rtk:install` is non-root by design: the official script writes to `$HOME/.local/bin` on Linux (or `RTK_INSTALL_DIR`), Homebrew's user-owned prefix on macOS, and `%USERPROFILE%\.local\bin` on Windows; never add `sudo`. `rtk:install-cargo` installs to `~/.cargo/bin`.
 - `docker:setup-repo` is Debian-only but is a `dep` of `install-cli`/`install-engine`; its curl precondition applies on every OS while its command no-ops off Debian. It adds the APT repo, not Docker itself.
 - `container:exec DOCKERFILE=<name>` builds `container/<name>.Dockerfile`; none exist yet, so it fails until one is added. Invoke it as `task container:exec`; using `-t container/Taskfile.yml` changes the working directory to `container/` and breaks the path.
 - Container task vars: `run IMAGE CMD [MOUNTS]`, `exec DOCKERFILE [ARGS]`, `node CMD [MOUNTS]`, `npm CMD [MOUNTS]` (defaults to `-v $PWD:/app -w /app`), `claude-cli [ARGS]`.
