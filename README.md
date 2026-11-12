@@ -141,6 +141,7 @@ task cursor-agent:install
 task openclaude:install
 task command-code:install
 task pi:install
+task pi:install-script
 task copilot:install
 task copilot:install-npm
 task gentle-shell:install
@@ -228,7 +229,7 @@ task: "claude:install-cli" failed: Node.js and npm are required. Run 'task node:
 | Prerequisite | Check | Needed By |
 |-------------|-------|-----------|
 | Docker CLI | `docker --version` | `container:*`, `docker:setup-repo`, `antigravity:install-docker` |
-| Node.js + npm | `node --version && npm --version` | `claude:install-cli`, `*:install-npm`, `openclaude:install`, `command-code:install`, `pi:install`, `gentle-shell:install` |
+| Node.js + npm | `node --version && npm --version` | `claude:install-cli`, `*:install-npm`, `openclaude:install`, `command-code:install`, `pi:install`, `pi:install-script`, `gentle-shell:install` |
 | curl | `command -v curl` | `node:install-nvm`, `sdkman:install`, `docker:setup-repo`, `copilot:install`, `antigravity:install`, agent/tool installs |
 | cargo | `cargo --version` | `rtk:install-cargo` |
 

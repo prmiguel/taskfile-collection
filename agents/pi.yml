@@ -4,15 +4,33 @@ version: '3'
 
 tasks:
   install:
-    desc: Install Pi coding agent (non-root)
+    desc: Install Pi coding agent via npm (non-root)
     summary: |
       Installs the Pi CLI (binary: pi) from npm into the current user's npm
       prefix, so no sudo is needed. Uses --ignore-scripts per upstream and
-      requires Node.js >=22.19.0. The official installer is avoided here
-      because it may invoke sudo to install Node/xz dependencies.
+      requires Node.js >=22.19.0. The official installer is available as
+      pi:install-script.
     cmds:
       - npm install -g --ignore-scripts @earendil-works/pi-coding-agent
     preconditions:
       - sh: node --version && npm --version
         msg: "Node.js >=22.19 and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  install-script:
+    desc: Install Pi coding agent via the official installer (non-root)
+    summary: |
+      Runs Pi's official installer, which fetches the managed release into
+      ~/.pi/agent/install and links pi into a user-writable bin directory
+      (typically ~/.local/bin). Requires Node.js >=22.19 and xz to stay
+      non-root: if either is missing the installer may invoke sudo to add
+      Node/xz, so this task checks Node first.
+    cmds:
+      - cmd: curl -fsSL https://pi.dev/install.sh | sh
+        platforms: [linux, darwin]
+      - cmd: powershell -c "irm https://pi.dev/install.ps1 | iex"
+        platforms: [windows]
+    preconditions:
+      - sh: npm --version && node -e "const [a,b,c]=process.versions.node.split('.').map(Number); process.exit(a>22||(a===22&&(b>19||(b===19&&c>=0)))?0:1)"
+        msg: "Pi's installer requires Node.js >=22.19 to avoid a sudo-based Node install. Run 'task node:install-22' first."
     silent: true
