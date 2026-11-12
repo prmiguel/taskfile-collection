@@ -10,16 +10,23 @@ tasks:
       commands. Installs into user-owned locations without sudo: the official
       script writes to ~/.local/bin on Linux (override with RTK_INSTALL_DIR),
       Homebrew's user-owned prefix on macOS, and %USERPROFILE%\.local\bin on
-      Windows. Verify with 'rtk --version' and enable the Claude Code hook
-      with 'task rtk:init'.
+      Windows. After installing, the task runs 'rtk --version' to confirm the
+      binary works. Enable the Claude Code hook with 'task rtk:init'.
     cmds:
       - cmd: |
           curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/master/install.sh | RTK_INSTALL_DIR="${RTK_INSTALL_DIR:-$HOME/.local/bin}" sh
         platforms: [linux]
+      - cmd: '"${RTK_INSTALL_DIR:-$HOME/.local/bin}/rtk" --version'
+        platforms: [linux]
       - cmd: brew install rtk-ai/tap/rtk
+        platforms: [darwin]
+      - cmd: '"$(brew --prefix)/bin/rtk" --version'
         platforms: [darwin]
       - cmd: |
           powershell -ep Bypass -c "$ProgressPreference='SilentlyContinue'; Invoke-WebRequest -Uri https://github.com/rtk-ai/rtk/releases/latest/download/rtk-x86_64-pc-windows-msvc.zip -OutFile $env:TEMP\rtk.zip; Expand-Archive $env:TEMP\rtk.zip -DestinationPath $env:USERPROFILE\.local\bin -Force"
+        platforms: [windows]
+      - cmd: |
+          powershell -ep Bypass -c "$rtk = Join-Path $env:USERPROFILE '.local\bin\rtk.exe'; if (-not (Test-Path $rtk)) { throw ('rtk not found at ' + $rtk) }; & $rtk --version"
         platforms: [windows]
     preconditions:
       - sh: command -v curl
@@ -32,9 +39,11 @@ tasks:
       Builds rtk from the Git URL so the correct crate is installed, avoiding
       the name collision with the unrelated 'rtk' crate (Rust Type Kit).
       Cargo writes the binary to the user-owned ~/.cargo/bin, so no sudo is
-      needed.
+      needed, and the task runs 'rtk --version' to confirm it works.
     cmds:
       - cmd: cargo install --git https://github.com/rtk-ai/rtk rtk
+        platforms: [linux, darwin]
+      - cmd: '"${CARGO_HOME:-$HOME/.cargo}/bin/rtk" --version'
         platforms: [linux, darwin]
     preconditions:
       - sh: command -v cargo
