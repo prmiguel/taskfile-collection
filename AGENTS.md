@@ -33,6 +33,7 @@ task -n -v vscode:install         # preview commands without executing
 - `agents/*.yml` — AI agents: opencode, mimocode, kilo, claude-code, cursor-agent, openclaude, command-code, pi, copilot, gentle-shell; `agents/Taskfile.yml` has `install-all`.
 - `ai-tools/*.yml` — rtk; `ai-tools/Taskfile.yml` has `install-all`.
 - `tui/*.yml` — terminal editors: ttt, spice-edit, fresh, tode; `tui/Taskfile.yml` has `install-all`.
+- `multiplexer/*.yml` — agent terminal multiplexers: herdr, luvus; `multiplexer/Taskfile.yml` has `install-all`.
 - `container/Taskfile.yml` — Docker-based run/exec/node/npm/claude-cli.
 - `ci/Taskfile.yml` — local validation helpers, not CI pipelines.
 
@@ -50,6 +51,7 @@ task -n -v vscode:install         # preview commands without executing
 - `antigravity:install` is the official non-root Antigravity CLI installer (`agy` → `~/.local/bin`); `antigravity:install-docker` keeps the legacy Docker image pull and its Docker precondition.
 - `rtk:install` is non-root by design: the official script writes to `$HOME/.local/bin` on Linux (or `RTK_INSTALL_DIR`), Homebrew's user-owned prefix on macOS, and `%USERPROFILE%\.local\bin` on Windows; never add `sudo`. `rtk:install-cargo` installs to `~/.cargo/bin`.
 - `tui/*` installs are non-root by design: ttt/spice-edit/fresh use vendor scripts pinned to `~/.local/bin` (fresh unpacks to `~/.local/share/fresh-editor`), tode writes `~/.local/lib/tode` with a launcher in `~/.local/bin`; never add `sudo`. `tui:install-all` runs them sequentially via `cmds:` like `agents:install-all`.
+- `multiplexer/*` installs are non-root by design: herdr uses `HERDR_INSTALL_DIR` and luvus uses `LUVUS_INSTALL_DIR` to force `~/.local/bin`, since luvus's script would otherwise prefer `/usr/local/bin` (and may `sudo`); never add `sudo`. `multiplexer:install-all` runs them sequentially via `cmds:`.
 - `docker:setup-repo` is Debian-only but is a `dep` of `install-cli`/`install-engine`; its curl precondition applies on every OS while its command no-ops off Debian. It adds the APT repo, not Docker itself.
 - `container:exec DOCKERFILE=<name>` builds `container/<name>.Dockerfile`; none exist yet, so it fails until one is added. Invoke it as `task container:exec`; using `-t container/Taskfile.yml` changes the working directory to `container/` and breaks the path.
 - Container task vars: `run IMAGE CMD [MOUNTS]`, `exec DOCKERFILE [ARGS]`, `node CMD [MOUNTS]`, `npm CMD [MOUNTS]` (defaults to `-v $PWD:/app -w /app`), `claude-cli [ARGS]`.
@@ -60,12 +62,12 @@ task -n -v vscode:install         # preview commands without executing
 ## Conventions (new tasks)
 
 - Start every Taskfile with the `# yaml-language-server` schema header and `version: '3'`.
-- Put tasks in the right category file under `tools/`, `system/`, `container/`, or a top-level section (`agents/`, `ai-tools/`, `tui/`); register new files in the root `Taskfile.yml` `includes:`.
+- Put tasks in the right category file under `tools/`, `system/`, `container/`, or a top-level section (`agents/`, `ai-tools/`, `tui/`, `multiplexer/`); register new files in the root `Taskfile.yml` `includes:`.
 - Dispatch per platform with `cmd:` + `platforms:` + `if:`:
   - Ubuntu/Debian: `platforms: [linux]` + `if: test -f /etc/debian_version`
   - Arch: `platforms: [linux]` + `if: test -f /etc/arch-release`
   - macOS: `platforms: [darwin]`; Windows: `platforms: [windows]`
 - Give every task `desc` (plus `summary` when non-trivial) and `silent: true`; the four container run/exec/node/npm tasks are the current non-silent exceptions.
 - Declare `preconditions:` (`sh:` + `msg:`) and `requires: vars:` for required tools/vars; use `deps:` for ordering.
-- Agent and `tui/` installs must stay non-root: no `sudo`; use npm with the user's prefix or a vendor installer that writes under `~/.local`.
+- Agent, `tui/`, and `multiplexer/` installs must stay non-root: no `sudo`; use npm with the user's prefix or a vendor installer that writes under `~/.local`.
 - npm variants are named `install-npm` and guard with `node --version && npm --version` (e.g. `opencode:install-npm`).

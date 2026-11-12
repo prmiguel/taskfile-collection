@@ -34,6 +34,9 @@ includes:
   fresh: ./tui/fresh.yml
   tode: ./tui/tode.yml
   tui: ./tui
+  herdr: ./multiplexer/herdr.yml
+  luvus: ./multiplexer/luvus.yml
+  multiplexer: ./multiplexer
   container: ./container
   ci: ./ci
 

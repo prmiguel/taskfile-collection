@@ -12,3 +12,5 @@
 - https://github.com/cloudmanic/spice-edit
 - https://github.com/sinelaw/fresh
 - https://tode.sh/install
+- https://herdr.dev/docs/install
+- https://luvus.dev/docs/getting-started/installation

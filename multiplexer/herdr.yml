@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install Herdr terminal workspace (herdr, non-root)
+    summary: |
+      Herdr is a single-binary terminal workspace/multiplexer built around
+      coding agents (binary: herdr). The official installer downloads the
+      latest release and writes it to ~/.local/bin (override with
+      HERDR_INSTALL_DIR) without sudo on Linux and macOS. Windows uses the
+      PowerShell installer. Verify with 'herdr --version'.
+    cmds:
+      - cmd: |
+          curl -fsSL https://herdr.dev/install.sh | HERDR_INSTALL_DIR="${HERDR_INSTALL_DIR:-$HOME/.local/bin}" sh
+        platforms: [linux, darwin]
+      - cmd: powershell -ep Bypass -c "irm https://herdr.dev/install.ps1 | iex"
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to install herdr."
+    silent: true

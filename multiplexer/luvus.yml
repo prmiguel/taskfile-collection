@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install Luvus agent mission control (luvus, non-root)
+    summary: |
+      Luvus is a terminal multiplexer and mission control for AI coding
+      agents (binary: luvus). The official installer downloads the matching
+      release and writes it to ~/.local/bin; LUVUS_INSTALL_DIR is pinned here
+      so the script never falls back to /usr/local/bin and never invokes sudo.
+      Windows uses the PowerShell installer. Verify with 'luvus --version'.
+    cmds:
+      - cmd: |
+          curl -fsSL https://luvus.dev/install.sh | LUVUS_INSTALL_DIR="${LUVUS_INSTALL_DIR:-$HOME/.local/bin}" sh
+        platforms: [linux, darwin]
+      - cmd: powershell -ep Bypass -c "irm https://luvus.dev/install.ps1 | iex"
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to install luvus."
+    silent: true
