@@ -1,50 +1,66 @@
 # AI Agent Instructions
 
-Taskfile (go-task) collection for system setup and dev-tool installation across Ubuntu, Arch Linux, macOS, and Windows. Every Taskfile uses `version: '3'` and the schema header `# yaml-language-server: $schema=https://taskfile.dev/schema.json`.
+Taskfile (go-task) collection for installing dev tools and AI coding agents on Ubuntu/Debian, Arch, macOS, and Windows. The Taskfiles are the product: there is no app code, package manifest, test suite, lockfile, or CI workflow.
 
 ## Running tasks
 
 ```sh
-task --list-all                    # list all tasks (the default task runs this)
-task node:install-22               # run a namespaced task
-task --dry-run vscode:install      # preview without executing
-task --parallel a:install b:install # run tasks in parallel
-task -t tools/vscode.yml install   # run a task from a single file
+task                              # default task runs `task --list-all`
+task --list-all                   # all 49 tasks (all have `desc`)
+task node:install-22              # run a namespaced task
+task --parallel vscode:install chrome:install
+task -t tools/vscode.yml install  # run one file directly
+task -n -v vscode:install         # preview commands without executing
 ```
 
-Tasks are namespaced by the `includes:` name in `Taskfile.yml` (not always the filename: `tools/gh-cli.yml` → `gh:`). Most installs invoke `sudo` internally, so a privileged session is required.
+- Requires the `task` binary (go-task; not vendored). Install it per README before validating anything.
+- Use `--dry`/`-n`, never `--dry-run`: Task rejects `--dry-run` (README documents the wrong flag).
+- Most tasks set `silent: true`, so `task -n <task>` prints nothing; add `-v` to see the plan.
+- Namespaces come from the `includes:` keys in `Taskfile.yml`, not filenames (`tools/gh-cli.yml` → `gh:`).
+- Installs mostly call `sudo`; expect a privileged session.
+
+## Validation
+
+- `task ci:check-taskfile` — the only real check. From the repo root it runs `task --list-all`, parsing every *included* Taskfile. A new file not registered in `includes:` is neither validated nor listed.
+- `task ci:lint` — runs `yamllint .`; yamllint is not installed by default and there is no yamllint config.
+- No test suite, formatter, typecheck, or `.github/workflows` exists; `ci:*` are local helpers only.
 
 ## Structure
 
-- `Taskfile.yml` — entrypoint; `includes:` all namespaces below. Register new files here.
-- `system/Taskfile.yml` — update, upgrade, cleanup, snap-install
-- `tools/*.yml` — one file per tool: vscode, chrome, gh-cli, intellij, cursor, windsurf, antigravity, claude, docker, git, node, sdkman
-- `agents/*.yml` — one file per AI coding agent: opencode, mimocode, kilo, claude-code, cursor-agent; plus `Taskfile.yml` aggregator (`agents:install-all`)
-- `ai-tools/*.yml` — one file per AI dev tool: rtk; plus `Taskfile.yml` aggregator (`ai-tools:install-all`)
-- `container/Taskfile.yml` — Docker-based tasks (run, exec, node, npm, claude-cli)
-- `ci/Taskfile.yml` — local validation helpers, NOT CI pipelines
+- `Taskfile.yml` — entrypoint; `includes:` every namespace. Register new files here.
+- `system/Taskfile.yml` — update, upgrade, cleanup, snap-install.
+- `tools/*.yml` — one tool per file: vscode, chrome, gh-cli, intellij, cursor, windsurf, antigravity, claude, docker, git, node, sdkman.
+- `agents/*.yml` — AI agents: opencode, mimocode, kilo, claude-code, cursor-agent; `agents/Taskfile.yml` has `install-all`.
+- `ai-tools/*.yml` — rtk; `ai-tools/Taskfile.yml` has `install-all`.
+- `container/Taskfile.yml` — Docker-based run/exec/node/npm/claude-cli.
+- `ci/Taskfile.yml` — local validation helpers, not CI pipelines.
 
 ## Gotchas
 
-- Repo has no `.github/workflows`. `ci:*` are local-only: `ci:check-taskfile` runs `task --list-all` (YAML syntax check); `ci:lint` runs `yamllint .` and requires yamllint to be installed (no config file in repo).
-- `container:exec DOCKERFILE=<name>` builds `container/<name>.Dockerfile` — no Dockerfiles exist yet, so it fails until one is added.
-- `vscode:install-cursor` is a duplicate of `cursor:install`; use `cursor:install`.
-- `cursor-agent:install` is the standalone Cursor Agent CLI (binary `agent`), NOT the `cursor` IDE launcher; `cursor:install-cli` covers the launcher.
-- `claude-code:install` is Claude Code's native installer (no Node needed); `claude:install-cli` is the npm route (requires Node). Both install the `claude` binary.
-- `agents:install-all` and `ai-tools:install-all` reference sibling namespaces with a leading colon (`':opencode:install'`) so they resolve at the root instead of under the `agents:`/`ai-tools:` namespace.
-- `docker:setup-repo` requires curl, not Docker (only `container:*` tasks need Docker).
-- `sdkman:install` checks curl AND java.
-- `node:install-*` depend on `install-nvm`; nvm is pinned via `NVM_VERSION: v0.40.1` in `tools/node.yml`. Versions: 18, 20, 22, 23, 24.
+- No `status:`, `sources:`, or `generates:` exists anywhere: tasks never skip, so every run re-downloads/reinstalls (including `nvm` on every `node:install-*`).
+- Linux dispatch covers only Debian (`/etc/debian_version`) and Arch (`/etc/arch-release`). Other distros match no `cmd:` and the task silently succeeds doing nothing; there is no Fedora/Alpine support despite README install docs.
+- For package-managed installs, Arch uses `yay` and Windows uses `winget`; the only deviations are `opencode:install` (`paru`/`choco`) plus vendor install scripts for agents/rtk. Don't copy opencode's package managers into new tasks.
+- `vscode:install-cursor` duplicates `cursor:install`; use `cursor:install`.
+- `cursor-agent:install` is the standalone Cursor Agent CLI (binary `agent`, installed to `~/.local/bin`), not the Cursor IDE launcher (`cursor:install-cli` installs `cursor`).
+- `claude-code:install` is Anthropic's native installer (binary `claude`, no Node); `claude:install-cli` is the npm route and requires Node/npm.
+- `agents:install-all` / `ai-tools:install-all` list `deps:` as `':opencode:install'` etc. The leading colon resolves siblings at the root namespace; without it they would resolve under `agents:`/`ai-tools:`. `deps:` run in parallel.
+- `sdkman:install`'s java `precondition` is blocking even though its message says "recommended".
+- `antigravity:install` only pulls a Docker image and prints a run hint; it needs Docker but declares no precondition.
+- `docker:setup-repo` is Debian-only but is a `dep` of `install-cli`/`install-engine`; its curl precondition applies on every OS while its command no-ops off Debian. It adds the APT repo, not Docker itself.
+- `container:exec DOCKERFILE=<name>` builds `container/<name>.Dockerfile`; none exist yet, so it fails until one is added. Invoke it as `task container:exec`; using `-t container/Taskfile.yml` changes the working directory to `container/` and breaks the path.
+- Container task vars: `run IMAGE CMD [MOUNTS]`, `exec DOCKERFILE [ARGS]`, `node CMD [MOUNTS]`, `npm CMD [MOUNTS]` (defaults to `-v $PWD:/app -w /app`), `claude-cli [ARGS]`.
+- `node:install-*` depend on `install-nvm`; nvm is pinned to `NVM_VERSION: v0.40.1` in `tools/node.yml`. Versions: 18, 20, 22, 23, 24.
 - `system:cleanup` has no Windows branch (update/upgrade do).
-- `container:*` take vars via `requires: vars:`: `container:run IMAGE=<img> CMD=<cmd> [MOUNTS=...]`, `container:exec DOCKERFILE=<name> [ARGS=...]`, `container:npm CMD=...` (defaults `MOUNTS="-v $PWD:/app -w /app"`).
-- YAML quirk: `desc` values containing a colon-space (e.g. `(usage: task snap-install PACKAGE=<name>)`) must be quoted or the file won't parse.
+- YAML quirk: quote `desc` values containing a colon-space (e.g. `"(usage: task snap-install PACKAGE=<name>)"`) or the file stops parsing.
 
-## Conventions (follow for new tasks)
+## Conventions (new tasks)
 
-- Group related tasks in one file under `tools/`, `system/`, or `container/`; register via `includes:` in `Taskfile.yml`.
-- Dispatch per platform with `cmd:` blocks + `platforms:` + `if:` for distros:
-  - Ubuntu: `platforms: [linux]` + `if: test -f /etc/debian_version`
+- Start every Taskfile with the `# yaml-language-server` schema header and `version: '3'`.
+- Put tasks in the right category file under `tools/`, `system/`, or `container/`; register new files in the root `Taskfile.yml` `includes:`.
+- Dispatch per platform with `cmd:` + `platforms:` + `if:`:
+  - Ubuntu/Debian: `platforms: [linux]` + `if: test -f /etc/debian_version`
   - Arch: `platforms: [linux]` + `if: test -f /etc/arch-release`
   - macOS: `platforms: [darwin]`; Windows: `platforms: [windows]`
-- Every task gets `desc` (add `summary` for non-trivial ones) and `silent: true`.
-- Declare `preconditions:` (with `sh:` + `msg:`) and `requires: vars:` for any required tool/var; use `deps:` for ordering.
+- Give every task `desc` (plus `summary` when non-trivial) and `silent: true`; the four container run/exec/node/npm tasks are the current non-silent exceptions.
+- Declare `preconditions:` (`sh:` + `msg:`) and `requires: vars:` for required tools/vars; use `deps:` for ordering.
+- npm variants are named `install-npm` and guard with `node --version && npm --version` (e.g. `opencode:install-npm`).
