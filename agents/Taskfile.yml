@@ -8,9 +8,10 @@ tasks:
     summary: |
       Installs every agent in this section sequentially into user-owned
       locations (no sudo): opencode, mimo, kilo, claude-code, cursor-agent,
-      openclaude, command-code, pi, copilot, gentle-shell, and the
-      Antigravity CLI. Sequential execution avoids concurrent npm global
-      installs racing on the same npm prefix.
+      openclaude, command-code, pi, copilot, gentle-shell, the Antigravity
+      CLI, Hermes Agent, Factory Droid, and oh my pi (omp). Sequential
+      execution avoids concurrent npm global installs racing on the same npm
+      prefix.
     cmds:
       - task: ':opencode:install'
       - task: ':mimocode:install'
@@ -23,4 +24,7 @@ tasks:
       - task: ':copilot:install'
       - task: ':gentle-shell:install'
       - task: ':antigravity:install'
+      - task: ':hermes:install'
+      - task: ':droid:install'
+      - task: ':omp:install'
     silent: true

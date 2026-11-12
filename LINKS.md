@@ -14,3 +14,6 @@
 - https://tode.sh/install
 - https://herdr.dev/docs/install
 - https://luvus.dev/docs/getting-started/installation
+- https://github.com/NousResearch/hermes-agent
+- https://docs.factory.ai/cli/getting-started/quickstart
+- https://github.com/can1357/oh-my-pi

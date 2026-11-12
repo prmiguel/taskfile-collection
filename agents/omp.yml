@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install oh my pi coding agent (omp, non-root)
+    summary: |
+      oh my pi (binary: omp) is a coding-first fork of Pi by Stencil Labs. The
+      official installer fetches the prebuilt binary (checksum-verified) and
+      writes omp to ~/.local/bin without sudo; override the location with
+      PI_INSTALL_DIR. Pass --source to build from the Bun package instead.
+      Windows uses the PowerShell installer. A Bun route is available as
+      omp:install-bun. Verify with 'omp --version'.
+    cmds:
+      - cmd: curl -fsSL https://omp.sh/install | sh
+        platforms: [linux, darwin]
+      - cmd: powershell -ep Bypass -c "irm https://omp.sh/install.ps1 | iex"
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to install omp."
+    silent: true
+
+  install-bun:
+    desc: Install oh my pi coding agent via Bun (non-root)
+    summary: |
+      Installs @oh-my-pi/pi-coding-agent globally with Bun into the user's Bun
+      prefix, so no sudo is needed. The installed command is omp. Requires
+      Bun >=1.4.4 for the full harness (a JS runtime is needed for plugins
+      and code-execution workers).
+    cmds:
+      - bun install -g @oh-my-pi/pi-coding-agent
+    preconditions:
+      - sh: command -v bun
+        msg: "Bun >=1.4.4 is required. Install it from https://bun.sh/ first."
+    silent: true

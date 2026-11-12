@@ -30,7 +30,7 @@ task -n -v vscode:install         # preview commands without executing
 - `Taskfile.yml` — entrypoint; `includes:` every namespace. Register new files here.
 - `system/Taskfile.yml` — update, upgrade, cleanup, snap-install.
 - `tools/*.yml` — one tool per file: vscode, chrome, gh-cli, intellij, cursor, windsurf, antigravity (CLI + Docker), claude, docker, git, node, sdkman.
-- `agents/*.yml` — AI agents: opencode, mimocode, kilo, claude-code, cursor-agent, openclaude, command-code, pi, copilot, gentle-shell; `agents/Taskfile.yml` has `install-all`.
+- `agents/*.yml` — AI agents: opencode, mimocode, kilo, claude-code, cursor-agent, openclaude, command-code, pi, copilot, gentle-shell, hermes, droid, omp; `agents/Taskfile.yml` has `install-all`.
 - `ai-tools/*.yml` — rtk; `ai-tools/Taskfile.yml` has `install-all`.
 - `tui/*.yml` — terminal editors: ttt, spice-edit, fresh, tode; `tui/Taskfile.yml` has `install-all`.
 - `multiplexer/*.yml` — agent terminal multiplexers: herdr, luvus; `multiplexer/Taskfile.yml` has `install-all`.
@@ -43,7 +43,8 @@ task -n -v vscode:install         # preview commands without executing
 - Linux dispatch covers only Debian (`/etc/debian_version`) and Arch (`/etc/arch-release`). Other distros match no `cmd:` and the task silently succeeds doing nothing; there is no Fedora/Alpine support despite README install docs.
 - For package-managed installs, Arch uses `yay` and Windows uses `winget`; the only deviations are `opencode:install` (`paru`/`choco`) plus vendor install scripts for agents/rtk. Don't copy opencode's package managers into new tasks.
 - `vscode:install-cursor` duplicates `cursor:install`; use `cursor:install`.
-- Agent installs are non-root by design: npm-based agents rely on a user-owned npm prefix (nvm/nvm-windows), while Copilot and Antigravity install under `~/.local`; none of these tasks use `sudo`. Node minimums: `openclaude` >=24.22.1, `pi`/`gentle-shell` >=22.19, `command-code`/`copilot` >=22. `pi:install` uses npm; `pi:install-script` runs the vendor installer, which only stays non-root when Node >=22.19 and xz are already present (otherwise it may `sudo`-install them).
+- Agent installs are non-root by design: npm-based agents rely on a user-owned npm prefix (nvm/nvm-windows), while Copilot, Antigravity, Factory Droid (`droid`) and oh my pi (`omp`) install under `~/.local`, and Hermes Agent installs under `~/.hermes` with a launcher in `~/.local/bin`; none of these tasks use `sudo`. Node minimums: `openclaude` >=24.22.1, `pi`/`gentle-shell` >=22.19, `command-code`/`copilot` >=22. `pi:install` uses npm; `pi:install-script` runs the vendor installer, which only stays non-root when Node >=22.19 and xz are already present (otherwise it may `sudo`-install them).
+- `hermes:install` runs Nous Research's installer, which provisions its own Python/Node under `~/.hermes`; it is non-root except that on some Linux hosts it may prompt for `sudo` solely to install the `libatomic1` system library when the bundled Node.js runtime needs it. `droid:install-npm` and `omp:install-bun` are the npm/Bun routes for Factory Droid and oh my pi respectively (`omp:install-bun` needs Bun >=1.4.4).
 - `cursor-agent:install` is the standalone Cursor Agent CLI (binary `agent`, installed to `~/.local/bin`), not the Cursor IDE launcher (`cursor:install-cli` installs `cursor`).
 - `claude-code:install` is Anthropic's native installer (binary `claude`, no Node); `claude:install-cli` is the npm route and requires Node/npm.
 - `agents:install-all` runs each `:agent:install` sequentially via `cmds:` (the leading colon resolves siblings at the root namespace) so concurrent npm global installs do not race on one prefix; `ai-tools:install-all` still uses parallel `deps:`.

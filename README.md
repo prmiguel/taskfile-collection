@@ -88,6 +88,9 @@ taskfile-collection/
 │   ├── pi.yml            #   Pi coding agent
 │   ├── copilot.yml       #   GitHub Copilot CLI
 │   ├── gentle-shell.yml  #   gentle-shell
+│   ├── hermes.yml        #   Hermes Agent (Nous Research)
+│   ├── droid.yml         #   Factory Droid CLI
+│   ├── omp.yml           #   oh my pi (omp)
 │   └── Taskfile.yml      #   install-all aggregator
 ├── ai-tools/             # AI dev tools
 │   ├── rtk.yml           #   rtk (Rust Token Killer, non-root)
@@ -157,6 +160,11 @@ task copilot:install-npm
 task gentle-shell:install
 task antigravity:install
 task antigravity:install-docker
+task hermes:install
+task droid:install
+task droid:install-npm
+task omp:install
+task omp:install-bun
 task rtk:install
 task rtk:init
 task ttt:install
@@ -176,7 +184,7 @@ task tui:install-all
 task multiplexer:install-all
 ```
 
-`agents:install-all` installs every agent sequentially into user-owned locations. Agent installs are **non-root**: npm-based agents use the current user's npm prefix (for example, one managed by nvm), while Copilot and Antigravity use vendor installers that write to `~/.local/bin`. No agent task invokes `sudo`; make sure that directory is on your `PATH`.
+`agents:install-all` installs every agent sequentially into user-owned locations. Agent installs are **non-root**: npm-based agents use the current user's npm prefix (for example, one managed by nvm), while Copilot, Antigravity, Factory Droid, and oh my pi use vendor installers that write to `~/.local/bin`, and Hermes Agent installs under `~/.hermes` with a launcher in `~/.local/bin`. No agent task adds `sudo` itself; the one exception is Hermes Agent's installer, which may prompt for sudo solely to install the `libatomic1` system library on some Linux hosts. Make sure `~/.local/bin` is on your `PATH`.
 
 `rtk:install` is also non-root: the official script writes to `~/.local/bin` on Linux, Homebrew's user-owned prefix on macOS, and `%USERPROFILE%\.local\bin` on Windows. `rtk:install-cargo` uses the user-owned `~/.cargo/bin`.
 
@@ -254,8 +262,9 @@ task: "claude:install-cli" failed: Node.js and npm are required. Run 'task node:
 |-------------|-------|-----------|
 | Docker CLI | `docker --version` | `container:*`, `docker:setup-repo`, `antigravity:install-docker` |
 | Node.js + npm | `node --version && npm --version` | `claude:install-cli`, `*:install-npm`, `openclaude:install`, `command-code:install`, `pi:install`, `pi:install-script`, `gentle-shell:install` |
-| curl | `command -v curl` | `node:install-nvm`, `sdkman:install`, `docker:setup-repo`, `copilot:install`, `antigravity:install`, agent/tool installs, `ttt:install`, `spice-edit:install`, `fresh:install`, `tode:install`, `herdr:install`, `luvus:install` |
+| curl | `command -v curl` | `node:install-nvm`, `sdkman:install`, `docker:setup-repo`, `copilot:install`, `antigravity:install`, `hermes:install`, `droid:install`, `omp:install`, agent/tool installs, `ttt:install`, `spice-edit:install`, `fresh:install`, `tode:install`, `herdr:install`, `luvus:install` |
 | cargo | `cargo --version` | `rtk:install-cargo` |
+| Bun | `command -v bun` | `omp:install-bun` |
 
 Node-based agents require Node 22.19+; `openclaude:install` requires Node 24.22.1+. Prefer `task node:install-24` for the newest supported runtime.
 

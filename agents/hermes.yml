@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install Hermes Agent (hermes, non-root)
+    summary: |
+      Hermes Agent by Nous Research is a self-improving terminal coding agent
+      (binary: hermes). The official installer clones into ~/.hermes and
+      publishes the launcher to ~/.local/bin, adding it to your shell PATH.
+      It provisions Python/Node itself and needs git. On Linux it may prompt
+      for sudo solely to install the libatomic1 system library if the bundled
+      Node.js runtime needs it. Verify with 'hermes --version'.
+    cmds:
+      - cmd: curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+        platforms: [linux, darwin]
+      - cmd: powershell -ep Bypass -c "iex (irm https://hermes-agent.nousresearch.com/install.ps1)"
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to install hermes-agent."
+    silent: true

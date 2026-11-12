@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install Factory Droid CLI (droid, non-root)
+    summary: |
+      Droid is Factory's terminal coding agent (binary: droid). The official
+      installer verifies the release checksum and writes the standalone
+      binary to ~/.local/bin without sudo on Linux and macOS. On Linux,
+      install xdg-utils for full functionality. Windows uses the PowerShell
+      installer. The npm route is available as droid:install-npm. Verify with
+      'droid --version'.
+    cmds:
+      - cmd: curl -fsSL https://app.factory.ai/cli | sh
+        platforms: [linux, darwin]
+      - cmd: powershell -ep Bypass -c "irm https://app.factory.ai/cli/windows | iex"
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to install droid."
+    silent: true
+
+  install-npm:
+    desc: Install Factory Droid CLI via npm (non-root)
+    summary: |
+      Installs the `droid` package into the current user's npm prefix, so no
+      sudo is needed. Requires Node.js and npm. Verify with 'droid --version'.
+    cmds:
+      - npm install -g droid
+    preconditions:
+      - sh: node --version && npm --version
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true

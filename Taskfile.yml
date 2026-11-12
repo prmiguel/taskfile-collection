@@ -26,6 +26,9 @@ includes:
   pi: ./agents/pi.yml
   copilot: ./agents/copilot.yml
   gentle-shell: ./agents/gentle-shell.yml
+  hermes: ./agents/hermes.yml
+  droid: ./agents/droid.yml
+  omp: ./agents/omp.yml
   agents: ./agents
   rtk: ./ai-tools/rtk.yml
   ai-tools: ./ai-tools
