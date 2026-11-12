@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install OpenClaude AI coding agent (non-root)
+    summary: |
+      Installs the OpenClaude CLI (binary: openclaude) from npm into the
+      current user's npm prefix, so no sudo is needed. Requires Node.js
+      >=24.22.1 and ripgrep (rg) at runtime. Ensure your npm global bin
+      directory is on PATH.
+    cmds:
+      - npm install -g @twigpine/openclaude@latest
+    preconditions:
+      - sh: npm --version && node -e "const [a,b,c]=process.versions.node.split('.').map(Number); process.exit(a>24||(a===24&&(b>22||(b===22&&c>=1)))?0:1)"
+        msg: "OpenClaude requires Node.js >=24.22.1. Run 'task node:install-24' first."
+    silent: true

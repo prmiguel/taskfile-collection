@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install GitHub Copilot CLI (non-root)
+    summary: |
+      Installs the standalone Copilot CLI (binary: copilot) into
+      ~/.local/bin on Linux/macOS using the official installer; on Windows
+      it falls back to npm. Both routes are non-root. Requires an active
+      GitHub Copilot subscription; authenticate with /login or a
+      Copilot-enabled token.
+    cmds:
+      - cmd: curl -fsSL https://gh.io/copilot-install | PREFIX="$HOME/.local" bash
+        platforms: [linux, darwin]
+      - cmd: npm install -g @github/copilot
+        platforms: [windows]
+    silent: true
+
+  install-npm:
+    desc: Install GitHub Copilot CLI via npm (non-root)
+    summary: |
+      Installs @github/copilot into the current user's npm prefix, so no
+      sudo is needed. Requires Node.js 22+. If ~/.npmrc sets
+      ignore-scripts=true, override it with npm_config_ignore_scripts=false.
+    cmds:
+      - npm install -g @github/copilot
+    preconditions:
+      - sh: node --version && npm --version
+        msg: "Node.js >=22 and npm are required. Run 'task node:install-22' first."
+    silent: true

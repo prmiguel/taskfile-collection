@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install gentle-shell coding agent (non-root)
+    summary: |
+      Installs the standalone gentle-shell launcher (npm package: gentle-pi,
+      binary: gentle-shell) into the current user's npm prefix, so no sudo
+      is needed. Requires Node.js >=22.19 and Pi >=1.2.0 at runtime
+      ('task pi:install'). Use 'gentle-shell --link' to reuse your Pi setup.
+    cmds:
+      - npm install -g gentle-pi
+    preconditions:
+      - sh: node --version && npm --version
+        msg: "Node.js >=22.19 and npm are required. Run 'task node:install-22' first."
+    silent: true

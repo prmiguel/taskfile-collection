@@ -21,6 +21,11 @@ includes:
   kilo: ./agents/kilo.yml
   claude-code: ./agents/claude-code.yml
   cursor-agent: ./agents/cursor-agent.yml
+  openclaude: ./agents/openclaude.yml
+  command-code: ./agents/command-code.yml
+  pi: ./agents/pi.yml
+  copilot: ./agents/copilot.yml
+  gentle-shell: ./agents/gentle-shell.yml
   agents: ./agents
   rtk: ./ai-tools/rtk.yml
   ai-tools: ./ai-tools

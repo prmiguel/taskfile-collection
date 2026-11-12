@@ -4,14 +4,30 @@ version: '3'
 
 tasks:
   install:
-    desc: Install Antigravity (via Docker container)
+    desc: Install Antigravity CLI (agy, non-root)
+    summary: |
+      Installs the official Google Antigravity CLI (binary: agy) using the
+      vendor installer, which writes to ~/.local/bin on Linux/macOS and
+      %LOCALAPPDATA%\agy\bin on Windows. No sudo is needed. Run 'agy' to
+      start the interactive TUI.
+    cmds:
+      - cmd: curl -fsSL https://antigravity.google/cli/install.sh | bash
+        platforms: [linux, darwin]
+      - cmd: powershell -ep Bypass -c "irm https://antigravity.google/cli/install.ps1 | iex"
+        platforms: [windows]
+    silent: true
+
+  install-docker:
+    desc: Pull the Antigravity Docker image (legacy container route)
+    summary: |
+      Pulls the community Antigravity container image and prints the command
+      to start it. Requires Docker CLI; use antigravity:install for the
+      official non-root CLI instead.
     cmds:
       - cmd: |
           docker pull ghcr.io/prmiguel/antigravity:latest
           echo "Run 'docker run -d -p 8080:8080 ghcr.io/prmiguel/antigravity:latest' to start"
-        platforms: [linux, darwin]
-      - cmd: |
-          docker pull ghcr.io/prmiguel/antigravity:latest
-          echo "Run 'docker run -d -p 8080:8080 ghcr.io/prmiguel/antigravity:latest' to start"
-        platforms: [windows]
+    preconditions:
+      - sh: docker --version
+        msg: "Docker is required. Run 'task docker:install-cli' first."
     silent: true

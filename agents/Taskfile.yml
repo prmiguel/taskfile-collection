@@ -6,12 +6,21 @@ tasks:
   install-all:
     desc: Install all AI coding agents
     summary: |
-      Installs opencode, mimo, kilo, claude-code, and cursor-agent via their
-      platform-native installers.
-    deps:
-      - ':opencode:install'
-      - ':mimocode:install'
-      - ':kilo:install'
-      - ':claude-code:install'
-      - ':cursor-agent:install'
+      Installs every agent in this section sequentially into user-owned
+      locations (no sudo): opencode, mimo, kilo, claude-code, cursor-agent,
+      openclaude, command-code, pi, copilot, gentle-shell, and the
+      Antigravity CLI. Sequential execution avoids concurrent npm global
+      installs racing on the same npm prefix.
+    cmds:
+      - task: ':opencode:install'
+      - task: ':mimocode:install'
+      - task: ':kilo:install'
+      - task: ':claude-code:install'
+      - task: ':cursor-agent:install'
+      - task: ':openclaude:install'
+      - task: ':command-code:install'
+      - task: ':pi:install'
+      - task: ':copilot:install'
+      - task: ':gentle-shell:install'
+      - task: ':antigravity:install'
     silent: true

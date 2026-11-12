@@ -71,7 +71,7 @@ taskfile-collection/
 │   ├── intellij.yml      #   IntelliJ IDEA CE
 │   ├── cursor.yml        #   Cursor AI editor + CLI
 │   ├── windsurf.yml      #   Windsurf AI editor
-│   ├── antigravity.yml   #   Antigravity (Docker)
+│   ├── antigravity.yml   #   Antigravity CLI (agy) + Docker
 │   ├── claude.yml        #   Claude CLI + Desktop
 │   ├── docker.yml        #   CLI, Engine, Desktop
 │   ├── git.yml           #   Git
@@ -83,6 +83,11 @@ taskfile-collection/
 │   ├── kilo.yml          #   Kilo Code CLI
 │   ├── claude-code.yml   #   Claude Code CLI (native)
 │   ├── cursor-agent.yml  #   Cursor Agent CLI
+│   ├── openclaude.yml    #   OpenClaude
+│   ├── command-code.yml  #   Command Code (cmd)
+│   ├── pi.yml            #   Pi coding agent
+│   ├── copilot.yml       #   GitHub Copilot CLI
+│   ├── gentle-shell.yml  #   gentle-shell
 │   └── Taskfile.yml      #   install-all aggregator
 ├── ai-tools/             # AI dev tools
 │   ├── rtk.yml           #   rtk (Rust Token Killer)
@@ -133,6 +138,14 @@ task mimocode:install
 task kilo:install
 task claude-code:install
 task cursor-agent:install
+task openclaude:install
+task command-code:install
+task pi:install
+task copilot:install
+task copilot:install-npm
+task gentle-shell:install
+task antigravity:install
+task antigravity:install-docker
 task rtk:install
 task rtk:init
 ```
@@ -143,6 +156,8 @@ task rtk:init
 task agents:install-all
 task ai-tools:install-all
 ```
+
+`agents:install-all` installs every agent sequentially into user-owned locations. Agent installs are **non-root**: npm-based agents use the current user's npm prefix (for example, one managed by nvm), while Copilot and Antigravity use vendor installers that write to `~/.local/bin`. No agent task invokes `sudo`; make sure that directory is on your `PATH`.
 
 ### Run multiple tasks
 
@@ -212,10 +227,12 @@ task: "claude:install-cli" failed: Node.js and npm are required. Run 'task node:
 
 | Prerequisite | Check | Needed By |
 |-------------|-------|-----------|
-| Docker CLI | `docker --version` | `container:*`, `docker:setup-repo` |
-| Node.js + npm | `node --version && npm --version` | `claude:install-cli`, `*:install-npm` |
-| curl | `command -v curl` | `node:install-nvm`, `sdkman:install`, `docker:setup-repo`, agent/tool installs |
+| Docker CLI | `docker --version` | `container:*`, `docker:setup-repo`, `antigravity:install-docker` |
+| Node.js + npm | `node --version && npm --version` | `claude:install-cli`, `*:install-npm`, `openclaude:install`, `command-code:install`, `pi:install`, `gentle-shell:install` |
+| curl | `command -v curl` | `node:install-nvm`, `sdkman:install`, `docker:setup-repo`, `copilot:install`, `antigravity:install`, agent/tool installs |
 | cargo | `cargo --version` | `rtk:install-cargo` |
+
+Node-based agents require Node 22.19+; `openclaude:install` requires Node 24.22.1+. Prefer `task node:install-24` for the newest supported runtime.
 
 ## Supported Platforms
 
@@ -244,6 +261,7 @@ Each task auto-detects the OS and distro using `platforms:` and `if:` conditions
            msg: "curl is required."
    ```
 3. If it's a separate file, include it in the main `Taskfile.yml` using `includes:`.
+4. Agent installs must remain non-root: do not add `sudo`; use npm with the current user's prefix or a vendor installer that writes under `~/.local`.
 
 ## Links
 

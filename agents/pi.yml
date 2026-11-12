@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install Pi coding agent (non-root)
+    summary: |
+      Installs the Pi CLI (binary: pi) from npm into the current user's npm
+      prefix, so no sudo is needed. Uses --ignore-scripts per upstream and
+      requires Node.js >=22.19.0. The official installer is avoided here
+      because it may invoke sudo to install Node/xz dependencies.
+    cmds:
+      - npm install -g --ignore-scripts @earendil-works/pi-coding-agent
+    preconditions:
+      - sh: node --version && npm --version
+        msg: "Node.js >=22.19 and npm are required. Run 'task node:install-22' first."
+    silent: true

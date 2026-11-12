@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install Command Code AI coding agent (non-root)
+    summary: |
+      Installs the Command Code CLI (binaries: cmd, command-code) from npm
+      into the current user's npm prefix, so no sudo is needed. On native
+      Windows the short alias is cmdc. Requires Node.js >=22.
+    cmds:
+      - npm install -g command-code@latest
+    preconditions:
+      - sh: node --version && npm --version
+        msg: "Node.js >=22 and npm are required. Run 'task node:install-22' first."
+    silent: true
