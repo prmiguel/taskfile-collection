@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install Fresh terminal editor (fresh, non-root)
+    summary: |
+      Fresh is a zero-config terminal IDE (binary: fresh). On Linux the
+      universal build unpacks to ~/.local/share/fresh-editor and symlinks
+      ~/.local/bin/fresh; it needs no root and self-updates with 'fresh
+      --update'. On macOS it installs via Homebrew and on Windows via winget.
+      Verify with 'fresh --version'.
+    cmds:
+      - cmd: |
+          curl -fsSL https://raw.githubusercontent.com/sinelaw/fresh/refs/heads/master/scripts/install.sh | sh
+        platforms: [linux]
+      - cmd: brew install fresh-editor
+        platforms: [darwin]
+      - cmd: winget install fresh-editor
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to install fresh."
+    silent: true

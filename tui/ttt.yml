@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install TTT Editor (ttt, non-root)
+    summary: |
+      TTT (Terminal Text Tool) is a single-binary terminal IDE (binary: ttt).
+      The official installer downloads the latest release and, with INSTALL_DIR
+      set, writes it to ~/.local/bin on Linux and macOS without sudo. Override
+      the location with INSTALL_DIR. Verify with 'ttt --version'.
+    cmds:
+      - cmd: |
+          curl -sSfL https://raw.githubusercontent.com/eugenioenko/ttt/main/install.sh | INSTALL_DIR="${INSTALL_DIR:-$HOME/.local/bin}" sh
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to install ttt."
+    silent: true

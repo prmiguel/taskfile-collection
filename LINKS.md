@@ -8,3 +8,7 @@
 - https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli
 - https://github.com/Gentleman-Programming/gentle-shell
 - https://antigravity.google/docs/cli/getting-started
+- https://github.com/eugenioenko/ttt
+- https://github.com/cloudmanic/spice-edit
+- https://github.com/sinelaw/fresh
+- https://tode.sh/install

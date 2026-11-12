@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install-all:
+    desc: Install all terminal TUI editors
+    summary: |
+      Installs every terminal editor in this section into user-owned
+      locations (no sudo): ttt, spice-edit, fresh, and tode. All launchers
+      land in ~/.local/bin, so make sure that directory is on your PATH.
+      Sequential execution keeps the output readable.
+    cmds:
+      - task: ':ttt:install'
+      - task: ':spice-edit:install'
+      - task: ':fresh:install'
+      - task: ':tode:install'
+    silent: true

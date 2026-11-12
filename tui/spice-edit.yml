@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install SpiceEdit terminal editor (spiceedit, non-root)
+    summary: |
+      SpiceEdit is a mouse-first terminal code editor (binary: spiceedit).
+      The POSIX install script downloads the latest release and, with
+      INSTALL_DIR set, drops it into ~/.local/bin without sudo. Override the
+      location with INSTALL_DIR or pin a release with VERSION.
+    cmds:
+      - cmd: |
+          curl -fsSL https://raw.githubusercontent.com/cloudmanic/spice-edit/main/install.sh | INSTALL_DIR="${INSTALL_DIR:-$HOME/.local/bin}" sh
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to install spice-edit."
+    silent: true

@@ -92,6 +92,12 @@ taskfile-collection/
 ├── ai-tools/             # AI dev tools
 │   ├── rtk.yml           #   rtk (Rust Token Killer, non-root)
 │   └── Taskfile.yml      #   install-all aggregator
+├── tui/                  # Terminal UI editors
+│   ├── ttt.yml           #   TTT Editor (ttt, non-root)
+│   ├── spice-edit.yml    #   SpiceEdit (spiceedit, non-root)
+│   ├── fresh.yml         #   Fresh editor (fresh, non-root)
+│   ├── tode.yml          #   tode editor (tode, non-root)
+│   └── Taskfile.yml      #   install-all aggregator
 ├── ci/                   # CI/CD helpers
 │   └── Taskfile.yml      #   YAML lint, validation
 ├── README.md
@@ -149,6 +155,10 @@ task antigravity:install
 task antigravity:install-docker
 task rtk:install
 task rtk:init
+task ttt:install
+task spice-edit:install
+task fresh:install
+task tode:install
 ```
 
 ### Install all AI coding agents / tools
@@ -156,11 +166,14 @@ task rtk:init
 ```sh
 task agents:install-all
 task ai-tools:install-all
+task tui:install-all
 ```
 
 `agents:install-all` installs every agent sequentially into user-owned locations. Agent installs are **non-root**: npm-based agents use the current user's npm prefix (for example, one managed by nvm), while Copilot and Antigravity use vendor installers that write to `~/.local/bin`. No agent task invokes `sudo`; make sure that directory is on your `PATH`.
 
 `rtk:install` is also non-root: the official script writes to `~/.local/bin` on Linux, Homebrew's user-owned prefix on macOS, and `%USERPROFILE%\.local\bin` on Windows. `rtk:install-cargo` uses the user-owned `~/.cargo/bin`.
+
+`tui:install-all` installs the terminal editors sequentially, also non-root. Each one lands in `~/.local/bin` (ttt, spice-edit, fresh) or `~/.local/lib` with a launcher in `~/.local/bin` (tode); make sure `~/.local/bin` is on your `PATH`.
 
 ### Run multiple tasks
 
@@ -232,7 +245,7 @@ task: "claude:install-cli" failed: Node.js and npm are required. Run 'task node:
 |-------------|-------|-----------|
 | Docker CLI | `docker --version` | `container:*`, `docker:setup-repo`, `antigravity:install-docker` |
 | Node.js + npm | `node --version && npm --version` | `claude:install-cli`, `*:install-npm`, `openclaude:install`, `command-code:install`, `pi:install`, `pi:install-script`, `gentle-shell:install` |
-| curl | `command -v curl` | `node:install-nvm`, `sdkman:install`, `docker:setup-repo`, `copilot:install`, `antigravity:install`, agent/tool installs |
+| curl | `command -v curl` | `node:install-nvm`, `sdkman:install`, `docker:setup-repo`, `copilot:install`, `antigravity:install`, agent/tool installs, `ttt:install`, `spice-edit:install`, `fresh:install`, `tode:install` |
 | cargo | `cargo --version` | `rtk:install-cargo` |
 
 Node-based agents require Node 22.19+; `openclaude:install` requires Node 24.22.1+. Prefer `task node:install-24` for the newest supported runtime.

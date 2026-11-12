@@ -29,6 +29,11 @@ includes:
   agents: ./agents
   rtk: ./ai-tools/rtk.yml
   ai-tools: ./ai-tools
+  ttt: ./tui/ttt.yml
+  spice-edit: ./tui/spice-edit.yml
+  fresh: ./tui/fresh.yml
+  tode: ./tui/tode.yml
+  tui: ./tui
   container: ./container
   ci: ./ci
 
