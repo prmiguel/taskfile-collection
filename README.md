@@ -329,4 +329,4 @@ Each task auto-detects the OS and distro using `platforms:` and `if:` conditions
 
 For external references and resources, see [LINKS.md](LINKS.md).
 
-For tools not yet covered by this collection, see [MISSING-TOOLS.md](MISSING-TOOLS.md).
+For tools not yet covered by this collection, see [MISSING-TOOLS.md](MISSING-TOOLS.md). For system/CLI utilities, image conversion & generation, audio/video, documents and other helpers, see [MISSING-TOOLS-2.md](MISSING-TOOLS-2.md).

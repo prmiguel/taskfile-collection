@@ -157,3 +157,7 @@ task databases:duckdb         # just duckdb
 task network:tailscale        # mesh VPN
 task llm-local:ollama         # local LLMs
 ```
+
+For system/CLI utilities, image conversion & optimization, image generation,
+audio/video/speech, documents and other helpers, see the second catalog:
+[MISSING-TOOLS-2.md](MISSING-TOOLS-2.md).
