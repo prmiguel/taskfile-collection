@@ -1,0 +1,381 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# Miscellaneous utilities: QR codes, crypto, downloads, tunnels, terminal
+# sharing, logs, notes, productivity, calendars, fun terminals. Non-root where
+# possible; system packages use the platform manager.
+tasks:
+  qrcode:
+    desc: Generate QR codes from the CLI
+    cmds:
+      - cmd: sudo apt install -y qrencode
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm qrencode
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install qrencode
+        platforms: [darwin]
+    silent: true
+
+  zbar:
+    desc: Read QR/bar codes from camera/images
+    cmds:
+      - cmd: sudo apt install -y zbar-tools
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install zbar
+        platforms: [darwin]
+    silent: true
+
+  gpg:
+    desc: GNU Privacy Guard
+    cmds:
+      - cmd: sudo apt install -y gnupg
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm gnupg
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install gnupg
+        platforms: [darwin]
+    silent: true
+
+  openssl:
+    desc: TLS/crypto toolkit
+    cmds:
+      - cmd: sudo apt install -y openssl
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install openssl@3
+        platforms: [darwin]
+    silent: true
+
+  aria2:
+    desc: Multi-protocol download accelerator
+    cmds:
+      - cmd: sudo apt install -y aria2
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm aria2
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install aria2
+        platforms: [darwin]
+    silent: true
+
+  s5cmd:
+    desc: Fast S3 and local filesystem operations
+    cmds:
+      - go install github.com/peak/s5cmd@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  s3cmd:
+    desc: S3 client
+    cmds:
+      - pip3 install --user s3cmd
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  aws-vault:
+    desc: Secure AWS credential storage
+    cmds:
+      - go install github.com/99designs/aws-vault@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  localtunnel:
+    desc: Expose localhost to the public web
+    cmds:
+      - npm install -g localtunnel
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  tunnelmole:
+    desc: Tunnel localhost to the public web
+    cmds:
+      - npm install -g tunnelmole-client
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  gotty:
+    desc: Share terminal as a web app
+    cmds:
+      - go install github.com/yudai/gotty@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  upterm:
+    desc: Instant terminal sharing
+    cmds:
+      - go install github.com/owenthereal/upterm@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  xxh:
+    desc: Bring your shell over SSH
+    cmds:
+      - pip3 install --user xxh
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  sshuttle:
+    desc: Poor-man's VPN over SSH
+    cmds:
+      - pip3 install --user sshuttle
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  goaccess:
+    desc: Web log analyzer (real-time)
+    cmds:
+      - cmd: sudo apt install -y goaccess
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install goaccess
+        platforms: [darwin]
+    silent: true
+
+  multitail:
+    desc: Tail multiple log files
+    cmds:
+      - cmd: sudo apt install -y multitail
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install multitail
+        platforms: [darwin]
+    silent: true
+
+  tailspin:
+    desc: Log file highlighter
+    cmds:
+      - cargo install tailspin
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  newsboat:
+    desc: Terminal RSS feed reader
+    cmds:
+      - cmd: sudo apt install -y newsboat
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install newsboat
+        platforms: [darwin]
+    silent: true
+
+  taskwarrior:
+    desc: Task management (task)
+    cmds:
+      - cmd: sudo apt install -y taskwarrior
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install task
+        platforms: [darwin]
+    silent: true
+
+  timewarrior:
+    desc: Time tracking (timew)
+    cmds:
+      - cmd: sudo apt install -y timewarrior
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install timewarrior
+        platforms: [darwin]
+    silent: true
+
+  nb:
+    desc: Note-taking, bookmarking, archive, knowledge base
+    cmds:
+      - pip3 install --user nb
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  dnote:
+    desc: Interactive multi-device notebook
+    cmds:
+      - npm install -g dnote
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  taskbook:
+    desc: Tasks, boards and notes for the terminal
+    cmds:
+      - npm install -g taskbook
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  ledger:
+    desc: Double-entry accounting system
+    cmds:
+      - cmd: sudo apt install -y ledger
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install ledger
+        platforms: [darwin]
+    silent: true
+
+  hledger:
+    desc: Plain text accounting (CLI/TUI/web)
+    cmds:
+      - cmd: sudo apt install -y hledger
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install hledger
+        platforms: [darwin]
+    silent: true
+
+  calcurse:
+    desc: Calendar and scheduling
+    cmds:
+      - cmd: sudo apt install -y calcurse
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install calcurse
+        platforms: [darwin]
+    silent: true
+
+  khal:
+    desc: CalDAV CLI calendar
+    cmds:
+      - pip3 install --user khal
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  vdirsyncer:
+    desc: CalDAV/CardDAV synchronization
+    cmds:
+      - pip3 install --user vdirsyncer
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  buku:
+    desc: Browser-independent bookmark manager
+    cmds:
+      - pip3 install --user buku
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  gcalcli:
+    desc: Google Calendar CLI
+    cmds:
+      - pip3 install --user gcalcli
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  speedtest-cli:
+    desc: Speedtest.net bandwidth test
+    cmds:
+      - pip3 install --user speedtest-cli
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  fast-cli:
+    desc: Fast.com speed test
+    cmds:
+      - npm install -g fast-cli
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  s-web-search:
+    desc: Open a web search from the terminal
+    cmds:
+      - go install github.com/zquestz/s@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  hget:
+    desc: Render websites as plain text
+    cmds:
+      - go install github.com/bevacqua/hget@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  mapscii:
+    desc: Terminal map viewer
+    cmds:
+      - npm install -g mapscii
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  cmatrix:
+    desc: Matrix-style terminal screensaver
+    cmds:
+      - cmd: sudo apt install -y cmatrix
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install cmatrix
+        platforms: [darwin]
+    silent: true
+
+  pipes-sh:
+    desc: Animated pipes terminal screensaver
+    cmds:
+      - cmd: sudo apt install -y pipes.sh
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install pipes.sh
+        platforms: [darwin]
+    silent: true
+
+  install-all:
+    desc: Install the misc bundle (non-root where possible)
+    cmds:
+      - task: qrcode
+      - task: gpg
+      - task: aria2
+      - task: s5cmd
+      - task: localtunnel
+      - task: gotty
+      - task: goaccess
+      - task: tailspin
+      - task: newsboat
+      - task: taskbook
+      - task: ledger
+      - task: calcurse
+      - task: cmatrix
+    silent: true

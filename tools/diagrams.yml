@@ -1,0 +1,97 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# Diagrams, charts and visualization from text. Non-root where possible;
+# system packages use the platform manager.
+tasks:
+  graphviz:
+    desc: Graph/flowchart rendering (dot)
+    cmds:
+      - cmd: sudo apt install -y graphviz
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm graphviz
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install graphviz
+        platforms: [darwin]
+    silent: true
+
+  mermaid-cli:
+    desc: Mermaid diagrams to SVG/PNG (mmdc)
+    cmds:
+      - npm install -g @mermaid-js/mermaid-cli
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  d2:
+    desc: Declarative diagram language
+    cmds:
+      - go install github.com/terrastruct/d2/cmd/d2@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  plantuml:
+    desc: UML and diagrams from text
+    cmds:
+      - cmd: sudo apt install -y plantuml
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install plantuml
+        platforms: [darwin]
+    silent: true
+
+  svgbob:
+    desc: ASCII art to SVG
+    cmds:
+      - cargo install svgbob
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  gnuplot:
+    desc: Scientific plotting
+    cmds:
+      - cmd: sudo apt install -y gnuplot
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm gnuplot
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install gnuplot
+        platforms: [darwin]
+    silent: true
+
+  ditaa:
+    desc: ASCII art to diagrams
+    cmds:
+      - cmd: sudo apt install -y ditaa
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install ditaa
+        platforms: [darwin]
+    silent: true
+
+  decktape:
+    desc: Export HTML presentations to PDF/PNG
+    cmds:
+      - npm install -g decktape
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  install-all:
+    desc: Install the diagrams bundle (non-root where possible)
+    cmds:
+      - task: graphviz
+      - task: mermaid-cli
+      - task: d2
+      - task: plantuml
+      - task: gnuplot
+    silent: true

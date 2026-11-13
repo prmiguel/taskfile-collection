@@ -1,0 +1,429 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# Documents, PDFs, OCR, and structured text/data. Non-root where possible;
+# system packages use the platform manager.
+tasks:
+  # --- Documents, PDF & OCR ---
+  pandoc:
+    desc: Universal document converter
+    cmds:
+      - cmd: sudo apt install -y pandoc
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm pandoc
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install pandoc
+        platforms: [darwin]
+    silent: true
+
+  typst:
+    desc: Modern typesetting system (typst)
+    cmds:
+      - cmd: cargo install --locked typst-cli
+        platforms: [linux]
+      - cmd: brew install typst
+        platforms: [darwin]
+    preconditions:
+      - sh: command -v cargo || command -v brew
+        msg: "Rust/cargo is required (or use brew on macOS)."
+    silent: true
+
+  tectonic:
+    desc: Self-contained LaTeX engine
+    cmds:
+      - cargo install tectonic
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  mdbook:
+    desc: Create books from Markdown
+    cmds:
+      - cargo install mdbook
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  marp-cli:
+    desc: Markdown to slides (HTML/PDF/PowerPoint)
+    cmds:
+      - npm install -g @marp-team/marp-cli
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  slides:
+    desc: Terminal Markdown presentations
+    cmds:
+      - go install github.com/maaslalani/slides@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  asciidoctor:
+    desc: AsciiDoc processor
+    cmds:
+      - cmd: sudo apt install -y asciidoctor
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install asciidoctor
+        platforms: [darwin]
+    silent: true
+
+  groff:
+    desc: Man/PS document formatting
+    cmds:
+      - cmd: sudo apt install -y groff
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install groff
+        platforms: [darwin]
+    silent: true
+
+  tesseract:
+    desc: OCR engine (tesseract CLI)
+    cmds:
+      - cmd: sudo apt install -y tesseract-ocr
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm tesseract
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install tesseract
+        platforms: [darwin]
+    silent: true
+
+  ocrmypdf:
+    desc: OCR layer for existing PDFs
+    cmds:
+      - pip3 install --user ocrmypdf
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  img2pdf:
+    desc: Images to PDF (lossless)
+    cmds:
+      - pip3 install --user img2pdf
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  pdfgrep:
+    desc: Grep inside PDFs
+    cmds:
+      - cmd: sudo apt install -y pdfgrep
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install pdfgrep
+        platforms: [darwin]
+    silent: true
+
+  qpdf:
+    desc: PDF transform and inspect
+    cmds:
+      - cmd: sudo apt install -y qpdf
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install qpdf
+        platforms: [darwin]
+    silent: true
+
+  pdftk:
+    desc: PDF toolkit
+    cmds:
+      - cmd: sudo apt install -y pdftk
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install pdftk-java
+        platforms: [darwin]
+    silent: true
+
+  mutool:
+    desc: MuPDF PDF render/manipulate
+    cmds:
+      - cmd: sudo apt install -y mupdf-tools
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install mupdf-tools
+        platforms: [darwin]
+    silent: true
+
+  poppler-utils:
+    desc: pdftotext / pdftoppm / pdfinfo
+    cmds:
+      - cmd: sudo apt install -y poppler-utils
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install poppler
+        platforms: [darwin]
+    silent: true
+
+  diff-pdf:
+    desc: Visual PDF comparison
+    cmds:
+      - cmd: sudo apt install -y diff-pdf
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install diff-pdf
+        platforms: [darwin]
+    silent: true
+
+  marker-pdf:
+    desc: PDF → Markdown (AI-powered)
+    cmds:
+      - pip3 install --user marker-pdf
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  docling:
+    desc: Documents to structured formats (AI)
+    cmds:
+      - pip3 install --user docling
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  nougat-ocr:
+    desc: Academic PDF OCR (AI)
+    cmds:
+      - pip3 install --user nougat-ocr
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  sioyek:
+    desc: PDF reader (GUI)
+    cmds:
+      - cmd: sudo apt install -y sioyek
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install --cask sioyek
+        platforms: [darwin]
+    silent: true
+
+  epr:
+    desc: Terminal EPUB reader
+    cmds:
+      - pip3 install --user epr
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  hygg:
+    desc: Terminal document reader
+    cmds:
+      - cargo install hygg
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  # --- Data & structured text ---
+  miller:
+    desc: CSV/TSV/JSON toolkit (mlr)
+    cmds:
+      - cmd: sudo apt install -y miller
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm miller
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install miller
+        platforms: [darwin]
+    silent: true
+
+  csvkit:
+    desc: CSV toolkit (Python)
+    cmds:
+      - pip3 install --user csvkit
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  xsv:
+    desc: Fast CSV CLI (Rust)
+    cmds:
+      - cargo install --locked xsv
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  visidata:
+    desc: Spreadsheet multitool TUI
+    cmds:
+      - pip3 install --user visidata
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  csvlens:
+    desc: CSV viewer TUI
+    cmds:
+      - cargo install csvlens
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  tidy-viewer:
+    desc: Pretty-print CSV and tables
+    cmds:
+      - cargo install tidy-viewer
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  q-csv:
+    desc: SQL queries on CSV/TSV (q)
+    cmds:
+      - pip3 install --user q
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  dasel:
+    desc: JSON/YAML/TOML/XML selector (dasel)
+    cmds:
+      - go install github.com/tomwright/dasel@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  gron:
+    desc: Make JSON greppable
+    cmds:
+      - go install github.com/tomnomnom/gron@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  jless:
+    desc: JSON viewer TUI
+    cmds:
+      - cargo install jless
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  fx:
+    desc: Command-line JSON viewer
+    cmds:
+      - npm install -g fx
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  jc:
+    desc: CLI output → JSON
+    cmds:
+      - pip3 install --user jc
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  jo:
+    desc: Build JSON from arguments
+    cmds:
+      - cmd: sudo apt install -y jo
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install jo
+        platforms: [darwin]
+    silent: true
+
+  htmlq:
+    desc: Query HTML with CSS selectors
+    cmds:
+      - cargo install htmlq
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  pup:
+    desc: HTML parser CLI
+    cmds:
+      - go install github.com/ericchiang/pup@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  xmlstarlet:
+    desc: XML command-line tool
+    cmds:
+      - cmd: sudo apt install -y xmlstarlet
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install xmlstarlet
+        platforms: [darwin]
+    silent: true
+
+  xq:
+    desc: XML and HTML processor (yq sibling)
+    cmds:
+      - npm install -g yq
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  dyff:
+    desc: YAML diff tool
+    cmds:
+      - cargo install dyff
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  sc-im:
+    desc: Vim-like spreadsheet calculator
+    cmds:
+      - cmd: sudo apt install -y sc-im
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install sc-im
+        platforms: [darwin]
+    silent: true
+
+  install-all:
+    desc: Install the docs/data bundle (non-root where possible)
+    cmds:
+      - task: pandoc
+      - task: typst
+      - task: tesseract
+      - task: ocrmypdf
+      - task: pdfgrep
+      - task: miller
+      - task: xsv
+      - task: visidata
+      - task: dasel
+      - task: jless
+      - task: fx
+      - task: dyff
+    silent: true

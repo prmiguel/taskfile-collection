@@ -14,6 +14,12 @@ includes:
   network: ./tools/network.yml
   security: ./tools/security.yml
   llm-local: ./tools/llm-local.yml
+  sysutils: ./tools/sysutils.yml
+  media: ./tools/media.yml
+  docs: ./tools/docs.yml
+  diagrams: ./tools/diagrams.yml
+  devtools: ./tools/devtools.yml
+  misc: ./tools/misc.yml
   vscode: ./tools/vscode.yml
   chrome: ./tools/chrome.yml
   gh: ./tools/gh-cli.yml

@@ -1,0 +1,1166 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# Media & image tooling: conversion/optimization, image generation, audio,
+# video, speech transcription/synthesis, and screen recording. Non-root where
+# possible; system packages (ImageMagick, ffmpeg, yt-dlp via pip, etc.) use the
+# platform manager.
+tasks:
+  # --- Image conversion & optimization ---
+  imagemagick:
+    desc: ImageMagick image toolkit (magick)
+    cmds:
+      - cmd: sudo apt install -y imagemagick
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm imagemagick
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install imagemagick
+        platforms: [darwin]
+    silent: true
+
+  graphicsmagick:
+    desc: GraphicsMagick image toolkit (gm)
+    cmds:
+      - cmd: sudo apt install -y graphicsmagick
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm graphicsmagick
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install graphicsmagick
+        platforms: [darwin]
+    silent: true
+
+  libvips:
+    desc: libvips image processing (vips)
+    cmds:
+      - cmd: sudo apt install -y libvips-tools
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm vips
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install vips
+        platforms: [darwin]
+    silent: true
+
+  sharp-cli:
+    desc: Image resize/convert via sharp (libvips)
+    cmds:
+      - npm install -g sharp-cli
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  oxipng:
+    desc: PNG optimizer
+    cmds:
+      - cmd: cargo install oxipng
+        platforms: [linux]
+      - cmd: brew install oxipng
+        platforms: [darwin]
+    preconditions:
+      - sh: command -v cargo || command -v brew
+        msg: "Rust/cargo is required (or use brew on macOS)."
+    silent: true
+
+  optipng:
+    desc: Lossless PNG optimizer
+    cmds:
+      - cmd: sudo apt install -y optipng
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm optipng
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install optipng
+        platforms: [darwin]
+    silent: true
+
+  pngquant:
+    desc: Lossy PNG quantizer
+    cmds:
+      - cmd: sudo apt install -y pngquant
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm pngquant
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install pngquant
+        platforms: [darwin]
+    silent: true
+
+  zopfli:
+    desc: zopfli / zopflipng maximum compression
+    cmds:
+      - cmd: sudo apt install -y zopfli
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm zopfli
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install zopfli
+        platforms: [darwin]
+    silent: true
+
+  jpegoptim:
+    desc: JPEG optimizer
+    cmds:
+      - cmd: sudo apt install -y jpegoptim
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm jpegoptim
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install jpegoptim
+        platforms: [darwin]
+    silent: true
+
+  jpegtran:
+    desc: Lossless JPEG transform (libjpeg-turbo)
+    cmds:
+      - cmd: sudo apt install -y libjpeg-turbo-progs
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm libjpeg-turbo
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install libjpeg-turbo
+        platforms: [darwin]
+    silent: true
+
+  mozjpeg:
+    desc: Perceptually-optimized JPEG encoder (cjpeg)
+    cmds:
+      - cmd: sudo apt install -y mozjpeg
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install mozjpeg
+        platforms: [darwin]
+    silent: true
+
+  guetzli:
+    desc: High-quality JPEG encoder
+    cmds:
+      - cmd: sudo apt install -y guetzli
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install guetzli
+        platforms: [darwin]
+    silent: true
+
+  libwebp:
+    desc: WebP encode/decode (cwebp/dwebp)
+    cmds:
+      - cmd: sudo apt install -y webp
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm libwebp
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install webp
+        platforms: [darwin]
+    silent: true
+
+  libavif:
+    desc: AVIF encode/decode (avifenc/avifdec)
+    cmds:
+      - cmd: sudo apt install -y libavif-bin
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm libavif
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install libavif
+        platforms: [darwin]
+    silent: true
+
+  gifsicle:
+    desc: GIF create/manipulate/optimize
+    cmds:
+      - cmd: sudo apt install -y gifsicle
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm gifsicle
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install gifsicle
+        platforms: [darwin]
+    silent: true
+
+  gifski:
+    desc: High-quality GIF from video frames
+    cmds:
+      - cargo install gifski
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  svgo:
+    desc: SVG optimizer
+    cmds:
+      - npm install -g svgo
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  scour:
+    desc: SVG optimizer (Python)
+    cmds:
+      - pip3 install --user scour
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  resvg:
+    desc: Fast SVG renderer and rasterizer
+    cmds:
+      - cargo install resvg
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  librsvg:
+    desc: SVG rasterizer (rsvg-convert)
+    cmds:
+      - cmd: sudo apt install -y librsvg2-bin
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm librsvg
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install librsvg
+        platforms: [darwin]
+    silent: true
+
+  inkscape:
+    desc: SVG editor/export (CLI export via inkscape CLI)
+    cmds:
+      - cmd: sudo apt install -y inkscape
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install --cask inkscape
+        platforms: [darwin]
+    silent: true
+
+  potrace:
+    desc: Bitmap to vector tracing
+    cmds:
+      - cmd: sudo apt install -y potrace
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm potrace
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install potrace
+        platforms: [darwin]
+    silent: true
+
+  vtracer:
+    desc: Raster-to-vector conversion (Rust)
+    cmds:
+      - cargo install vtracer
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  optimizt:
+    desc: Prepare images for the web
+    cmds:
+      - npm install -g optimizt
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  imgp:
+    desc: Batch image resize and rotate
+    cmds:
+      - pip3 install --user imgp
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  squoosh-cli:
+    desc: Codec-based image compression CLI
+    cmds:
+      - npm install -g @squoosh/cli
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  exiftool:
+    desc: Read/write image metadata
+    cmds:
+      - cmd: sudo apt install -y libimage-exiftool-perl
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm perl-image-exiftool
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install exiftool
+        platforms: [darwin]
+    silent: true
+
+  jhead:
+    desc: JPEG EXIF header editor
+    cmds:
+      - cmd: sudo apt install -y jhead
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm jhead
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install jhead
+        platforms: [darwin]
+    silent: true
+
+  chafa:
+    desc: Terminal image viewer (color/ANSI)
+    cmds:
+      - cmd: sudo apt install -y chafa
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm chafa
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install chafa
+        platforms: [darwin]
+    silent: true
+
+  viu:
+    desc: Terminal image viewer (Rust)
+    cmds:
+      - cargo install viu
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  timg:
+    desc: Terminal image/video viewer
+    cmds:
+      - cmd: sudo apt install -y timg
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install timg
+        platforms: [darwin]
+    silent: true
+
+  catimg:
+    desc: ANSI images in the terminal
+    cmds:
+      - cmd: sudo apt install -y catimg
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install catimg
+        platforms: [darwin]
+    silent: true
+
+  ueberzugpp:
+    desc: Image previews in the terminal
+    cmds:
+      - cmd: cargo install ueberzugpp
+        platforms: [linux]
+      - cmd: brew install ueberzugpp
+        platforms: [darwin]
+    preconditions:
+      - sh: command -v cargo || command -v brew
+        msg: "Rust/cargo is required (or use brew on macOS)."
+    silent: true
+
+  carbon-now-cli:
+    desc: Generate beautiful images of code
+    cmds:
+      - npm install -g carbon-now-cli
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  freeze:
+    desc: Generate images of code and terminal output
+    cmds:
+      - go install github.com/charmbracelet/freeze@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  gowall:
+    desc: Recolor images, OCR, upscaling
+    cmds:
+      - cargo install gowall
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  # --- Image generation (local & API) ---
+  stable-diffusion-cpp:
+    desc: Stable Diffusion / Flux inference CLI (C/C++). Builds to ~/.local/bin
+    cmds:
+      - cmd: |
+          git clone --depth 1 https://github.com/ggml-org/llama.cpp /tmp/stable-diffusion.cpp
+          cd /tmp/stable-diffusion.cpp && cmake -B build && cmake --build build --config Release -j
+          cmake --install build --prefix ~/.local && rm -rf /tmp/stable-diffusion.cpp
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v git && command -v cmake
+        msg: "git and cmake are required."
+    silent: true
+
+  comfyui:
+    desc: ComfyUI node-based SD/Flux workflows (API server)
+    cmds:
+      - cmd: |
+          git clone https://github.com/comfyanonymous/ComfyUI.git ~/.local/share/ComfyUI
+          pip3 install --user -r ~/.local/share/ComfyUI/requirements.txt
+    preconditions:
+      - sh: command -v git && command -v pip3
+        msg: "git and pip3 are required."
+    silent: true
+
+  invokeai:
+    desc: InvokeAI local SD/Flux suite with CLI
+    cmds:
+      - pip3 install --user invokeai
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  fooocus:
+    desc: Fooocus simplified SD/Flux UI + API
+    cmds:
+      - cmd: |
+          git clone https://github.com/lllyasviel/Fooocus.git ~/.local/share/Fooocus
+          pip3 install --user -r ~/.local/share/Fooocus/requirements.txt
+    preconditions:
+      - sh: command -v git && command -v pip3
+        msg: "git and pip3 are required."
+    silent: true
+
+  automatic1111:
+    desc: AUTOMATIC1111 Stable Diffusion WebUI + API
+    cmds:
+      - cmd: |
+          git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git ~/.local/share/sd-webui
+    preconditions:
+      - sh: command -v git
+        msg: "git is required."
+    silent: true
+
+  forge:
+    desc: Stable Diffusion Forge (faster WebUI + API)
+    cmds:
+      - cmd: |
+          git clone https://github.com/lllyasviel/stable-diffusion-webui-forge.git ~/.local/share/sd-forge
+    preconditions:
+      - sh: command -v git
+        msg: "git is required."
+    silent: true
+
+  mflux:
+    desc: Flux on Apple Silicon via MLX
+    cmds:
+      - pip3 install --user mflux
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  imaginairy:
+    desc: CLI image generation and editing (imagine)
+    cmds:
+      - pip3 install --user imaginairy
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  diffusers:
+    desc: HuggingFace diffusion model toolkit
+    cmds:
+      - pip3 install --user diffusers
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  kohya-ss:
+    desc: SD/Flux LoRA/model training toolkit
+    cmds:
+      - cmd: |
+          git clone https://github.com/kohya-ss/sd-scripts.git ~/.local/share/kohya-ss
+          pip3 install --user -r ~/.local/share/kohya-ss/requirements.txt
+    preconditions:
+      - sh: command -v git && command -v pip3
+        msg: "git and pip3 are required."
+    silent: true
+
+  onetrainer:
+    desc: Model training frontend (OneTrainer)
+    cmds:
+      - cmd: |
+          git clone https://github.com/OneTrainer/OneTrainer.git ~/.local/share/onetrainer
+          pip3 install --user -r ~/.local/share/onetrainer/requirements.txt
+    preconditions:
+      - sh: command -v git && command -v pip3
+        msg: "git and pip3 are required."
+    silent: true
+
+  stable-horde-worker:
+    desc: Stable Horde distributed SD worker
+    cmds:
+      - pip3 install --user stablehorde
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  openai-cli:
+    desc: OpenAI API image generation/editing (openai)
+    cmds:
+      - pip3 install --user openai
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  llm-image-plugins:
+    desc: llm + image provider plugins (llm-gemini, llm-openai)
+    cmds:
+      - pip3 install --user llm llm-gemini llm-openai
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  huggingface-hub:
+    desc: Download models/datasets (hf CLI)
+    cmds:
+      - pip3 install --user huggingface_hub
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  civitai-downloader:
+    desc: Download Civitai models
+    cmds:
+      - pip3 install --user civitai-downloader
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  aria2:
+    desc: Multi-protocol model downloader
+    cmds:
+      - cmd: sudo apt install -y aria2
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm aria2
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install aria2
+        platforms: [darwin]
+    silent: true
+
+  transmission-cli:
+    desc: BitTorrent client for models
+    cmds:
+      - cmd: sudo apt install -y transmission-cli
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install transmission-cli
+        platforms: [darwin]
+    silent: true
+
+  # --- Audio & video ---
+  ffmpeg:
+    desc: ffmpeg/ffprobe media convert/inspect
+    cmds:
+      - cmd: sudo apt install -y ffmpeg
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm ffmpeg
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install ffmpeg
+        platforms: [darwin]
+    silent: true
+
+  mediainfo:
+    desc: Media file metadata (MediaInfo CLI)
+    cmds:
+      - cmd: sudo apt install -y mediainfo
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm mediainfo
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install mediainfo
+        platforms: [darwin]
+    silent: true
+
+  sox:
+    desc: Audio processing and effects
+    cmds:
+      - cmd: sudo apt install -y sox
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm sox
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install sox
+        platforms: [darwin]
+    silent: true
+
+  yt-dlp:
+    desc: Download video/audio from many sites
+    cmds:
+      - pip3 install --user yt-dlp
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  gallery-dl:
+    desc: Download image galleries/collections
+    cmds:
+      - pip3 install --user gallery-dl
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  you-get:
+    desc: Media downloader (Go)
+    cmds:
+      - go install github.com/soimort/you-get@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  lux:
+    desc: Fast media downloader (Go)
+    cmds:
+      - go install github.com/xiaoyuanlux/lux@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  streamlink:
+    desc: Pipe streams to a player
+    cmds:
+      - pip3 install --user streamlink
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  spotdl:
+    desc: Spotify music downloader
+    cmds:
+      - pip3 install --user spotdl
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  mpv:
+    desc: Media player
+    cmds:
+      - cmd: sudo apt install -y mpv
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm mpv
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install --cask mpv
+        platforms: [darwin]
+    silent: true
+
+  cmus:
+    desc: Terminal music player
+    cmds:
+      - cmd: sudo apt install -y cmus
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm cmus
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install cmus
+        platforms: [darwin]
+    silent: true
+
+  ncmpcpp:
+    desc: MPD client (needs mpd)
+    cmds:
+      - cmd: sudo apt install -y ncmpcpp mpd
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install ncmpcpp mpd
+        platforms: [darwin]
+    silent: true
+
+  moc:
+    desc: Music on Console player
+    cmds:
+      - cmd: sudo apt install -y moc
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install moc
+        platforms: [darwin]
+    silent: true
+
+  termusic:
+    desc: Rust music player with download support
+    cmds:
+      - cargo install termusic
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  musikcube:
+    desc: Terminal music player, engine and server
+    cmds:
+      - cmd: sudo apt install -y musikcube
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install musikcube
+        platforms: [darwin]
+    silent: true
+
+  beets:
+    desc: Music library manager and tagger
+    cmds:
+      - pip3 install --user beets
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  eyed3:
+    desc: Audio ID3 tag editor
+    cmds:
+      - pip3 install --user eyed3
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  id3v2:
+    desc: ID3v1/v2 tag editor
+    cmds:
+      - cmd: sudo apt install -y id3v2
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install id3v2
+        platforms: [darwin]
+    silent: true
+
+  audiowaveform:
+    desc: Audio waveform generator
+    cmds:
+      - cmd: sudo apt install -y audiowaveform
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install audiowaveform
+        platforms: [darwin]
+    silent: true
+
+  handbrake-cli:
+    desc: Video transcoder
+    cmds:
+      - cmd: sudo apt install -y handbrake-cli
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install handbrake
+        platforms: [darwin]
+    silent: true
+
+  mkvtoolnix:
+    desc: Matroska tools (mkvmerge)
+    cmds:
+      - cmd: sudo apt install -y mkvtoolnix
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install mkvtoolnix
+        platforms: [darwin]
+    silent: true
+
+  av1an:
+    desc: AV1 encoding orchestration
+    cmds:
+      - cargo install av1an
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  svt-av1:
+    desc: AV1 encoder
+    cmds:
+      - cmd: sudo apt install -y svt-av1
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install svt-av1
+        platforms: [darwin]
+    silent: true
+
+  ffmpeg-normalize:
+    desc: Audio loudness normalization
+    cmds:
+      - pip3 install --user ffmpeg-normalize
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  video2x:
+    desc: AI video upscaling
+    cmds:
+      - pip3 install --user video2x
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  # --- Speech: transcription & synthesis ---
+  whisper-cpp:
+    desc: Fast local Whisper (C/C++). Builds to ~/.local/bin
+    cmds:
+      - cmd: |
+          git clone --depth 1 https://github.com/ggml-org/whisper.cpp.git /tmp/whisper.cpp
+          cd /tmp/whisper.cpp && make -j
+          cp main /tmp/whisper.cpp/build/bin/whisper-cli ~/.local/bin/ 2>/dev/null || cp main ~/.local/bin/
+          rm -rf /tmp/whisper.cpp
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v git && command -v make
+        msg: "git and make are required."
+    silent: true
+
+  openai-whisper:
+    desc: Reference Whisper transcription CLI
+    cmds:
+      - pip3 install --user openai-whisper
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  faster-whisper:
+    desc: CTranslate2 Whisper transcription
+    cmds:
+      - pip3 install --user faster-whisper
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  whisper-ctranslate2:
+    desc: Whisper CLI using CTranslate2
+    cmds:
+      - pip3 install --user whisper-ctranslate2
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  whisperx:
+    desc: Whisper with diarization
+    cmds:
+      - pip3 install --user whisperx
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  insanely-fast-whisper:
+    desc: Batched GPU Whisper transcription
+    cmds:
+      - pip3 install --user insanely-fast-whisper
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  whisper-diarization:
+    desc: Speaker-labeled transcription
+    cmds:
+      - pip3 install --user whisper-diarization
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  piper-tts:
+    desc: Fast local TTS (piper)
+    cmds:
+      - cmd: pip3 install --user piper-tts
+        platforms: [linux, darwin]
+      - cmd: brew install piper
+        platforms: [darwin]
+    preconditions:
+      - sh: command -v pip3 || command -v brew
+        msg: "pip3 is required (or brew on macOS)."
+    silent: true
+
+  coqui-tts:
+    desc: Neural TTS toolkit
+    cmds:
+      - pip3 install --user TTS
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  bark:
+    desc: Text-to-audio model (Suno)
+    cmds:
+      - pip3 install --user bark
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  tortoise-tts:
+    desc: High-quality TTS
+    cmds:
+      - pip3 install --user tortoise-tts
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  edge-tts:
+    desc: Microsoft Edge online TTS
+    cmds:
+      - pip3 install --user edge-tts
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  sherpa-onnx:
+    desc: On-device speech-to-text/text-to-speech
+    cmds:
+      - pip3 install --user sherpa-onnx
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  kokoro:
+    desc: Lightweight TTS
+    cmds:
+      - pip3 install --user kokoro
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  espeak-ng:
+    desc: Offline TTS engine
+    cmds:
+      - cmd: sudo apt install -y espeak-ng
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install espeak-ng
+        platforms: [darwin]
+    silent: true
+
+  festival:
+    desc: Speech synthesis system
+    cmds:
+      - cmd: sudo apt install -y festival
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install festival
+        platforms: [darwin]
+    silent: true
+
+  flite:
+    desc: Small run-time TTS engine
+    cmds:
+      - cmd: sudo apt install -y flite
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install flite
+        platforms: [darwin]
+    silent: true
+
+  vosk:
+    desc: Offline speech recognition
+    cmds:
+      - pip3 install --user vosk
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  # --- Screenshot & recording ---
+  asciinema:
+    desc: Terminal session recorder
+    cmds:
+      - pip3 install --user asciinema
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  agg:
+    desc: Asciinema → GIF converter
+    cmds:
+      - cargo install agg
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  terminalizer:
+    desc: Terminal GIF recorder
+    cmds:
+      - npm install -g terminalizer
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  termshot:
+    desc: Command output to image
+    cmds:
+      - go install github.com/tonistiigi/termshot@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  scrot:
+    desc: X11 screenshot utility
+    cmds:
+      - cmd: sudo apt install -y scrot
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install scrot
+        platforms: [darwin]
+    silent: true
+
+  maim:
+    desc: X11 screenshot with region selection
+    cmds:
+      - cmd: sudo apt install -y maim slop
+        platforms: [linux]
+        if: test -f /etc/debian_version
+    silent: true
+
+  grim:
+    desc: Wayland screenshot utility
+    cmds:
+      - cmd: sudo apt install -y grim slurp
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm grim slurp
+        platforms: [linux]
+        if: test -f /etc/arch-release
+    silent: true
+
+  wf-recorder:
+    desc: Wayland screen recorder
+    cmds:
+      - cmd: sudo apt install -y wf-recorder
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm wf-recorder
+        platforms: [linux]
+        if: test -f /etc/arch-release
+    silent: true
+
+  simplescreenrecorder:
+    desc: Screen recorder (GUI)
+    cmds:
+      - cmd: sudo apt install -y simplescreenrecorder
+        platforms: [linux]
+        if: test -f /etc/debian_version
+    silent: true
+
+  ksnip:
+    desc: Screenshot + annotation tool (GUI)
+    cmds:
+      - cmd: sudo apt install -y ksnip
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install --cask ksnip
+        platforms: [darwin]
+    silent: true
+
+  spectacle:
+    desc: KDE screenshot tool (GUI)
+    cmds:
+      - cmd: sudo apt install -y spectacle
+        platforms: [linux]
+        if: test -f /etc/debian_version
+    silent: true
+
+  peek:
+    desc: Simple screen recorder (GUI)
+    cmds:
+      - cmd: sudo apt install -y peek
+        platforms: [linux]
+        if: test -f /etc/debian_version
+    silent: true
+
+  kooha:
+    desc: Screen recorder (GUI)
+    cmds:
+      - cmd: sudo apt install -y kooha
+        platforms: [linux]
+        if: test -f /etc/debian_version
+    silent: true
+
+  obs-studio:
+    desc: Streaming and recording (GUI)
+    cmds:
+      - cmd: sudo apt install -y obs-studio
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install --cask obs
+        platforms: [darwin]
+    silent: true
+
+  install-all:
+    desc: Install the media bundle (non-root where possible)
+    cmds:
+      - task: imagemagick
+      - task: libvips
+      - task: oxipng
+      - task: pngquant
+      - task: libwebp
+      - task: libavif
+      - task: svgo
+      - task: exiftool
+      - task: chafa
+      - task: ffmpeg
+      - task: yt-dlp
+      - task: mpv
+      - task: asciinema
+      - task: whisper-cpp
+      - task: piper-tts
+    silent: true

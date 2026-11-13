@@ -1,0 +1,363 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# Development tooling: build systems, caches, linkers, linters and formatters.
+# Non-root where possible via go install / cargo install / npm / pip.
+tasks:
+  # --- Build systems ---
+  cmake:
+    desc: CMake build system
+    cmds:
+      - cmd: sudo apt install -y cmake
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm cmake
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install cmake
+        platforms: [darwin]
+    silent: true
+
+  ninja:
+    desc: Ninja small build system
+    cmds:
+      - cmd: sudo apt install -y ninja-build
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm ninja
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install ninja
+        platforms: [darwin]
+    silent: true
+
+  meson:
+    desc: Meson build system
+    cmds:
+      - pip3 install --user meson
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  bazelisk:
+    desc: Bazel version launcher
+    cmds:
+      - go install github.com/bazelbuild/bazelisk@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  buck2:
+    desc: Fast, scalable build system
+    cmds:
+      - cmd: brew install buck2
+        platforms: [darwin]
+      - cmd: cargo install buck2 --locked
+        platforms: [linux]
+    preconditions:
+      - sh: command -v cargo || command -v brew
+        msg: "Rust/cargo is required (or brew on macOS)."
+    silent: true
+
+  ccache:
+    desc: Compiler cache
+    cmds:
+      - cmd: sudo apt install -y ccache
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm ccache
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install ccache
+        platforms: [darwin]
+    silent: true
+
+  sccache:
+    desc: Shared compiler cache with cloud support
+    cmds:
+      - cargo install sccache
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  mold:
+    desc: Fast linker
+    cmds:
+      - cmd: sudo apt install -y mold
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install mold
+        platforms: [darwin]
+    silent: true
+
+  lld:
+    desc: LLVM linker
+    cmds:
+      - cmd: sudo apt install -y lld
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install llvm
+        platforms: [darwin]
+    silent: true
+
+  # --- Linters / formatters ---
+  ast-grep:
+    desc: Structural search, lint and rewrite
+    cmds:
+      - cargo install ast-grep
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  typos:
+    desc: Source-code typo checker
+    cmds:
+      - cargo install typos-cli
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  codespell:
+    desc: Spelling checker for source
+    cmds:
+      - pip3 install --user codespell
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  lychee:
+    desc: Fast link checker
+    cmds:
+      - cargo install lychee-cli
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  vale:
+    desc: Prose linter
+    cmds:
+      - cmd: brew install vale
+        platforms: [darwin]
+      - cmd: cargo install vale
+        platforms: [linux]
+    preconditions:
+      - sh: command -v cargo || command -v brew
+        msg: "Rust/cargo is required (or brew on macOS)."
+    silent: true
+
+  markdownlint-cli2:
+    desc: Markdown linter
+    cmds:
+      - npm install -g markdownlint-cli2
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  prettier:
+    desc: Code formatter
+    cmds:
+      - npm install -g prettier
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  biome:
+    desc: Web frontend formatter/linter
+    cmds:
+      - npm install -g @biomejs/biome
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  ruff:
+    desc: Python linting and formatting
+    cmds:
+      - pip3 install --user ruff
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  black:
+    desc: Python code formatter
+    cmds:
+      - pip3 install --user black
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  mypy:
+    desc: Python static type checker
+    cmds:
+      - pip3 install --user mypy
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  pylint:
+    desc: Python linter
+    cmds:
+      - pip3 install --user pylint
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  golangci-lint:
+    desc: Go linter aggregator
+    cmds:
+      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  staticcheck:
+    desc: Go static analysis
+    cmds:
+      - go install honnef.co/go/tools/cmd/staticcheck@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  gofumpt:
+    desc: Stricter gofmt for Go
+    cmds:
+      - go install mvdan.cc/gofumpt@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  golines:
+    desc: Go source line formatter
+    cmds:
+      - go install github.com/segmentio/golines@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  clang-format:
+    desc: C/C++ code formatter
+    cmds:
+      - cmd: sudo apt install -y clang-format
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install llvm
+        platforms: [darwin]
+    silent: true
+
+  clang-tidy:
+    desc: C/C++ linter
+    cmds:
+      - cmd: sudo apt install -y clang-tidy
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install llvm
+        platforms: [darwin]
+    silent: true
+
+  cppcheck:
+    desc: C/C++ static analysis
+    cmds:
+      - cmd: sudo apt install -y cppcheck
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install cppcheck
+        platforms: [darwin]
+    silent: true
+
+  editorconfig-checker:
+    desc: EditorConfig linter (ec)
+    cmds:
+      - go install github.com/editorconfig-checker/editorconfig-checker/cmd/ec@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  difftastic:
+    desc: Structural diff tool (difft)
+    cmds:
+      - cargo install difftastic
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  gitoxide:
+    desc: Git reimplementation (gix CLI)
+    cmds:
+      - cargo install gix-cli
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  tig:
+    desc: Text-mode git browser
+    cmds:
+      - cmd: sudo apt install -y tig
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install tig
+        platforms: [darwin]
+    silent: true
+
+  shellspec:
+    desc: BDD shell test framework
+    cmds:
+      - curl -fsSL https://git.io/shellspec | sh -s -- --to ~/.local
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  bats-core:
+    desc: Bash Automated Testing System
+    cmds:
+      - cmd: sudo apt install -y bats
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install bats-core
+        platforms: [darwin]
+    silent: true
+
+  hyperfine-dev:
+    desc: Command benchmarking (see shell:hyperfine)
+    cmds:
+      - cargo install hyperfine
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  install-all:
+    desc: Install the devtools bundle (non-root where possible)
+    cmds:
+      - task: cmake
+      - task: ninja
+      - task: ccache
+      - task: ast-grep
+      - task: typos
+      - task: lychee
+      - task: markdownlint-cli2
+      - task: prettier
+      - task: ruff
+      - task: golangci-lint
+      - task: difftastic
+    silent: true

@@ -1,0 +1,1321 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# System & CLI utilities: monitoring, file/search/navigation, archives,
+# backup/sync, shell/terminal extras, clipboard, notifications and version
+# managers. Non-root where possible; system packages use the platform manager.
+tasks:
+  # --- Monitoring & system info ---
+  bottom:
+    desc: Cross-platform process/system monitor (btm)
+    cmds:
+      - cmd: cargo install bottom --locked
+        platforms: [linux]
+      - cmd: brew install bottom
+        platforms: [darwin]
+    preconditions:
+      - sh: command -v cargo || command -v brew
+        msg: "Rust/cargo is required (or use brew on macOS)."
+    silent: true
+
+  zenith:
+    desc: Zoomable CPU/memory/disk monitor
+    cmds:
+      - cargo install zenith
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  gtop:
+    desc: System monitoring dashboard (Node)
+    cmds:
+      - npm install -g gtop
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  vtop:
+    desc: Terminal activity monitor
+    cmds:
+      - npm install -g vtop
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  s-tui:
+    desc: CPU stress test and monitor
+    cmds:
+      - pip3 install --user s-tui
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  nmon:
+    desc: System performance monitor
+    cmds:
+      - cmd: sudo apt install -y nmon
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm nmon
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install nmon
+        platforms: [darwin]
+    silent: true
+
+  tiptop:
+    desc: System monitor
+    cmds:
+      - pip3 install --user tiptop
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  fastfetch:
+    desc: Fast system information tool
+    cmds:
+      - cmd: sudo apt install -y fastfetch
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm fastfetch
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install fastfetch
+        platforms: [darwin]
+      - cmd: winget install -e --id Fastfetch-cli.Fastfetch
+        platforms: [windows]
+    silent: true
+
+  macchina:
+    desc: System info with themes
+    cmds:
+      - cmd: cargo install macchina
+        platforms: [linux]
+      - cmd: brew install macchina
+        platforms: [darwin]
+    preconditions:
+      - sh: command -v cargo || command -v brew
+        msg: "Rust/cargo is required (or use brew on macOS)."
+    silent: true
+
+  cpufetch:
+    desc: CPU architecture info
+    cmds:
+      - cmd: sudo apt install -y cpufetch
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm cpufetch
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install cpufetch
+        platforms: [darwin]
+    silent: true
+
+  bandwhich:
+    desc: Per-process bandwidth monitor
+    cmds:
+      - cmd: cargo install bandwhich
+        platforms: [linux]
+      - cmd: brew install bandwhich
+        platforms: [darwin]
+    preconditions:
+      - sh: command -v cargo || command -v brew
+        msg: "Rust/cargo is required (or use brew on macOS)."
+    silent: true
+
+  nethogs:
+    desc: Per-process network usage
+    cmds:
+      - cmd: sudo apt install -y nethogs
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm nethogs
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install nethogs
+        platforms: [darwin]
+    silent: true
+
+  iftop:
+    desc: Bandwidth by connection
+    cmds:
+      - cmd: sudo apt install -y iftop
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm iftop
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install iftop
+        platforms: [darwin]
+    silent: true
+
+  nload:
+    desc: Live network load
+    cmds:
+      - cmd: sudo apt install -y nload
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm nload
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install nload
+        platforms: [darwin]
+    silent: true
+
+  vnstat:
+    desc: Long-term network statistics
+    cmds:
+      - cmd: sudo apt install -y vnstat
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm vnstat
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install vnstat
+        platforms: [darwin]
+    silent: true
+
+  iotop:
+    desc: Per-process disk I/O monitor
+    cmds:
+      - cmd: sudo apt install -y iotop
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm iotop
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install iotop
+        platforms: [darwin]
+    silent: true
+
+  sysbench:
+    desc: CPU/memory/disk benchmarks
+    cmds:
+      - cmd: sudo apt install -y sysbench
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm sysbench
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install sysbench
+        platforms: [darwin]
+    silent: true
+
+  stress-ng:
+    desc: System stress testing
+    cmds:
+      - cmd: sudo apt install -y stress-ng
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm stress-ng
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install stress-ng
+        platforms: [darwin]
+    silent: true
+
+  bcal:
+    desc: Byte calculator and storage conversions
+    cmds:
+      - cmd: sudo apt install -y bcal
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install bcal
+        platforms: [darwin]
+    silent: true
+
+  bitwise:
+    desc: Base conversion and bit manipulation
+    cmds:
+      - cmd: sudo apt install -y bitwise
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install bitwise
+        platforms: [darwin]
+    silent: true
+
+  # --- Files, search & navigation ---
+  yazi:
+    desc: Blazing-fast TUI file manager
+    cmds:
+      - cmd: cargo install --locked yazi-fm yazi-cli
+        platforms: [linux]
+      - cmd: brew install yazi
+        platforms: [darwin]
+    preconditions:
+      - sh: command -v cargo || command -v brew
+        msg: "Rust/cargo is required (or use brew on macOS)."
+    silent: true
+
+  ranger:
+    desc: VI-keyed console file manager
+    cmds:
+      - pip3 install --user ranger-fm
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  nnn:
+    desc: File browser and disk usage analyzer
+    cmds:
+      - cmd: sudo apt install -y nnn
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm nnn
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install nnn
+        platforms: [darwin]
+    silent: true
+
+  lf:
+    desc: Fast, scriptable terminal file manager
+    cmds:
+      - go install github.com/gokcehan/lf@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  joshuto:
+    desc: Ranger-like file manager (Rust)
+    cmds:
+      - cargo install --locked joshuto
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  xplr:
+    desc: Hackable TUI file explorer
+    cmds:
+      - cargo install --locked xplr
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  vifm:
+    desc: VI-influenced file manager
+    cmds:
+      - cmd: sudo apt install -y vifm
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm vifm
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install vifm
+        platforms: [darwin]
+    silent: true
+
+  mc:
+    desc: Midnight Commander file manager
+    cmds:
+      - cmd: sudo apt install -y mc
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm mc
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install mc
+        platforms: [darwin]
+    silent: true
+
+  fclones:
+    desc: Fast duplicate file finder
+    cmds:
+      - cargo install fclones
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  rmlint:
+    desc: Duplicate/lint remover
+    cmds:
+      - cmd: sudo apt install -y rmlint
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install rmlint
+        platforms: [darwin]
+    silent: true
+
+  czkawka:
+    desc: Duplicate finder (czkawka_cli)
+    cmds:
+      - cmd: cargo install czkawka_cli
+        platforms: [linux]
+      - cmd: brew install czkawka
+        platforms: [darwin]
+    preconditions:
+      - sh: command -v cargo || command -v brew
+        msg: "Rust/cargo is required (or use brew on macOS)."
+    silent: true
+
+  ncdu:
+    desc: Disk usage analyzer (ncurses)
+    cmds:
+      - cmd: sudo apt install -y ncdu
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm ncdu
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install ncdu
+        platforms: [darwin]
+    silent: true
+
+  gdu:
+    desc: Fast disk usage analyzer (Go)
+    cmds:
+      - go install github.com/dundee/gdu/v5/cmd/gdu@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  diskonaut:
+    desc: Interactive disk-space navigator
+    cmds:
+      - cargo install diskonaut
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  dua-cli:
+    desc: Disk usage analyzer (dua)
+    cmds:
+      - cargo install dua-cli
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  ripgrep-all:
+    desc: Search inside PDFs, ebooks and archives (rga)
+    cmds:
+      - cargo install ripgrep_all
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  fselect:
+    desc: Find files with SQL-like queries
+    cmds:
+      - cargo install fselect
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  skim:
+    desc: Fuzzy finder (sk, fzf alternative)
+    cmds:
+      - cargo install skim
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  television:
+    desc: Fast general-purpose fuzzy finder
+    cmds:
+      - cargo install television
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  entr:
+    desc: Run commands when files change
+    cmds:
+      - cmd: sudo apt install -y entr
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm entr
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install entr
+        platforms: [darwin]
+    silent: true
+
+  fswatch:
+    desc: Cross-platform file change watcher
+    cmds:
+      - cmd: sudo apt install -y fswatch
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install fswatch
+        platforms: [darwin]
+    silent: true
+
+  inotify-tools:
+    desc: inotify command-line utilities
+    cmds:
+      - cmd: sudo apt install -y inotify-tools
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm inotify-tools
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install inotify-tools
+        platforms: [darwin]
+    silent: true
+
+  trash-cli:
+    desc: Move files to the trash from the CLI
+    cmds:
+      - pip3 install --user trash-cli
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  renameutils:
+    desc: Mass-rename files in your editor
+    cmds:
+      - cmd: sudo apt install -y renameutils
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install renameutils
+        platforms: [darwin]
+    silent: true
+
+  f2:
+    desc: Fast, safe batch renaming
+    cmds:
+      - cmd: go install github.com/ayoisaiah/f2/v2/cmd/f2@latest
+        platforms: [linux]
+      - cmd: brew install f2
+        platforms: [darwin]
+    preconditions:
+      - sh: command -v go || command -v brew
+        msg: "Go is required (or use brew on macOS)."
+    silent: true
+
+  # --- Archives & compression ---
+  7zip:
+    desc: 7-Zip archive tool
+    cmds:
+      - cmd: sudo apt install -y p7zip-full
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm p7zip
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install sevenzip
+        platforms: [darwin]
+      - cmd: winget install -e --id 7zip.7zip
+        platforms: [windows]
+    silent: true
+
+  zstd:
+    desc: Fast compression codec
+    cmds:
+      - cmd: sudo apt install -y zstd
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm zstd
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install zstd
+        platforms: [darwin]
+    silent: true
+
+  pigz:
+    desc: Parallel gzip
+    cmds:
+      - cmd: sudo apt install -y pigz
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm pigz
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install pigz
+        platforms: [darwin]
+    silent: true
+
+  pbzip2:
+    desc: Parallel bzip2
+    cmds:
+      - cmd: sudo apt install -y pbzip2
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm pbzip2
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install pbzip2
+        platforms: [darwin]
+    silent: true
+
+  pixz:
+    desc: Parallel xz
+    cmds:
+      - cmd: sudo apt install -y pixz
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install pixz
+        platforms: [darwin]
+    silent: true
+
+  lz4:
+    desc: Very fast compression
+    cmds:
+      - cmd: sudo apt install -y lz4
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm lz4
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install lz4
+        platforms: [darwin]
+    silent: true
+
+  xz:
+    desc: XZ compression utilities
+    cmds:
+      - cmd: sudo apt install -y xz-utils
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm xz
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install xz
+        platforms: [darwin]
+    silent: true
+
+  brotli:
+    desc: Brotli compression
+    cmds:
+      - cmd: sudo apt install -y brotli
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm brotli
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install brotli
+        platforms: [darwin]
+    silent: true
+
+  unrar:
+    desc: RAR extraction
+    cmds:
+      - cmd: sudo apt install -y unrar
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm unrar
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install unrar
+        platforms: [darwin]
+    silent: true
+
+  unar:
+    desc: Universal archive extractor (The Unarchiver)
+    cmds:
+      - cmd: sudo apt install -y unar
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install unar
+        platforms: [darwin]
+    silent: true
+
+  atool:
+    desc: Wrapper for many archive formats
+    cmds:
+      - cmd: sudo apt install -y atool
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install atool
+        platforms: [darwin]
+    silent: true
+
+  ouch:
+    desc: Painless compression and decompression
+    cmds:
+      - cargo install ouch
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  patool:
+    desc: Archive wrapper (Python)
+    cmds:
+      - pip3 install --user patool
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  rmw:
+    desc: Safe rm with trash support
+    cmds:
+      - cmd: sudo apt install -y rmw
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install rmw
+        platforms: [darwin]
+    silent: true
+
+  # --- Disk, backup & sync ---
+  restic:
+    desc: Encrypted, deduplicated backups
+    cmds:
+      - cmd: sudo apt install -y restic
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm restic
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install restic
+        platforms: [darwin]
+      - cmd: winget install -e --id restic.restic
+        platforms: [windows]
+    silent: true
+
+  borgbackup:
+    desc: Deduplicating backup (borg)
+    cmds:
+      - pip3 install --user borgbackup
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  kopia:
+    desc: Fast encrypted snapshot backups
+    cmds:
+      - cmd: mkdir -p ~/.local/bin && curl -fsSL https://github.com/kopia/kopia/releases/latest/download/kopia-linux-x64.tar.gz | tar xz -C /tmp kopia && mv /tmp/kopia ~/.local/bin/ && chmod +x ~/.local/bin/kopia
+        platforms: [linux]
+      - cmd: brew install kopia
+        platforms: [darwin]
+      - cmd: winget install -e --id Kopia.KopiaCLI
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl || command -v brew
+        msg: "curl is required (or use brew on macOS)."
+    silent: true
+
+  duplicity:
+    desc: Encrypted bandwidth-efficient backup
+    cmds:
+      - cmd: sudo apt install -y duplicity
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install duplicity
+        platforms: [darwin]
+    silent: true
+
+  rsync:
+    desc: Fast incremental file transfer
+    cmds:
+      - cmd: sudo apt install -y rsync
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm rsync
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install rsync
+        platforms: [darwin]
+    silent: true
+
+  unison:
+    desc: Bidirectional file synchronization
+    cmds:
+      - cmd: sudo apt install -y unison
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm unison
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install unison
+        platforms: [darwin]
+    silent: true
+
+  rsnapshot:
+    desc: Filesystem snapshot backups
+    cmds:
+      - cmd: sudo apt install -y rsnapshot
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install rsnapshot
+        platforms: [darwin]
+    silent: true
+
+  bup:
+    desc: Git-based backup tool
+    cmds:
+      - pip3 install --user bup
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  # --- Shell, terminal & version managers ---
+  mcfly:
+    desc: Smart shell history search
+    cmds:
+      - cmd: cargo install mcfly
+        platforms: [linux]
+      - cmd: brew install mcfly
+        platforms: [darwin]
+    preconditions:
+      - sh: command -v cargo || command -v brew
+        msg: "Rust/cargo is required (or use brew on macOS)."
+    silent: true
+
+  choose:
+    desc: Human-friendly cut/awk alternative
+    cmds:
+      - cargo install choose
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  hexyl:
+    desc: Command-line hex viewer
+    cmds:
+      - cargo install hexyl
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  nushell:
+    desc: Structured-data shell (nu)
+    cmds:
+      - cmd: cargo install nu --locked
+        platforms: [linux]
+      - cmd: brew install nushell
+        platforms: [darwin]
+      - cmd: winget install -e --id Nushell.Nushell
+        platforms: [windows]
+    preconditions:
+      - sh: command -v cargo || command -v brew
+        msg: "Rust/cargo is required (or use brew on macOS)."
+    silent: true
+
+  fish:
+    desc: Friendly interactive shell
+    cmds:
+      - cmd: sudo apt install -y fish
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm fish
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install fish
+        platforms: [darwin]
+    silent: true
+
+  xonsh:
+    desc: Python-powered shell
+    cmds:
+      - pip3 install --user xonsh
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  elvish:
+    desc: Expressive shell
+    cmds:
+      - cmd: sudo apt install -y elvish
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install elvish
+        platforms: [darwin]
+    silent: true
+
+  byobu:
+    desc: Terminal multiplexer wrapper
+    cmds:
+      - cmd: sudo apt install -y byobu
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install byobu
+        platforms: [darwin]
+    silent: true
+
+  screen:
+    desc: GNU Screen multiplexer
+    cmds:
+      - cmd: sudo apt install -y screen
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm screen
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install screen
+        platforms: [darwin]
+    silent: true
+
+  dtach:
+    desc: Emulates the detach feature of screen
+    cmds:
+      - cmd: sudo apt install -y dtach
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install dtach
+        platforms: [darwin]
+    silent: true
+
+  abduco:
+    desc: Session attach/detach management
+    cmds:
+      - cmd: sudo apt install -y abduco
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install abduco
+        platforms: [darwin]
+    silent: true
+
+  dvtm:
+    desc: Dynamic virtual terminal manager
+    cmds:
+      - cmd: sudo apt install -y dvtm
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install dvtm
+        platforms: [darwin]
+    silent: true
+
+  oh-my-posh:
+    desc: Prompt theme engine (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin && curl -fsSL https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin
+        platforms: [linux]
+      - cmd: brew install oh-my-posh
+        platforms: [darwin]
+      - cmd: winget install -e --id JanDeDobbeleer.OhMyPosh
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl || command -v brew
+        msg: "curl is required (or use brew on macOS)."
+    silent: true
+
+  powerlevel10k:
+    desc: Zsh prompt theme (cloned to ~/.local/share)
+    cmds:
+      - cmd: git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.local/share/powerlevel10k
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v git
+        msg: "git is required."
+    silent: true
+
+  carapace:
+    desc: Multi-shell completion generator
+    cmds:
+      - go install github.com/carapace-sh/carapace-bin/cmd/carapace@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  mise:
+    desc: Polyglot dev tool version manager
+    cmds:
+      - cmd: curl https://mise.run | sh
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id jdx.mise
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl || command -v brew
+        msg: "curl is required (or use brew on macOS)."
+    silent: true
+
+  asdf:
+    desc: Polyglot version manager (cloned to ~/.asdf)
+    cmds:
+      - cmd: git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v git
+        msg: "git is required."
+    silent: true
+
+  proto:
+    desc: Polyglot toolchain manager (to ~/.proto)
+    cmds:
+      - cmd: curl -fsSL https://moonrepo.dev/install/proto.sh | bash
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  fnm:
+    desc: Fast Node.js version manager
+    cmds:
+      - cmd: cargo install fnm
+        platforms: [linux]
+      - cmd: brew install fnm
+        platforms: [darwin]
+      - cmd: winget install -e --id Schniz.fnm
+        platforms: [windows]
+    preconditions:
+      - sh: command -v cargo || command -v brew
+        msg: "Rust/cargo is required (or use brew on macOS)."
+    silent: true
+
+  volta:
+    desc: JavaScript toolchain manager
+    cmds:
+      - cmd: curl https://get.volta.sh | bash
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id Volta.Volta
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  pyenv:
+    desc: Python version manager
+    cmds:
+      - cmd: curl -fsSL https://pyenv.run | bash
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  rbenv:
+    desc: Ruby version manager (cloned to ~/.rbenv)
+    cmds:
+      - cmd: git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+        platforms: [linux, darwin]
+      - cmd: git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v git
+        msg: "git is required."
+    silent: true
+
+  goenv:
+    desc: Go version manager (cloned to ~/.goenv)
+    cmds:
+      - cmd: git clone https://github.com/go-nv/goenv.git ~/.goenv
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v git
+        msg: "git is required."
+    silent: true
+
+  jenv:
+    desc: Java version manager (cloned to ~/.jenv)
+    cmds:
+      - cmd: git clone https://github.com/jenv/jenv.git ~/.jenv
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v git
+        msg: "git is required."
+    silent: true
+
+  tfenv:
+    desc: Terraform version manager (cloned to ~/.tfenv)
+    cmds:
+      - cmd: git clone https://github.com/tfutils/tfenv.git ~/.tfenv
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v git
+        msg: "git is required."
+    silent: true
+
+  task-spooler:
+    desc: Queue jobs for linear execution
+    cmds:
+      - cmd: sudo apt install -y task-spooler
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install task-spooler
+        platforms: [darwin]
+    silent: true
+
+  moreutils:
+    desc: sponge, ts, vidir, vipe and friends
+    cmds:
+      - cmd: sudo apt install -y moreutils
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm moreutils
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install moreutils
+        platforms: [darwin]
+    silent: true
+
+  parallel:
+    desc: GNU parallel command execution
+    cmds:
+      - cmd: sudo apt install -y parallel
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm parallel
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install parallel
+        platforms: [darwin]
+    silent: true
+
+  pv:
+    desc: Pipe progress viewer
+    cmds:
+      - cmd: sudo apt install -y pv
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm pv
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install pv
+        platforms: [darwin]
+    silent: true
+
+  progress:
+    desc: Coreutils progress viewer
+    cmds:
+      - cmd: sudo apt install -y progress
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install progress
+        platforms: [darwin]
+    silent: true
+
+  # --- Clipboard, notifications & desktop ---
+  xclip:
+    desc: X11 clipboard interface
+    cmds:
+      - cmd: sudo apt install -y xclip
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm xclip
+        platforms: [linux]
+        if: test -f /etc/arch-release
+    silent: true
+
+  xsel:
+    desc: X11 selection/clipboard tool
+    cmds:
+      - cmd: sudo apt install -y xsel
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm xsel
+        platforms: [linux]
+        if: test -f /etc/arch-release
+    silent: true
+
+  wl-clipboard:
+    desc: Wayland clipboard utilities
+    cmds:
+      - cmd: sudo apt install -y wl-clipboard
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm wl-clipboard
+        platforms: [linux]
+        if: test -f /etc/arch-release
+    silent: true
+
+  yank:
+    desc: Yank terminal output to clipboard
+    cmds:
+      - cmd: sudo apt install -y yank
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install yank
+        platforms: [darwin]
+    silent: true
+
+  clipcat:
+    desc: Clipboard manager (clipcatd/clipcatctl)
+    cmds:
+      - cargo install clipcat
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  copyq:
+    desc: Clipboard manager with history (GUI)
+    cmds:
+      - cmd: sudo apt install -y copyq
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install --cask copyq
+        platforms: [darwin]
+    silent: true
+
+  ntfy:
+    desc: Send push notifications from the CLI
+    cmds:
+      - cmd: sudo apt install -y ntfy
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install ntfy
+        platforms: [darwin]
+    silent: true
+
+  terminal-notifier:
+    desc: macOS notifications from the CLI
+    cmds:
+      - cmd: brew install terminal-notifier
+        platforms: [darwin]
+    silent: true
+
+  libnotify:
+    desc: Desktop notifications (notify-send)
+    cmds:
+      - cmd: sudo apt install -y libnotify-bin
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm libnotify
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install libnotify
+        platforms: [darwin]
+    silent: true
+
+  dunst:
+    desc: Lightweight notification daemon
+    cmds:
+      - cmd: sudo apt install -y dunst
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install dunst
+        platforms: [darwin]
+    silent: true
+
+  mako:
+    desc: Wayland notification daemon
+    cmds:
+      - cmd: sudo apt install -y mako-notifier
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm mako
+        platforms: [linux]
+        if: test -f /etc/arch-release
+    silent: true
+
+  wego:
+    desc: Terminal weather client
+    cmds:
+      - go install github.com/schachmat/wego@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  translate-shell:
+    desc: Command-line translator (trans)
+    cmds:
+      - cmd: sudo apt install -y translate-shell
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install translate-shell
+        platforms: [darwin]
+    silent: true
+
+  howdoi:
+    desc: Instant coding answers from the CLI
+    cmds:
+      - pip3 install --user howdoi
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  thefuck:
+    desc: Correct your previous console command
+    cmds:
+      - pip3 install --user thefuck
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  cheat:
+    desc: Interactive cheatsheets
+    cmds:
+      - go install github.com/cheat/cheat/cmd/cheat@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  lolcat:
+    desc: Rainbow-colored terminal output
+    cmds:
+      - cmd: sudo apt install -y lolcat
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install lolcat
+        platforms: [darwin]
+    silent: true
+
+  figlet:
+    desc: Large ASCII text banners
+    cmds:
+      - cmd: sudo apt install -y figlet
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm figlet
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install figlet
+        platforms: [darwin]
+    silent: true
+
+  toilet:
+    desc: Colorful ASCII text art
+    cmds:
+      - cmd: sudo apt install -y toilet
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install toilet
+        platforms: [darwin]
+    silent: true
+
+  cowsay:
+    desc: Talking cow ASCII art
+    cmds:
+      - cmd: sudo apt install -y cowsay
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm cowsay
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install cowsay
+        platforms: [darwin]
+    silent: true
+
+  install-all:
+    desc: Install the sysutils bundle (non-root where possible)
+    cmds:
+      - task: bottom
+      - task: fastfetch
+      - task: bandwhich
+      - task: yazi
+      - task: ncdu
+      - task: ripgrep-all
+      - task: fclones
+      - task: 7zip
+      - task: zstd
+      - task: ouch
+      - task: restic
+      - task: rsync
+      - task: mcfly
+      - task: mise
+      - task: fnm
+      - task: clipcat
+      - task: cheat
+    silent: true
