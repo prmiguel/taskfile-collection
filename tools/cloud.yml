@@ -1,0 +1,218 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# Cloud provider CLIs. Linux/macOS installs target ~/.local/bin or a user-owned
+# prefix; brew/winget cover the other platforms.
+tasks:
+  aws-cli:
+    desc: Amazon Web Services CLI (installs to ~/.local/aws-cli)
+    cmds:
+      - cmd: curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m | sed 's/x86_64/x86_64/;s/aarch64/aarch64/').zip" -o /tmp/awscliv2.zip
+        platforms: [linux]
+      - cmd: unzip -qo /tmp/awscliv2.zip -d /tmp
+        platforms: [linux]
+      - cmd: /tmp/aws/install --install-dir ~/.local/aws-cli --bin-dir ~/.local/bin --update
+        platforms: [linux]
+      - cmd: rm -rf /tmp/awscliv2.zip /tmp/aws
+        platforms: [linux]
+      - cmd: brew install awscli
+        platforms: [darwin]
+      - cmd: winget install -e --id Amazon.AWSCLI
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl and unzip are required."
+    silent: true
+
+  gcloud:
+    desc: Google Cloud SDK (installs to ~/google-cloud-sdk)
+    cmds:
+      - cmd: curl -fsSL https://sdk.cloud.google.com | bash -s -- --disable-prompts --install-dir=$HOME
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id Google.CloudSDK
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  azure-cli:
+    desc: Microsoft Azure CLI (user-level pip)
+    cmds:
+      - cmd: pip3 install --user azure-cli
+        platforms: [linux, darwin]
+      - cmd: brew install azure-cli
+        platforms: [darwin]
+      - cmd: winget install -e --id Microsoft.AzureCLI
+        platforms: [windows]
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required (or use brew/winget)."
+    silent: true
+
+  oci-cli:
+    desc: Oracle Cloud Infrastructure CLI (no sudo)
+    cmds:
+      - cmd: bash -c "$(curl -fsSL https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh)" -- --accept-all-defaults
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id Oracle.OCI-CLI
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  doctl:
+    desc: DigitalOcean CLI (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux]
+      - cmd: curl -fsSL "https://github.com/digitalocean/doctl/releases/latest/download/doctl-$(curl -fsSL https://api.github.com/repos/digitalocean/doctl/releases/latest | grep tag_name | cut -d'\"' -f4 | tr -d v)-linux-$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz -C ~/.local/bin doctl
+        platforms: [linux]
+      - cmd: brew install doctl
+        platforms: [darwin]
+      - cmd: winget install -e --id DigitalOcean.Doctl
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  hcloud:
+    desc: Hetzner Cloud CLI (via Go)
+    cmds:
+      - go install github.com/hetznercloud/cli/cmd/hcloud@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  vultr-cli:
+    desc: Vultr CLI (via Go)
+    cmds:
+      - go install github.com/vultr/vultr-cli/v3/cmd/vultr-cli@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  flyctl:
+    desc: Fly.io CLI (installs to ~/.fly)
+    cmds:
+      - cmd: curl -fsSL https://fly.io/install.sh | sh
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id Fly-io.Flyctl
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  netlify-cli:
+    desc: Netlify CLI (npm user prefix)
+    cmds:
+      - npm install -g netlify-cli
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  vercel:
+    desc: Vercel CLI (npm user prefix)
+    cmds:
+      - npm install -g vercel
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  wrangler:
+    desc: Cloudflare Wrangler CLI (npm user prefix)
+    cmds:
+      - npm install -g wrangler
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  cf-terraforming:
+    desc: Export Cloudflare resources to Terraform (via Go)
+    cmds:
+      - go install github.com/cloudflare/cf-terraforming/cmd/cf-terraforming@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  rclone:
+    desc: Cloud storage sync (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux]
+      - cmd: curl -fsSL https://downloads.rclone.org/rclone-current-linux-$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').zip -o /tmp/rclone.zip
+        platforms: [linux]
+      - cmd: unzip -qo /tmp/rclone.zip -d /tmp && cp /tmp/rclone-*/rclone ~/.local/bin/ && chmod +x ~/.local/bin/rclone && rm -rf /tmp/rclone.zip /tmp/rclone-*
+        platforms: [linux]
+      - cmd: brew install rclone
+        platforms: [darwin]
+      - cmd: winget install -e --id Rclone.Rclone
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl and unzip are required."
+    silent: true
+
+  syncthing:
+    desc: Peer-to-peer file sync (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux]
+      - cmd: curl -fsSL "https://github.com/syncthing/syncthing/releases/latest/download/syncthing-linux-$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz -C /tmp && cp /tmp/syncthing-*/syncthing ~/.local/bin/ && chmod +x ~/.local/bin/syncthing && rm -rf /tmp/syncthing-*
+        platforms: [linux]
+      - cmd: brew install syncthing
+        platforms: [darwin]
+      - cmd: winget install -e --id Syncthing.Syncthing
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  linode-cli:
+    desc: Akamai/Linode CLI (pip user)
+    cmds:
+      - pip3 install --user linode-cli
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  scaleway-cli:
+    desc: Scaleway CLI (via Go)
+    cmds:
+      - go install github.com/scaleway/scaleway-cli/v2@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  install-all:
+    desc: Install all cloud CLIs (user-level where possible)
+    cmds:
+      - task: aws-cli
+      - task: gcloud
+      - task: oci-cli
+      - task: azure-cli
+      - task: doctl
+      - task: hcloud
+      - task: vultr-cli
+      - task: linode-cli
+      - task: scaleway-cli
+      - task: flyctl
+      - task: netlify-cli
+      - task: vercel
+      - task: wrangler
+      - task: cf-terraforming
+      - task: rclone
+      - task: syncthing
+    silent: true

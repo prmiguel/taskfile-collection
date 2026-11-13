@@ -1,0 +1,124 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# Container engines and inspection tools (beyond Docker).
+tasks:
+  podman:
+    desc: Daemonless container engine
+    cmds:
+      - cmd: sudo apt install -y podman
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm podman
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install podman
+        platforms: [darwin]
+      - cmd: winget install -e RedHat.Podman
+        platforms: [windows]
+    silent: true
+
+  podman-compose:
+    desc: Docker Compose for Podman (user-level)
+    deps: [podman]
+    cmds:
+      - pip3 install --user podman-compose
+    preconditions:
+      - sh: command -v pip3
+        msg: pip3 is required.
+    silent: true
+
+  buildah:
+    desc: OCI image builder (no daemon)
+    cmds:
+      - cmd: sudo apt install -y buildah
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm buildah
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install buildah
+        platforms: [darwin]
+    silent: true
+
+  skopeo:
+    desc: Inspect/copy container images without a daemon
+    cmds:
+      - cmd: sudo apt install -y skopeo
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm skopeo
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install skopeo
+        platforms: [darwin]
+    silent: true
+
+  nerdctl:
+    desc: Docker-compatible CLI for containerd
+    cmds:
+      - go install github.com/containerd/nerdctl/v2/cmd/nerdctl@latest
+    preconditions:
+      - sh: command -v go
+        msg: Go is required. Run 'task sdkman:install' first.
+    silent: true
+
+  dive:
+    desc: Explore image layers (via Go)
+    cmds:
+      - go install github.com/wagoodman/dive@latest
+    preconditions:
+      - sh: command -v go
+        msg: Go is required. Run 'task sdkman:install' first.
+    silent: true
+
+  ctop:
+    desc: Top-like container metrics (via Go)
+    cmds:
+      - go install github.com/bcicen/ctop@latest
+    preconditions:
+      - sh: command -v go
+        msg: Go is required. Run 'task sdkman:install' first.
+    silent: true
+
+  lazydocker:
+    desc: TUI for Docker/Podman (via Go)
+    cmds:
+      - go install github.com/jesseduffield/lazydocker@latest
+    preconditions:
+      - sh: command -v go
+        msg: Go is required. Run 'task sdkman:install' first.
+    silent: true
+
+  crane:
+    desc: Registry CLI (via Go)
+    cmds:
+      - go install github.com/google/go-containerregistry/cmd/crane@latest
+    preconditions:
+      - sh: command -v go
+        msg: Go is required. Run 'task sdkman:install' first.
+    silent: true
+
+  regctl:
+    desc: Registry CLI (via Go)
+    cmds:
+      - go install github.com/regclient/regclient/cmd/regctl@latest
+    preconditions:
+      - sh: command -v go
+        msg: Go is required. Run 'task sdkman:install' first.
+    silent: true
+
+  install-all:
+    desc: Install all container tools
+    cmds:
+      - task: podman
+      - task: podman-compose
+      - task: buildah
+      - task: skopeo
+      - task: nerdctl
+      - task: dive
+      - task: ctop
+      - task: lazydocker
+      - task: crane
+      - task: regctl
+    silent: true

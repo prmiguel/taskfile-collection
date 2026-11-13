@@ -1,0 +1,146 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# Local + CLI LLM tooling beyond the coding agents in agents/. Installs are
+# non-root: release tarballs land in ~/.local, the rest use pip/Go/Cargo.
+tasks:
+  ollama:
+    desc: Run LLMs locally (tarball to ~/.local)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin ~/.local/lib/ollama
+        platforms: [linux]
+      - cmd: curl -fsSL https://ollama.com/download/ollama-linux-$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tgz | tar xz -C ~/.local
+        platforms: [linux]
+      - cmd: brew install ollama
+        platforms: [darwin]
+      - cmd: winget install -e --id Ollama.Ollama
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  llama-cpp:
+    desc: llama.cpp inference engine (build from source)
+    cmds:
+      - cmd: |
+          git clone --depth 1 https://github.com/ggml-org/llama.cpp /tmp/llama.cpp
+          cmake -B /tmp/llama.cpp/build /tmp/llama.cpp
+          cmake --build /tmp/llama.cpp/build --config Release -j
+          cmake --install /tmp/llama.cpp/build --prefix ~/.local
+          rm -rf /tmp/llama.cpp
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v cmake
+        msg: "cmake is required."
+    silent: true
+
+  open-webui:
+    desc: ChatGPT-like web UI for local LLMs (pip user)
+    cmds:
+      - pip3 install --user open-webui
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  aider:
+    desc: AI pair programming in the terminal (pip user)
+    cmds:
+      - pip3 install --user aider-chat
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  llm:
+    desc: LLM CLI + sqlite logger (pip user)
+    cmds:
+      - pip3 install --user llm
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  mods:
+    desc: LLM on the command line (via Go)
+    cmds:
+      - go install github.com/charmbracelet/mods@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  aichat:
+    desc: All-in-one LLM CLI (via cargo)
+    cmds:
+      - cargo install aichat
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  tgpt:
+    desc: ChatGPT in the terminal, no API key needed (via Go)
+    cmds:
+      - go install github.com/aandrew-me/tgpt/v2@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  oterm:
+    desc: Terminal TUI for Ollama (pip user)
+    cmds:
+      - pip3 install --user oterm
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  fabric:
+    desc: AI prompt framework (via Go)
+    cmds:
+      - go install github.com/danielmiessler/fabric@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  opencommit:
+    desc: AI-generated commit messages (npm user prefix)
+    cmds:
+      - npm install -g opencommit
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  gemini-cli:
+    desc: Google Gemini CLI (npm user prefix)
+    cmds:
+      - npm install -g @google/gemini-cli
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  codex:
+    desc: OpenAI Codex CLI (npm user prefix)
+    cmds:
+      - npm install -g @openai/codex
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  install-all:
+    desc: Local LLM starter kit (non-root)
+    cmds:
+      - task: ollama
+      - task: llm
+      - task: aichat
+      - task: tgpt
+      - task: gemini-cli
+      - task: codex
+    silent: true

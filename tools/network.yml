@@ -1,0 +1,405 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# Network diagnostics, transfer, and tunneling tools. Prefer ~/.local/bin or the
+# user's Go/Cargo/pip prefix; mtr/mosh/nmap/iperf3 remain system packages.
+tasks:
+  mtr:
+    desc: Traceroute + ping (system package)
+    cmds:
+      - cmd: sudo apt install -y mtr
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm mtr
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install mtr
+        platforms: [darwin]
+    silent: true
+
+  trippy:
+    desc: Visual network diagnostics TUI (via cargo)
+    cmds:
+      - cargo install trippy
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  doggo:
+    desc: Modern dig / DNS client (via Go)
+    cmds:
+      - go install github.com/mr-karan/doggo/cmd/doggo@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  curlie:
+    desc: curl with httpie UX (via Go)
+    cmds:
+      - go install github.com/rs/curlie@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  xh:
+    desc: Friendly HTTP client (via cargo)
+    cmds:
+      - cargo install xh
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  grpcurl:
+    desc: curl for gRPC (via Go)
+    cmds:
+      - go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  croc:
+    desc: Easy encrypted file transfer (via Go)
+    cmds:
+      - go install github.com/schollz/croc/v10/cmd/croc@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  magic-wormhole:
+    desc: Secure file transfer (pip user)
+    cmds:
+      - pip3 install --user magic-wormhole
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  termshark:
+    desc: TUI packet analyzer (via Go)
+    cmds:
+      - go install github.com/gcla/termshark/v2@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  mosh:
+    desc: Roaming remote shell (system package)
+    cmds:
+      - cmd: sudo apt install -y mosh
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm mosh
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install mosh
+        platforms: [darwin]
+    silent: true
+
+  sshx:
+    desc: Collaborative terminal sharing (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux, darwin]
+      - cmd: curl -fsSL https://sshx.io/get | sh -s -- --to ~/.local/bin
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  lnav:
+    desc: Log file navigator (system package)
+    cmds:
+      - cmd: sudo apt install -y lnav
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install lnav
+        platforms: [darwin]
+    silent: true
+
+  caddy:
+    desc: Auto-HTTPS web server (static binary to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux]
+      - cmd: curl -fsSL "https://caddyserver.com/api/download?os=linux&arch=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')" -o ~/.local/bin/caddy
+        platforms: [linux]
+      - cmd: chmod +x ~/.local/bin/caddy
+        platforms: [linux]
+      - cmd: brew install caddy
+        platforms: [darwin]
+      - cmd: winget install -e --id CaddyServer.Caddy
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  nmap:
+    desc: Network scanner (system package)
+    cmds:
+      - cmd: sudo apt install -y nmap
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm nmap
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install nmap
+        platforms: [darwin]
+      - cmd: winget install -e --id Insecure.Nmap
+        platforms: [windows]
+    silent: true
+
+  iperf3:
+    desc: Network throughput tester (system package)
+    cmds:
+      - cmd: sudo apt install -y iperf3
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm iperf3
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install iperf3
+        platforms: [darwin]
+      - cmd: winget install -e --id PhilHarvey.iPerf3
+        platforms: [windows]
+    silent: true
+
+  gping:
+    desc: Ping with a graph (via cargo)
+    cmds:
+      - cargo install gping
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  dog:
+    desc: Command-line DNS client (via cargo)
+    cmds:
+      - cargo install --locked dog
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  httpie:
+    desc: Human-friendly HTTP client (pip user)
+    cmds:
+      - pip3 install --user httpie
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  speedtest-cli:
+    desc: Internet speed test (pip user)
+    cmds:
+      - pip3 install --user speedtest-cli
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  websocat:
+    desc: WebSocket Swiss-army knife (via cargo)
+    cmds:
+      - cargo install websocat
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  socat:
+    desc: Multipurpose relay (system package)
+    cmds:
+      - cmd: sudo apt install -y socat
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm socat
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install socat
+        platforms: [darwin]
+    silent: true
+
+  angle-grinder:
+    desc: Fast log analytics (ag, via cargo)
+    cmds:
+      - cargo install ag
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  bore:
+    desc: Simple TCP tunnel (via cargo)
+    cmds:
+      - cargo install bore-cli
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  ngrok:
+    desc: Instant tunnels to localhost (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin && curl -fsSL "https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tgz" | tar xz -C ~/.local/bin ngrok
+        platforms: [linux]
+      - cmd: brew install ngrok/ngrok/ngrok
+        platforms: [darwin]
+      - cmd: winget install -e --id Ngrok.Ngrok
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  cloudflared:
+    desc: Cloudflare Tunnel client (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin && curl -fsSL "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')" -o ~/.local/bin/cloudflared
+        platforms: [linux]
+      - cmd: chmod +x ~/.local/bin/cloudflared
+        platforms: [linux]
+      - cmd: brew install cloudflared
+        platforms: [darwin]
+      - cmd: winget install -e --id Cloudflare.cloudflared
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  tmate:
+    desc: Instant terminal sharing (system package)
+    cmds:
+      - cmd: sudo apt install -y tmate
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install tmate
+        platforms: [darwin]
+    silent: true
+
+  tailscale:
+    desc: Zero-config mesh VPN (daemon may need sudo)
+    cmds:
+      - cmd: curl -fsSL https://tailscale.com/install.sh | sh
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id Tailscale.Tailscale
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  zerotier:
+    desc: Alternative mesh VPN (daemon may need sudo)
+    cmds:
+      - cmd: curl -fsSL https://install.zerotier.com | sh
+        platforms: [linux]
+      - cmd: brew install zerotier-one
+        platforms: [darwin]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  wireguard:
+    desc: Modern VPN tools (system package)
+    cmds:
+      - cmd: sudo apt install -y wireguard-tools
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm wireguard-tools
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install wireguard-tools
+        platforms: [darwin]
+      - cmd: winget install -e --id WireGuard.WireGuard
+        platforms: [windows]
+    silent: true
+
+  frp:
+    desc: Fast reverse proxy client (frpc, via Go)
+    cmds:
+      - go install github.com/fatedier/frp/cmd/frpc@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  chisel:
+    desc: TCP/UDP tunnel over HTTP (via Go)
+    cmds:
+      - go install github.com/jpillora/chisel@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  masscan:
+    desc: Internet-scale port scanner (system package)
+    cmds:
+      - cmd: sudo apt install -y masscan
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm masscan
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install masscan
+        platforms: [darwin]
+    silent: true
+
+  rustscan:
+    desc: Fast port scanner (via cargo)
+    cmds:
+      - cargo install rustscan
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  fast:
+    desc: Internet speed test CLI (npm user prefix)
+    cmds:
+      - npm install -g fast-cli
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  install-all:
+    desc: Install network tools (non-root where possible)
+    cmds:
+      - task: trippy
+      - task: doggo
+      - task: curlie
+      - task: xh
+      - task: grpcurl
+      - task: croc
+      - task: magic-wormhole
+      - task: termshark
+      - task: sshx
+      - task: caddy
+      - task: gping
+      - task: dog
+      - task: httpie
+      - task: speedtest-cli
+      - task: websocat
+      - task: angle-grinder
+      - task: bore
+      - task: ngrok
+      - task: cloudflared
+      - task: frp
+      - task: chisel
+      - task: rustscan
+      - task: fast
+    silent: true

@@ -4,6 +4,16 @@ version: '3'
 
 includes:
   system: ./system
+  kubernetes: ./tools/kubernetes.yml
+  containers: ./tools/containers.yml
+  cloud: ./tools/cloud.yml
+  iac: ./tools/iac.yml
+  databases: ./tools/databases.yml
+  shell: ./tools/shell.yml
+  git-extras: ./tools/git-extras.yml
+  network: ./tools/network.yml
+  security: ./tools/security.yml
+  llm-local: ./tools/llm-local.yml
   vscode: ./tools/vscode.yml
   chrome: ./tools/chrome.yml
   gh: ./tools/gh-cli.yml

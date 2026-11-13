@@ -76,7 +76,17 @@ taskfile-collection/
 │   ├── docker.yml        #   CLI, Engine, Desktop
 │   ├── git.yml           #   Git
 │   ├── node.yml          #   nvm + Node.js versions
-│   └── sdkman.yml        #   SDKMAN
+│   ├── sdkman.yml        #   SDKMAN
+│   ├── kubernetes.yml    #   kubectl, helm, k9s, minikube, kind
+│   ├── containers.yml    #   podman, buildah, skopeo, dive, ctop
+│   ├── cloud.yml         #   AWS/Azure/GCP/Oracle/DigitalOcean CLIs
+│   ├── iac.yml           #   Terraform, OpenTofu, Pulumi, Ansible, Packer
+│   ├── databases.yml     #   duckdb, psql, mongosh, redis-cli, CSV tools
+│   ├── shell.yml         #   zsh, starship, fzf, ripgrep, bat, jq
+│   ├── git-extras.yml    #   lazygit, delta, git-cliff, gitleaks
+│   ├── network.yml       #   tailscale, nmap, mtr, ngrok, croc
+│   ├── security.yml      #   sops, age, trivy, semgrep, shellcheck
+│   └── llm-local.yml     #   ollama, aider, llm, aichat
 ├── agents/               # AI coding agents
 │   ├── opencode.yml      #   OpenCode
 │   ├── mimocode.yml      #   MiMo Code (Xiaomi)
@@ -173,6 +183,10 @@ task fresh:install
 task tode:install
 task herdr:install
 task luvus:install
+task kubernetes:kubectl
+task cloud:gcloud
+task iac:terraform
+task databases:duckdb
 ```
 
 ### Install all AI coding agents / tools
@@ -182,7 +196,19 @@ task agents:install-all
 task ai-tools:install-all
 task tui:install-all
 task multiplexer:install-all
+task kubernetes:install-all
+task containers:install-all
+task cloud:install-all
+task iac:install-all
+task databases:install-all
+task shell:install-all
+task git-extras:install-all
+task network:install-all
+task security:install-all
+task llm-local:install-all
 ```
+
+Most installers target `~/.local/bin` or user-level package managers (`go install`, `cargo install`, `pip3 install --user`, and user-prefix `npm -g`) so they stay non-root where possible. A few genuine system packages (for example `podman`, `nmap`, `mtr`, `sqlite3`, `zsh`, `tmux`) and the mesh-VPN daemons (`tailscale`, `zerotier`) still use `sudo`. See [MISSING-TOOLS.md](MISSING-TOOLS.md) for the full catalog and backlog.
 
 `agents:install-all` installs every agent sequentially into user-owned locations. Agent installs are **non-root**: npm-based agents use the current user's npm prefix (for example, one managed by nvm), while Copilot, Antigravity, Factory Droid, and oh my pi use vendor installers that write to `~/.local/bin`, and Hermes Agent installs under `~/.hermes` with a launcher in `~/.local/bin`. No agent task adds `sudo` itself; the one exception is Hermes Agent's installer, which may prompt for sudo solely to install the `libatomic1` system library on some Linux hosts. Make sure `~/.local/bin` is on your `PATH`.
 
@@ -263,7 +289,9 @@ task: "claude:install-cli" failed: Node.js and npm are required. Run 'task node:
 | Docker CLI | `docker --version` | `container:*`, `docker:setup-repo`, `antigravity:install-docker` |
 | Node.js + npm | `node --version && npm --version` | `claude:install-cli`, `*:install-npm`, `openclaude:install`, `command-code:install`, `pi:install`, `pi:install-script`, `gentle-shell:install` |
 | curl | `command -v curl` | `node:install-nvm`, `sdkman:install`, `docker:setup-repo`, `copilot:install`, `antigravity:install`, `hermes:install`, `droid:install`, `omp:install`, agent/tool installs, `ttt:install`, `spice-edit:install`, `fresh:install`, `tode:install`, `herdr:install`, `luvus:install` |
-| cargo | `cargo --version` | `rtk:install-cargo` |
+| cargo | `cargo --version` | `rtk:install-cargo`, `shell:*`, `git-extras:*`, `network:*`, `security:*`, `databases:*`, `llm-local:*` |
+| Go | `command -v go` | `kubernetes:*`, `cloud:*`, `iac:*`, `databases:*`, `shell:*`, `git-extras:*`, `network:*`, `security:*`, `llm-local:*` |
+| Python + pip3 | `command -v pip3` | `cloud:azure-cli`, `cloud:linode-cli`, `iac:ansible`, `iac:checkov`, `databases:pgcli`, `databases:harlequin`, `security:semgrep`, `shell:glances`, `llm-local:aider` |
 | Bun | `command -v bun` | `omp:install-bun` |
 
 Node-based agents require Node 22.19+; `openclaude:install` requires Node 24.22.1+. Prefer `task node:install-24` for the newest supported runtime.
@@ -300,3 +328,5 @@ Each task auto-detects the OS and distro using `platforms:` and `if:` conditions
 ## Links
 
 For external references and resources, see [LINKS.md](LINKS.md).
+
+For tools not yet covered by this collection, see [MISSING-TOOLS.md](MISSING-TOOLS.md).

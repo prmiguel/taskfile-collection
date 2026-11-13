@@ -1,0 +1,373 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# Modern shell UX: fuzzy finders, smart cd, better ls/cat/grep. CLI tools go to
+# ~/.local/bin (or the user's cargo/go prefix); only zsh/tmux use system packages.
+tasks:
+  zsh:
+    desc: Z shell (system package)
+    cmds:
+      - cmd: sudo apt install -y zsh
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm zsh
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install zsh
+        platforms: [darwin]
+    silent: true
+
+  oh-my-zsh:
+    desc: Oh My Zsh framework (non-interactive)
+    cmds:
+      - RUNZSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    preconditions:
+      - sh: command -v zsh
+        msg: "zsh is required. Run 'task shell:zsh' first."
+    silent: true
+
+  starship:
+    desc: Cross-shell prompt (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux, darwin]
+      - cmd: curl -fsSL https://starship.rs/install.sh | sh -s -- -y -b ~/.local/bin
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id Starship.Starship
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  fzf:
+    desc: Fuzzy finder
+    cmds:
+      - cmd: git clone --depth 1 https://github.com/junegunn/fzf ~/.fzf
+        platforms: [linux, darwin]
+      - cmd: ~/.fzf/install --bin --no-update-rc --no-bash --no-zsh --no-fish
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id junegunn.fzf
+        platforms: [windows]
+    preconditions:
+      - sh: command -v git
+        msg: "git is required."
+    silent: true
+
+  ripgrep:
+    desc: Fast recursive grep (rg, via cargo)
+    cmds:
+      - cargo install ripgrep
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required. Run 'task sdkman:install' first."
+    silent: true
+
+  bat:
+    desc: cat with syntax highlighting (via cargo)
+    cmds:
+      - cargo install bat
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required. Run 'task sdkman:install' first."
+    silent: true
+
+  eza:
+    desc: Modern ls replacement (via cargo)
+    cmds:
+      - cargo install eza
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required. Run 'task sdkman:install' first."
+    silent: true
+
+  zoxide:
+    desc: Smarter cd (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux, darwin]
+      - cmd: curl -fsSL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh -s -- --bin-dir ~/.local/bin
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id ajeetdsouza.zoxide
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  jq:
+    desc: JSON processor (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux]
+      - cmd: curl -fsSL "https://github.com/jqlang/jq/releases/latest/download/jq-linux-$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')" -o ~/.local/bin/jq
+        platforms: [linux]
+      - cmd: chmod +x ~/.local/bin/jq
+        platforms: [linux]
+      - cmd: brew install jq
+        platforms: [darwin]
+      - cmd: winget install -e --id jqlang.jq
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  yq:
+    desc: YAML/TOML/XML processor (via Go)
+    cmds:
+      - go install github.com/mikefarah/yq/v4@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  direnv:
+    desc: Per-directory env vars
+    cmds:
+      - cmd: curl -fsSL https://direnv.net/install.sh | bin_path=~/.local/bin bash
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id direnv.direnv
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  tmux:
+    desc: Terminal multiplexer (system package)
+    cmds:
+      - cmd: sudo apt install -y tmux
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm tmux
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install tmux
+        platforms: [darwin]
+    silent: true
+
+  zellij:
+    desc: Modern terminal multiplexer (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux]
+      - cmd: curl -fsSL "https://github.com/zellij-org/zellij/releases/latest/download/zellij-$(uname -m)-unknown-linux-musl.tar.gz" | tar xz -C ~/.local/bin
+        platforms: [linux]
+      - cmd: brew install zellij
+        platforms: [darwin]
+      - cmd: winget install -e --id zellij-org.zellij
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  atuin:
+    desc: Shell history sync/search
+    cmds:
+      - cmd: curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  just:
+    desc: Command runner (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux, darwin]
+      - cmd: curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to ~/.local/bin
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id Casey.Just
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  fd:
+    desc: Fast find alternative (via cargo)
+    cmds:
+      - cargo install fd-find
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required. Run 'task sdkman:install' first."
+    silent: true
+
+  sd:
+    desc: Intuitive find & replace (via cargo)
+    cmds:
+      - cargo install sd
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  dust:
+    desc: du alternative (via cargo)
+    cmds:
+      - cargo install du-dust
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  duf:
+    desc: Disk usage/free TUI (via Go)
+    cmds:
+      - go install github.com/muesli/duf@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  procs:
+    desc: Modern ps replacement (via cargo)
+    cmds:
+      - cargo install procs
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  hyperfine:
+    desc: Command benchmarking (via cargo)
+    cmds:
+      - cargo install hyperfine
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  tldr:
+    desc: Community man pages (tealdeer, via cargo)
+    cmds:
+      - cargo install tealdeer
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  glow:
+    desc: Markdown renderer for the terminal (via Go)
+    cmds:
+      - go install github.com/charmbracelet/glow@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  gum:
+    desc: Shell script glamour toolkit (via Go)
+    cmds:
+      - go install github.com/charmbracelet/gum@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  vhs:
+    desc: Terminal GIF recorder (via Go)
+    cmds:
+      - go install github.com/charmbracelet/vhs@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  broot:
+    desc: Tree navigation with fuzzy search (via cargo)
+    cmds:
+      - cargo install broot
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  lsd:
+    desc: Next-gen ls (via cargo)
+    cmds:
+      - cargo install lsd
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  watchexec:
+    desc: Run commands on file changes (via cargo)
+    cmds:
+      - cargo install watchexec-cli
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  htop:
+    desc: Interactive process viewer (system package)
+    cmds:
+      - cmd: sudo apt install -y htop
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm htop
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install htop
+        platforms: [darwin]
+    silent: true
+
+  btop:
+    desc: Modern resource monitor (system package)
+    cmds:
+      - cmd: sudo apt install -y btop
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm btop
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install btop
+        platforms: [darwin]
+    silent: true
+
+  glances:
+    desc: Cross-platform system monitor (pip user)
+    cmds:
+      - pip3 install --user glances
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  navi:
+    desc: Interactive cheatsheet browser (via cargo; uses fzf)
+    cmds:
+      - cmd: cargo install navi
+        platforms: [linux]
+      - cmd: brew install navi
+        platforms: [darwin]
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required (or use brew on macOS)."
+    silent: true
+
+  install-all:
+    desc: Full modern shell setup (non-root)
+    cmds:
+      - task: starship
+      - task: fzf
+      - task: ripgrep
+      - task: bat
+      - task: jq
+      - task: direnv
+      - task: zoxide
+      - task: just
+      - task: fd
+      - task: sd
+      - task: dust
+      - task: duf
+      - task: procs
+      - task: hyperfine
+      - task: tldr
+      - task: navi
+    silent: true

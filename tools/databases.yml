@@ -1,0 +1,237 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# Databases and data tools (non-root where possible).
+tasks:
+  duckdb:
+    desc: DuckDB (in-process analytics DB) to ~/.local/bin
+    cmds:
+      - cmd: mkdir -p ~/.local/bin && curl -fsSL https://github.com/duckdb/duckdb/releases/latest/download/duckdb_cli-linux-amd64.zip -o /tmp/duckdb.zip && unzip -qo /tmp/duckdb.zip -d ~/.local/bin && rm /tmp/duckdb.zip
+        platforms: [linux]
+      - cmd: brew install duckdb
+        platforms: [darwin]
+      - cmd: winget install -e --id DuckDB.cli
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: curl and unzip are required.
+    silent: true
+
+  psql:
+    desc: PostgreSQL client
+    cmds:
+      - cmd: sudo apt install -y postgresql-client
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install libpq
+        platforms: [darwin]
+    silent: true
+
+  pgcli:
+    desc: Better psql with completion
+    cmds:
+      - pip3 install --user pgcli
+    preconditions:
+      - sh: command -v pip3
+        msg: pip3 is required.
+    silent: true
+
+  mycli:
+    desc: Better MySQL client
+    cmds:
+      - pip3 install --user mycli
+    preconditions:
+      - sh: command -v pip3
+        msg: pip3 is required.
+    silent: true
+
+  litecli:
+    desc: Better SQLite client
+    cmds:
+      - pip3 install --user litecli
+    preconditions:
+      - sh: command -v pip3
+        msg: pip3 is required.
+    silent: true
+
+  sqlite3:
+    desc: SQLite CLI
+    cmds:
+      - cmd: sudo apt install -y sqlite3
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install sqlite
+        platforms: [darwin]
+    silent: true
+
+  mongosh:
+    desc: MongoDB shell
+    cmds:
+      - cmd: sudo apt install -y mongodb-mongosh
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install mongosh
+        platforms: [darwin]
+      - cmd: winget install -e MongoDB.Shell
+        platforms: [windows]
+    silent: true
+
+  redis-cli:
+    desc: Redis CLI tools
+    cmds:
+      - cmd: sudo apt install -y redis-tools
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install redis
+        platforms: [darwin]
+    silent: true
+
+  iredis:
+    desc: Interactive Redis CLI
+    cmds:
+      - pip3 install --user iredis
+    preconditions:
+      - sh: command -v pip3
+        msg: pip3 is required.
+    silent: true
+
+  clickhouse-client:
+    desc: ClickHouse CLI (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin && curl -fsSL https://clickhouse.com | sh && mv clickhouse ~/.local/bin/
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v curl
+        msg: curl is required.
+    silent: true
+
+  cockroach:
+    desc: CockroachDB single binary (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin && curl -fsSL "https://binaries.cockroachdb.com/cockroach-latest.linux-amd64.tgz" | tar xz -C /tmp && cp /tmp/cockroach-*/cockroach ~/.local/bin/ && rm -rf /tmp/cockroach-*
+        platforms: [linux]
+      - cmd: brew install cockroachdb/tap/cockroach
+        platforms: [darwin]
+    preconditions:
+      - sh: command -v curl
+        msg: curl is required.
+    silent: true
+
+  surrealdb:
+    desc: SurrealDB multi-model DB
+    cmds:
+      - curl -fsSL https://install.surrealdb.com | sh -s -- --install-dir ~/.local/bin
+    preconditions:
+      - sh: command -v curl
+        msg: curl is required.
+    silent: true
+
+  usql:
+    desc: Universal SQL CLI (via Go)
+    cmds:
+      - go install github.com/xo/usql@latest
+    preconditions:
+      - sh: command -v go
+        msg: Go is required.
+    silent: true
+
+  lazysql:
+    desc: TUI database manager (via Go)
+    cmds:
+      - go install github.com/jorgerojas26/lazysql@latest
+    preconditions:
+      - sh: command -v go
+        msg: Go is required.
+    silent: true
+
+  harlequin:
+    desc: Terminal SQL IDE (DuckDB, PG, MySQL)
+    cmds:
+      - pip3 install --user harlequin
+    preconditions:
+      - sh: command -v pip3
+        msg: pip3 is required.
+    silent: true
+
+  gobang:
+    desc: TUI DB manager (Rust)
+    cmds:
+      - cargo install gobang
+    preconditions:
+      - sh: command -v cargo
+        msg: Rust/cargo is required.
+    silent: true
+
+  dbeaver:
+    desc: Universal GUI DB client
+    cmds:
+      - cmd: flatpak install -y flathub io.dbeaver.DBeaverCommunity
+        platforms: [linux]
+      - cmd: brew install --cask dbeaver-community
+        platforms: [darwin]
+      - cmd: winget install -e dbeaver.dbeaver
+        platforms: [windows]
+    silent: true
+
+  qsv:
+    desc: Blazing-fast CSV wrangling (via cargo)
+    cmds:
+      - cargo install qsv --locked
+    preconditions:
+      - sh: command -v cargo
+        msg: Rust/cargo is required.
+    silent: true
+
+  valkey-cli:
+    desc: Valkey (Redis fork) CLI
+    cmds:
+      - cmd: sudo apt install -y valkey-tools
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm valkey
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install valkey
+        platforms: [darwin]
+    silent: true
+
+  turso:
+    desc: Turso / libSQL CLI (installs to ~/.turso)
+    cmds:
+      - curl -sSfL https://get.tur.so/install.sh | bash
+    preconditions:
+      - sh: command -v curl
+        msg: curl is required.
+    silent: true
+
+  xan:
+    desc: CSV magician (via cargo)
+    cmds:
+      - cargo install xan
+    preconditions:
+      - sh: command -v cargo
+        msg: Rust/cargo is required.
+    silent: true
+
+  install-all:
+    desc: Install all DB/data tools
+    cmds:
+      - task: duckdb
+      - task: pgcli
+      - task: mycli
+      - task: litecli
+      - task: sqlite3
+      - task: mongosh
+      - task: iredis
+      - task: valkey-cli
+      - task: clickhouse-client
+      - task: cockroach
+      - task: surrealdb
+      - task: turso
+      - task: usql
+      - task: lazysql
+      - task: harlequin
+      - task: gobang
+      - task: qsv
+      - task: xan
+    silent: true

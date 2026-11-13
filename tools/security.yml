@@ -1,0 +1,326 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# Security: secrets, scanning, signing, auditing. Most install via Go/Cargo/pip
+# or a release binary into ~/.local/bin; shellcheck stays a system package.
+tasks:
+  sops:
+    desc: Encrypted secrets in Git (via Go)
+    cmds:
+      - go install github.com/getsops/sops/v3/cmd/sops@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  age:
+    desc: Simple modern file encryption (via Go)
+    cmds:
+      - go install filippo.io/age/cmd/age@latest
+      - go install filippo.io/age/cmd/age-keygen@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  gopass:
+    desc: Team password manager (via Go)
+    cmds:
+      - go install github.com/gopasspw/gopass@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  bitwarden-cli:
+    desc: Bitwarden password manager CLI (npm user prefix)
+    cmds:
+      - npm install -g @bitwarden/cli
+    preconditions:
+      - sh: command -v npm
+        msg: "Node.js and npm are required. Run 'task node:install-22' first."
+    silent: true
+
+  mkcert:
+    desc: Locally-trusted dev certificates (via Go)
+    cmds:
+      - go install github.com/FiloSottile/mkcert@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  step-cli:
+    desc: PKI, certs, and identity toolkit (via Go)
+    cmds:
+      - go install github.com/smallstep/cli/cmd/step@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  trivy:
+    desc: Vulnerability + IaC + secret scanner (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux, darwin]
+      - cmd: curl -fsSL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b ~/.local/bin
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id AquaSecurity.Trivy
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  grype:
+    desc: Container/filesystem vulnerability scanner (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux, darwin]
+      - cmd: curl -fsSL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b ~/.local/bin
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  syft:
+    desc: SBOM generator (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux, darwin]
+      - cmd: curl -fsSL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b ~/.local/bin
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  cosign:
+    desc: Sign/verify containers and blobs (via Go)
+    cmds:
+      - go install github.com/sigstore/cosign/v2/cmd/cosign@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  semgrep:
+    desc: Static analysis / SAST (pip user)
+    cmds:
+      - pip3 install --user semgrep
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  osv-scanner:
+    desc: Dependency vulnerability scanner (via Go)
+    cmds:
+      - go install github.com/google/osv-scanner/cmd/osv-scanner@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  shellcheck:
+    desc: Shell script linter (system package)
+    cmds:
+      - cmd: sudo apt install -y shellcheck
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm shellcheck
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install shellcheck
+        platforms: [darwin]
+      - cmd: winget install -e --id koalaman.shellcheck
+        platforms: [windows]
+    silent: true
+
+  shfmt:
+    desc: Shell script formatter (via Go)
+    cmds:
+      - go install mvdan.cc/sh/v3/cmd/shfmt@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  hadolint:
+    desc: Dockerfile linter (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux]
+      - cmd: curl -fsSL "https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-$(uname -m)" -o ~/.local/bin/hadolint
+        platforms: [linux]
+      - cmd: chmod +x ~/.local/bin/hadolint
+        platforms: [linux]
+      - cmd: brew install hadolint
+        platforms: [darwin]
+      - cmd: winget install -e --id hadolint.hadolint
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  actionlint:
+    desc: GitHub Actions workflow linter (via Go)
+    cmds:
+      - go install github.com/rhysd/actionlint/cmd/actionlint@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  nuclei:
+    desc: Template-based vulnerability scanner (via Go)
+    cmds:
+      - go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  ffuf:
+    desc: Fast web fuzzer (via Go)
+    cmds:
+      - go install github.com/ffuf/ffuf/v2@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  lynis:
+    desc: System security audit (clone to ~/.local/share)
+    cmds:
+      - cmd: git clone --depth 1 https://github.com/CISOfy/lynis ~/.local/share/lynis
+        platforms: [linux, darwin]
+      - cmd: mkdir -p ~/.local/bin && ln -sf ~/.local/share/lynis/lynis ~/.local/bin/lynis
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v git
+        msg: "git is required."
+    silent: true
+
+  pass:
+    desc: Standard Unix password manager (system package)
+    cmds:
+      - cmd: sudo apt install -y pass
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm pass
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install pass
+        platforms: [darwin]
+    silent: true
+
+  onepassword-cli:
+    desc: 1Password CLI (op, requires an account)
+    cmds:
+      - cmd: brew install 1password-cli
+        platforms: [darwin]
+      - cmd: winget install -e --id AgileBits.1Password.CLI
+        platforms: [windows]
+      - cmd: 'echo "Linux: follow https://developer.1password.com/docs/cli/get-started/"'
+        platforms: [linux]
+    silent: true
+
+  bandit:
+    desc: Python security linter (pip user)
+    cmds:
+      - pip3 install --user bandit
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  yamllint:
+    desc: YAML linter (pip user)
+    cmds:
+      - pip3 install --user yamllint
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  trufflehog:
+    desc: Deep secret scanner (to ~/.local/bin)
+    cmds:
+      - cmd: mkdir -p ~/.local/bin && curl -fsSL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh | sh -s -- -b ~/.local/bin
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id TruffleSecurity.TruffleHog
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  slsa-verifier:
+    desc: Verify SLSA provenance (via Go)
+    cmds:
+      - go install github.com/slsa-framework/slsa-verifier/v2/cli/slsa-verifier@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  chainctl:
+    desc: Chainguard CLI (via Go)
+    cmds:
+      - go install chainguard.dev/chainctl/cmd/chainctl@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  gobuster:
+    desc: Directory/DNS brute forcer (via Go)
+    cmds:
+      - go install github.com/OJ/gobuster/v3@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  sqlmap:
+    desc: SQL injection testing (authorized use only)
+    cmds:
+      - cmd: git clone --depth 1 https://github.com/sqlmapproject/sqlmap ~/.local/share/sqlmap
+        platforms: [linux, darwin]
+      - cmd: mkdir -p ~/.local/bin && ln -sf ~/.local/share/sqlmap/sqlmap.py ~/.local/bin/sqlmap
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v git
+        msg: "git is required."
+    silent: true
+
+  nikto:
+    desc: Web server scanner (authorized use only)
+    cmds:
+      - cmd: git clone --depth 1 https://github.com/sullo/nikto ~/.local/share/nikto
+        platforms: [linux, darwin]
+      - cmd: mkdir -p ~/.local/bin && ln -sf ~/.local/share/nikto/program/nikto.pl ~/.local/bin/nikto
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v git
+        msg: "git is required."
+    silent: true
+
+  install-all:
+    desc: Security starter kit (non-root)
+    cmds:
+      - task: sops
+      - task: age
+      - task: trivy
+      - task: semgrep
+      - task: actionlint
+      - task: gitleaks
+      - task: trufflehog
+      - task: bandit
+      - task: yamllint
+      - task: shellcheck
+    silent: true

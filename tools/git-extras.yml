@@ -1,0 +1,214 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# Git power tools: TUIs, better diffs, changelogs, secret scanning. All install
+# into the user's Go/Cargo/pip prefixes, so no sudo is needed.
+tasks:
+  lazygit:
+    desc: Terminal Git UI (via Go)
+    cmds:
+      - go install github.com/jesseduffield/lazygit@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  gitui:
+    desc: Fast terminal Git UI (via cargo)
+    cmds:
+      - cargo install gitui
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required. Run 'task sdkman:install' first."
+    silent: true
+
+  delta:
+    desc: Syntax-highlighted diffs (via cargo)
+    cmds:
+      - cargo install git-delta
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  git-extras:
+    desc: Extra git utilities (git effort, summary, etc.)
+    cmds:
+      - cmd: git clone --depth 1 https://github.com/tj/git-extras /tmp/git-extras
+        platforms: [linux, darwin]
+      - cmd: make -C /tmp/git-extras install PREFIX=$HOME/.local
+        platforms: [linux, darwin]
+      - cmd: rm -rf /tmp/git-extras
+        platforms: [linux, darwin]
+    preconditions:
+      - sh: command -v git
+        msg: "git is required."
+    silent: true
+
+  git-cliff:
+    desc: Changelog generator from conventional commits (via cargo)
+    cmds:
+      - cargo install git-cliff
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  cocogitto:
+    desc: Conventional commits toolkit (cog, via cargo)
+    cmds:
+      - cargo install cocogitto
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  commitizen:
+    desc: Interactive conventional commits (pip user)
+    cmds:
+      - cmd: pip3 install --user commitizen
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id commitizen-tools.commitizen
+        platforms: [windows]
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  pre-commit:
+    desc: Git hook framework (pip user)
+    cmds:
+      - pip3 install --user pre-commit
+    preconditions:
+      - sh: command -v pip3
+        msg: "pip3 is required."
+    silent: true
+
+  gitleaks:
+    desc: Secret scanner for repos (via Go)
+    cmds:
+      - go install github.com/gitleaks/gitleaks/v8@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  git-absorb:
+    desc: Auto-absorb fixup commits (via cargo)
+    cmds:
+      - cargo install git-absorb
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  git-town:
+    desc: High-level Git workflow automation (via Go)
+    cmds:
+      - go install github.com/git-town/git-town/v21@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  glab:
+    desc: GitLab CLI (via Go)
+    cmds:
+      - go install gitlab.com/gitlab-org/cli/cmd/glab@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  tea:
+    desc: Gitea CLI (via Go)
+    cmds:
+      - go install code.gitea.io/tea@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  onefetch:
+    desc: Repo summary (neofetch for Git, via cargo)
+    cmds:
+      - cargo install onefetch
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  tokei:
+    desc: Lines-of-code counter (via cargo)
+    cmds:
+      - cargo install tokei
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  trufflehog:
+    desc: Deep secret scanner (via Go)
+    cmds:
+      - go install github.com/trufflesecurity/trufflehog/v3@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  git-branchless:
+    desc: Stacked-diff / patch-stack workflow (via cargo)
+    cmds:
+      - cargo install --locked git-branchless
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  jujutsu:
+    desc: Jujutsu VCS (jj, via cargo)
+    cmds:
+      - cargo install --locked jj-cli
+    preconditions:
+      - sh: command -v cargo
+        msg: "Rust/cargo is required."
+    silent: true
+
+  git-lfs:
+    desc: Git Large File Storage (system package)
+    cmds:
+      - cmd: sudo apt install -y git-lfs
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: sudo pacman -S --noconfirm git-lfs
+        platforms: [linux]
+        if: test -f /etc/arch-release
+      - cmd: brew install git-lfs
+        platforms: [darwin]
+      - cmd: winget install -e --id GitHub.GitLFS
+        platforms: [windows]
+    silent: true
+
+  git-flow:
+    desc: Vincent Driessen branching model (system package)
+    cmds:
+      - cmd: sudo apt install -y git-flow
+        platforms: [linux]
+        if: test -f /etc/debian_version
+      - cmd: brew install git-flow
+        platforms: [darwin]
+    silent: true
+
+  install-all:
+    desc: Git power-user bundle (non-root)
+    cmds:
+      - task: lazygit
+      - task: delta
+      - task: git-extras
+      - task: git-cliff
+      - task: pre-commit
+      - task: gitleaks
+      - task: trufflehog
+      - task: git-branchless
+      - task: jujutsu
+    silent: true

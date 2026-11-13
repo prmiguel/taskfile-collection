@@ -1,0 +1,184 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# Kubernetes ecosystem tools. Installs target ~/.local/bin or ~/.krew so they
+# stay non-root; only the Darwin/Windows branches use brew/winget.
+tasks:
+  kubectl:
+    desc: Kubernetes CLI
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux, darwin]
+      - cmd: curl -fsSL "https://dl.k8s.io/release/$(curl -Ls https://dl.k8s.io/release/stable.txt)/bin/linux/$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')/kubectl" -o ~/.local/bin/kubectl
+        platforms: [linux]
+      - cmd: chmod +x ~/.local/bin/kubectl
+        platforms: [linux]
+      - cmd: brew install kubectl
+        platforms: [darwin]
+      - cmd: winget install -e --id Kubernetes.kubectl
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  krew:
+    desc: kubectl plugin manager (installs to ~/.krew)
+    cmds:
+      - cmd: |
+          mkdir -p ~/.krew
+          cd "$(mktemp -d)" &&
+          OS="$(uname -s | tr '[:upper:]' '[:lower:]')" &&
+          ARCH="$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')" &&
+          curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-${OS}_${ARCH}.tar.gz" &&
+          tar zxf "krew-${OS}_${ARCH}.tar.gz" &&
+          ./"krew-${OS}_${ARCH}" install krew
+          grep -q 'krew/bin' ~/.profile || echo 'export PATH="$HOME/.krew/bin:$PATH"' >> ~/.profile
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id Kubernetes.krew
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  kubectx:
+    desc: Fast context and namespace switching (via krew)
+    deps: [krew]
+    cmds:
+      - cmd: ~/.krew/bin/kubectl-krew install ctx
+        platforms: [linux, darwin]
+      - cmd: ~/.krew/bin/kubectl-krew install ns
+        platforms: [linux, darwin]
+    silent: true
+
+  k9s:
+    desc: Terminal UI for Kubernetes clusters
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux]
+      - cmd: curl -fsSL "https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz -C ~/.local/bin k9s
+        platforms: [linux]
+      - cmd: brew install k9s
+        platforms: [darwin]
+      - cmd: winget install -e --id Derailed.k9s
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  stern:
+    desc: Multi-pod log tailing (via krew)
+    deps: [krew]
+    cmds:
+      - cmd: ~/.krew/bin/kubectl-krew install stern
+        platforms: [linux, darwin]
+    silent: true
+
+  helm:
+    desc: Kubernetes package manager
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux, darwin]
+      - cmd: curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | HELM_INSTALL_DIR=~/.local/bin USE_SUDO=false bash
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id Helm.Helm
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  kustomize:
+    desc: Kubernetes config customization (to ~/.local/bin)
+    cmds:
+      - cmd: curl -fsSL "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash -s -- ~/.local/bin
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id Kubernetes.kustomize
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  minikube:
+    desc: Local single-node Kubernetes cluster
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux]
+      - cmd: curl -fsSL "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')" -o ~/.local/bin/minikube
+        platforms: [linux]
+      - cmd: chmod +x ~/.local/bin/minikube
+        platforms: [linux]
+      - cmd: brew install minikube
+        platforms: [darwin]
+      - cmd: winget install -e --id Kubernetes.minikube
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  kind:
+    desc: Kubernetes-in-Docker
+    cmds:
+      - cmd: mkdir -p ~/.local/bin
+        platforms: [linux]
+      - cmd: curl -fsSL "https://kind.sigs.k8s.io/dl/latest/kind-linux-$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')" -o ~/.local/bin/kind
+        platforms: [linux]
+      - cmd: chmod +x ~/.local/bin/kind
+        platforms: [linux]
+      - cmd: brew install kind
+        platforms: [darwin]
+      - cmd: winget install -e --id Kubernetes.kind
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  k3d:
+    desc: k3s clusters in Docker
+    cmds:
+      - cmd: curl -fsSL https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | K3D_INSTALL_DIR=~/.local/bin bash
+        platforms: [linux, darwin]
+      - cmd: winget install -e --id k3d.k3d
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required."
+    silent: true
+
+  kubecolor:
+    desc: Colorized kubectl output (via Go)
+    cmds:
+      - go install github.com/kubecolor/kubecolor@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  k8sgpt:
+    desc: AI-powered Kubernetes diagnostics (via Go)
+    cmds:
+      - go install github.com/k8sgpt-ai/k8sgpt@latest
+    preconditions:
+      - sh: command -v go
+        msg: "Go is required. Run 'task sdkman:install' first."
+    silent: true
+
+  install-all:
+    desc: Install full Kubernetes toolkit (non-root)
+    cmds:
+      - task: kubectl
+      - task: krew
+      - task: kubectx
+      - task: k9s
+      - task: stern
+      - task: helm
+      - task: kustomize
+      - task: minikube
+      - task: kind
+      - task: k3d
+    silent: true
