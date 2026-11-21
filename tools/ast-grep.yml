@@ -3,7 +3,7 @@ version: '3'
 
 # ast-grep: structural search, lint and rewrite
 # https://github.com/ast-grep/ast-grep
-# Installed via cargo (preferred) or npm (@ast-grep/cli) as a fallback.
+# Installed via cargo (preferred), npm (@ast-grep/cli), or pip (ast-grep).
 tasks:
   install:
     desc: Install ast-grep (sg)
@@ -13,8 +13,11 @@ tasks:
         if: command -v cargo
       - cmd: npm install -g @ast-grep/cli --allow-scripts=@ast-grep/cli
         platforms: [linux, darwin, windows]
-        if: ! command -v cargo && command -v npm
+        if: "! command -v cargo && command -v npm"
+      - cmd: pip3 install --user ast-grep
+        platforms: [linux, darwin, windows]
+        if: "! command -v cargo && ! command -v npm && command -v pip3"
     preconditions:
-      - sh: command -v cargo || command -v npm
-        msg: "Rust/cargo or Node.js/npm is required to install ast-grep."
+      - sh: command -v cargo || command -v npm || command -v pip3
+        msg: "Rust/cargo, Node.js/npm, or pip3 is required to install ast-grep."
     silent: true
