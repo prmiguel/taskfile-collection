@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Install Junie AI coding agent
+    summary: |
+      Installs Junie via the official JetBrains installer script
+      (curl-pipe-to-bash). Non-root installation.
+    cmds:
+      - cmd: |
+          curl -fsSL https://junie.jetbrains.com/install.sh | bash
+        platforms: [linux, darwin]
+      - cmd: powershell -ep Bypass -c "irm https://junie.jetbrains.com/install.ps1 | iex"
+        platforms: [windows]
+    preconditions:
+      - sh: command -v curl
+        msg: "curl is required to install Junie."
+    silent: true

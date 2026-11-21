@@ -9,7 +9,7 @@ tasks:
       Installs every agent in this section sequentially into user-owned
       locations (no sudo): opencode, mimo, kilo, claude-code, cursor-agent,
       openclaude, command-code, pi, copilot, gentle-shell, the Antigravity
-      CLI, Hermes Agent, Factory Droid, and oh my pi (omp). Sequential
+      CLI, Hermes Agent, Factory Droid, oh my pi (omp), and Junie. Sequential
       execution avoids concurrent npm global installs racing on the same npm
       prefix.
     cmds:
@@ -27,4 +27,5 @@ tasks:
       - task: ':hermes:install'
       - task: ':droid:install'
       - task: ':omp:install'
+      - task: ':junie:install'
     silent: true

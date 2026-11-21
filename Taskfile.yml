@@ -45,6 +45,7 @@ includes:
   hermes: ./agents/hermes.yml
   droid: ./agents/droid.yml
   omp: ./agents/omp.yml
+  junie: ./agents/junie.yml
   agents: ./agents
   rtk: ./ai-tools/rtk.yml
   ai-tools: ./ai-tools
