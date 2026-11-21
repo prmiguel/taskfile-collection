@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+# ast-grep: structural search, lint and rewrite
+# https://github.com/ast-grep/ast-grep
+# Installed via cargo (preferred) or npm (@ast-grep/cli) as a fallback.
+tasks:
+  install:
+    desc: Install ast-grep (sg)
+    cmds:
+      - cmd: cargo install ast-grep
+        platforms: [linux, darwin, windows]
+        if: command -v cargo
+      - cmd: npm install -g @ast-grep/cli --allow-scripts=@ast-grep/cli
+        platforms: [linux, darwin, windows]
+        if: ! command -v cargo && command -v npm
+    preconditions:
+      - sh: command -v cargo || command -v npm
+        msg: "Rust/cargo or Node.js/npm is required to install ast-grep."
+    silent: true

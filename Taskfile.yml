@@ -27,6 +27,7 @@ includes:
   cursor: ./tools/cursor.yml
   windsurf: ./tools/windsurf.yml
   antigravity: ./tools/antigravity.yml
+  ast-grep: ./tools/ast-grep.yml
   claude: ./tools/claude.yml
   docker: ./tools/docker.yml
   git: ./tools/git.yml
