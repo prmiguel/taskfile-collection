@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install Antigravity CLI (agy, non-root)
     summary: |
       Installs the official Google Antigravity CLI (binary: agy) using the
@@ -18,6 +20,8 @@ tasks:
     silent: true
 
   install-docker:
+    vars:
+      METADATA_CATEGORY: [container-image, agent]
     desc: Pull the Antigravity Docker image (legacy container route)
     summary: |
       Pulls the community Antigravity container image and prints the command

@@ -69,6 +69,23 @@ task -n -v vscode:install         # preview commands without executing
   - Arch: `platforms: [linux]` + `if: test -f /etc/arch-release`
   - macOS: `platforms: [darwin]`; Windows: `platforms: [windows]`
 - Give every task `desc` (plus `summary` when non-trivial) and `silent: true`; the four container run/exec/node/npm tasks are the current non-silent exceptions.
+- Give every task a `METADATA_CATEGORY` var (see "Metadata: task categories").
 - Declare `preconditions:` (`sh:` + `msg:`) and `requires: vars:` for required tools/vars; use `deps:` for ordering.
 - Agent, `tui/`, and `multiplexer/` installs must stay non-root: no `sudo`; use npm with the user's prefix or a vendor installer that writes under `~/.local`.
 - npm variants are named `install-npm` and guard with `node --version && npm --version` (e.g. `opencode:install-npm`).
+
+## Metadata: task categories
+
+- `metadata/categories.yml` is the source of truth for task categories (`name` + `description`). Add a category there **before** using it anywhere, and never list the file in the root `Taskfile.yml` `includes:` — it is not a Taskfile.
+- Every task must declare exactly one `METADATA_CATEGORY` key with **1..N** category names, placed immediately after the task header and before `desc:`:
+
+  ```yaml
+  install:
+    vars:
+      METADATA_CATEGORY: [cli, media, audio]
+    desc: Install a media tool
+  ```
+
+- Values are an inline YAML flow sequence of lowercase kebab-case names from the catalogue. Block lists, empty lists, unknown names, and duplicates fail validation. The var is metadata only: it is never referenced, so it does not change execution or `task --list-all` output.
+- Compose categories as facets: one task-kind (`cli`, `tui`, `gui`, `service`, `library`, `installer`, `validation`, `meta`, `container-image`), one domain where it applies (`agent`, `ai-tool`, `cloud`, `container`, `db`, `devtool`, `iac`, `kubernetes`, `media`, `network`, `os`, `security`, `utility`), then zero or more facets (`editor`, `ide`, `audio`, `video`, `speech`, `linter`, `formatter`, `build-tool`, `backup`, `clipboard`, `search`, …).
+- `task ci:check-categories` validates the catalogue and every task; `task ci:check-taskfile` runs it before `task --list-all`. `ci/check-categories.sh` is dependency-free (POSIX `sh` + `awk`).

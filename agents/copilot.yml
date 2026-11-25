@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install GitHub Copilot CLI (non-root)
     summary: |
       Installs the standalone Copilot CLI (binary: copilot) into
@@ -19,6 +21,8 @@ tasks:
     silent: true
 
   install-npm:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install GitHub Copilot CLI via npm (non-root)
     summary: |
       Installs @github/copilot into the current user's npm prefix, so no

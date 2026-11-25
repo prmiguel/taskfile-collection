@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install Hermes Agent (hermes, non-root)
     summary: |
       Hermes Agent by Nous Research is a self-improving terminal coding agent

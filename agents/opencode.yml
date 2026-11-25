@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install OpenCode AI agent
     summary: |
       Installs the OpenCode terminal coding agent (binary: opencode).
@@ -27,6 +29,8 @@ tasks:
     silent: true
 
   install-npm:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install OpenCode AI agent via npm
     cmds:
       - cmd: npm install -g opencode-ai@latest

@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install-cli:
+    vars:
+      METADATA_CATEGORY: [cli, ai-tool]
     desc: Install Claude CLI (Anthropic)
     cmds:
       - cmd: npm install -g @anthropic-ai/claude-code
@@ -14,6 +16,8 @@ tasks:
     silent: true
 
   install-desktop:
+    vars:
+      METADATA_CATEGORY: [gui, ai-tool]
     desc: Install Claude Desktop app
     cmds:
       - cmd: |

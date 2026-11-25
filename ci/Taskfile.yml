@@ -3,13 +3,27 @@
 version: '3'
 
 tasks:
-  check-taskfile:
-    desc: Validate all Taskfile YAML syntax
+  check-categories:
+    vars:
+      METADATA_CATEGORY: [validation]
+    desc: Validate METADATA_CATEGORY on every task against metadata/categories.yml
+    dir: '{{.ROOT_DIR}}'
     cmds:
+      - sh ci/check-categories.sh
+    silent: true
+
+  check-taskfile:
+    vars:
+      METADATA_CATEGORY: [validation]
+    desc: Validate all Taskfile YAML syntax and task metadata
+    cmds:
+      - task: check-categories
       - task --list-all
     silent: true
 
   lint:
+    vars:
+      METADATA_CATEGORY: [validation, linter]
     desc: Lint YAML files (requires yamllint)
     cmds:
       - yamllint .

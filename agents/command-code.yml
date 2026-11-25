@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install Command Code AI coding agent (non-root)
     summary: |
       Installs the Command Code CLI (binaries: cmd, command-code) from npm

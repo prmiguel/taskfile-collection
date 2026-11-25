@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install Pi coding agent via npm (non-root)
     summary: |
       Installs the Pi CLI (binary: pi) from npm into the current user's npm
@@ -18,6 +20,8 @@ tasks:
     silent: true
 
   install-script:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install Pi coding agent via the official installer (non-root)
     summary: |
       Runs Pi's official installer, which fetches the managed release into

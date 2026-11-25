@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install Kilo Code CLI (kilo)
     summary: |
       Installs the Kilo Code open source coding agent CLI (binary: kilo) from
@@ -18,6 +20,8 @@ tasks:
     silent: true
 
   install-npm:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install Kilo Code CLI via npm
     cmds:
       - cmd: npm install -g @kilocode/cli

@@ -5,6 +5,8 @@ version: '3'
 # ~/.local/bin (or the user's cargo/go prefix); only zsh/tmux use system packages.
 tasks:
   zsh:
+    vars:
+      METADATA_CATEGORY: [cli, shell]
     desc: Z shell (system package)
     cmds:
       - cmd: sudo apt install -y zsh
@@ -18,6 +20,8 @@ tasks:
     silent: true
 
   oh-my-zsh:
+    vars:
+      METADATA_CATEGORY: [cli, shell]
     desc: Oh My Zsh framework (non-interactive)
     cmds:
       - RUNZSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -27,6 +31,8 @@ tasks:
     silent: true
 
   starship:
+    vars:
+      METADATA_CATEGORY: [cli, shell, prompt]
     desc: Cross-shell prompt (to ~/.local/bin)
     cmds:
       - cmd: mkdir -p ~/.local/bin
@@ -41,6 +47,8 @@ tasks:
     silent: true
 
   fzf:
+    vars:
+      METADATA_CATEGORY: [cli, search]
     desc: Fuzzy finder
     cmds:
       - cmd: git clone --depth 1 https://github.com/junegunn/fzf ~/.fzf
@@ -55,6 +63,8 @@ tasks:
     silent: true
 
   ripgrep:
+    vars:
+      METADATA_CATEGORY: [cli, search]
     desc: Fast recursive grep (rg, via cargo)
     cmds:
       - cargo install ripgrep
@@ -64,6 +74,8 @@ tasks:
     silent: true
 
   bat:
+    vars:
+      METADATA_CATEGORY: [cli, filesystem]
     desc: cat with syntax highlighting (via cargo)
     cmds:
       - cargo install bat
@@ -73,6 +85,8 @@ tasks:
     silent: true
 
   eza:
+    vars:
+      METADATA_CATEGORY: [cli, filesystem]
     desc: Modern ls replacement (via cargo)
     cmds:
       - cargo install eza
@@ -82,6 +96,8 @@ tasks:
     silent: true
 
   zoxide:
+    vars:
+      METADATA_CATEGORY: [cli, shell]
     desc: Smarter cd (to ~/.local/bin)
     cmds:
       - cmd: mkdir -p ~/.local/bin
@@ -96,6 +112,8 @@ tasks:
     silent: true
 
   jq:
+    vars:
+      METADATA_CATEGORY: [cli, data-processing]
     desc: JSON processor (to ~/.local/bin)
     cmds:
       - cmd: mkdir -p ~/.local/bin
@@ -114,6 +132,8 @@ tasks:
     silent: true
 
   yq:
+    vars:
+      METADATA_CATEGORY: [cli, data-processing]
     desc: YAML/TOML/XML processor (via Go)
     cmds:
       - go install github.com/mikefarah/yq/v4@latest
@@ -123,6 +143,8 @@ tasks:
     silent: true
 
   direnv:
+    vars:
+      METADATA_CATEGORY: [cli, shell]
     desc: Per-directory env vars
     cmds:
       - cmd: curl -fsSL https://direnv.net/install.sh | bin_path=~/.local/bin bash
@@ -135,6 +157,8 @@ tasks:
     silent: true
 
   tmux:
+    vars:
+      METADATA_CATEGORY: [tui, terminal-multiplexer]
     desc: Terminal multiplexer (system package)
     cmds:
       - cmd: sudo apt install -y tmux
@@ -148,6 +172,8 @@ tasks:
     silent: true
 
   zellij:
+    vars:
+      METADATA_CATEGORY: [tui, terminal-multiplexer]
     desc: Modern terminal multiplexer (to ~/.local/bin)
     cmds:
       - cmd: mkdir -p ~/.local/bin
@@ -164,6 +190,8 @@ tasks:
     silent: true
 
   atuin:
+    vars:
+      METADATA_CATEGORY: [cli, shell]
     desc: Shell history sync/search
     cmds:
       - cmd: curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
@@ -174,6 +202,8 @@ tasks:
     silent: true
 
   just:
+    vars:
+      METADATA_CATEGORY: [cli, task-runner]
     desc: Command runner (to ~/.local/bin)
     cmds:
       - cmd: mkdir -p ~/.local/bin
@@ -188,6 +218,8 @@ tasks:
     silent: true
 
   fd:
+    vars:
+      METADATA_CATEGORY: [cli, search]
     desc: Fast find alternative (via cargo)
     cmds:
       - cargo install fd-find
@@ -197,6 +229,8 @@ tasks:
     silent: true
 
   sd:
+    vars:
+      METADATA_CATEGORY: [cli, search]
     desc: Intuitive find & replace (via cargo)
     cmds:
       - cargo install sd
@@ -206,6 +240,8 @@ tasks:
     silent: true
 
   dust:
+    vars:
+      METADATA_CATEGORY: [cli, monitoring, filesystem]
     desc: du alternative (via cargo)
     cmds:
       - cargo install du-dust
@@ -215,6 +251,8 @@ tasks:
     silent: true
 
   duf:
+    vars:
+      METADATA_CATEGORY: [cli, filesystem]
     desc: Disk usage/free TUI (via Go)
     cmds:
       - go install github.com/muesli/duf@latest
@@ -224,6 +262,8 @@ tasks:
     silent: true
 
   procs:
+    vars:
+      METADATA_CATEGORY: [cli, monitoring]
     desc: Modern ps replacement (via cargo)
     cmds:
       - cargo install procs
@@ -233,6 +273,8 @@ tasks:
     silent: true
 
   hyperfine:
+    vars:
+      METADATA_CATEGORY: [cli, devtool]
     desc: Command benchmarking (via cargo)
     cmds:
       - cargo install hyperfine
@@ -242,6 +284,8 @@ tasks:
     silent: true
 
   tldr:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: Community man pages (tealdeer, via cargo)
     cmds:
       - cargo install tealdeer
@@ -251,6 +295,8 @@ tasks:
     silent: true
 
   glow:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: Markdown renderer for the terminal (via Go)
     cmds:
       - go install github.com/charmbracelet/glow@latest
@@ -260,6 +306,8 @@ tasks:
     silent: true
 
   gum:
+    vars:
+      METADATA_CATEGORY: [cli, devtool]
     desc: Shell script glamour toolkit (via Go)
     cmds:
       - go install github.com/charmbracelet/gum@latest
@@ -269,6 +317,8 @@ tasks:
     silent: true
 
   vhs:
+    vars:
+      METADATA_CATEGORY: [cli, media, video]
     desc: Terminal GIF recorder (via Go)
     cmds:
       - go install github.com/charmbracelet/vhs@latest
@@ -278,6 +328,8 @@ tasks:
     silent: true
 
   broot:
+    vars:
+      METADATA_CATEGORY: [tui, filesystem]
     desc: Tree navigation with fuzzy search (via cargo)
     cmds:
       - cargo install broot
@@ -287,6 +339,8 @@ tasks:
     silent: true
 
   lsd:
+    vars:
+      METADATA_CATEGORY: [cli, filesystem]
     desc: Next-gen ls (via cargo)
     cmds:
       - cargo install lsd
@@ -296,6 +350,8 @@ tasks:
     silent: true
 
   watchexec:
+    vars:
+      METADATA_CATEGORY: [cli, devtool]
     desc: Run commands on file changes (via cargo)
     cmds:
       - cargo install watchexec-cli
@@ -305,6 +361,8 @@ tasks:
     silent: true
 
   htop:
+    vars:
+      METADATA_CATEGORY: [tui, monitoring]
     desc: Interactive process viewer (system package)
     cmds:
       - cmd: sudo apt install -y htop
@@ -318,6 +376,8 @@ tasks:
     silent: true
 
   btop:
+    vars:
+      METADATA_CATEGORY: [tui, monitoring]
     desc: Modern resource monitor (system package)
     cmds:
       - cmd: sudo apt install -y btop
@@ -331,6 +391,8 @@ tasks:
     silent: true
 
   glances:
+    vars:
+      METADATA_CATEGORY: [tui, monitoring]
     desc: Cross-platform system monitor (pip user)
     cmds:
       - pip3 install --user glances
@@ -340,6 +402,8 @@ tasks:
     silent: true
 
   navi:
+    vars:
+      METADATA_CATEGORY: [cli, shell]
     desc: Interactive cheatsheet browser (via cargo; uses fzf)
     cmds:
       - cmd: cargo install navi
@@ -352,6 +416,8 @@ tasks:
     silent: true
 
   install-all:
+    vars:
+      METADATA_CATEGORY: [installer, shell]
     desc: Full modern shell setup (non-root)
     cmds:
       - task: starship

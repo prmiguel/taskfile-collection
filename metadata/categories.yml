@@ -1,0 +1,122 @@
+# Source of truth for task categories used by METADATA_CATEGORY.
+# Add a category here BEFORE using it in any Taskfile.
+# names: lowercase kebab-case; descriptions: one sentence.
+
+categories:
+  # ---- task kind: what running the task represents (pick one) ----
+  - name: cli
+    description: Command-line binary or script run from a terminal.
+  - name: container-image
+    description: Task that builds, runs, or enters a container image or dev environment.
+  - name: gui
+    description: Desktop graphical application with a window or tray UI.
+  - name: installer
+    description: Meta task that installs or orchestrates a group of tools.
+  - name: library
+    description: Library or SDK consumed by other software rather than run directly.
+  - name: meta
+    description: Repository-level meta task such as listing available tasks.
+  - name: service
+    description: Long-running daemon, server, or local web service.
+  - name: tui
+    description: Full-screen terminal user interface application.
+  - name: validation
+    description: Repository validation, linting, or local CI helper task.
+
+  # ---- domain: subject area (pick one, more for cross-cutting tools) ----
+  - name: agent
+    description: AI coding agent or autonomous agent.
+  - name: ai-tool
+    description: AI or LLM helper that is not a coding agent.
+  - name: cloud
+    description: Cloud provider CLI or cloud service tooling.
+  - name: container
+    description: Container runtime, engine, or image tooling.
+  - name: db
+    description: Database client, CLI, or explorer.
+  - name: devtool
+    description: General software development tool.
+  - name: iac
+    description: Infrastructure-as-code or provisioning tooling.
+  - name: kubernetes
+    description: Kubernetes and cluster tooling.
+  - name: media
+    description: Image, audio, video, speech, or media download tooling.
+  - name: network
+    description: Networking, DNS, HTTP, tunneling, VPN, or transfer tooling.
+  - name: os
+    description: Operating-system maintenance such as update, upgrade, or cleanup.
+  - name: security
+    description: Security, secrets, signing, or vulnerability scanning tooling.
+  - name: utility
+    description: General-purpose utility not covered by a finer category.
+
+  # ---- facet: fine-grained specialisation (zero or more) ----
+  - name: archive
+    description: Archive creation or extraction tooling.
+  - name: audio
+    description: Audio processing, conversion, or playback.
+  - name: backup
+    description: Backup, sync, or snapshot tooling.
+  - name: browser
+    description: Web browser.
+  - name: build-tool
+    description: Compiler, build system, or build accelerator.
+  - name: clipboard
+    description: Clipboard management.
+  - name: compression
+    description: Compression or decompression tooling.
+  - name: data-processing
+    description: JSON, YAML, CSV, or XML manipulation and querying.
+  - name: diagram
+    description: Diagram or chart generation.
+  - name: document
+    description: Document authoring, conversion, OCR, or PDF tooling.
+  - name: editor
+    description: Text editor.
+  - name: filesystem
+    description: File manager, search, listing, or disk-usage tooling.
+  - name: formatter
+    description: Code or markup formatter.
+  - name: fun
+    description: Novelty or entertainment tooling.
+  - name: git
+    description: Git or Git-hosting companion tooling.
+  - name: ide
+    description: Integrated development environment.
+  - name: image
+    description: Image processing, optimization, or conversion.
+  - name: image-generation
+    description: AI image generation or diffusion tooling.
+  - name: linter
+    description: Static analysis or lint checker.
+  - name: llm
+    description: Local LLM runtime, model server, or model client.
+  - name: monitoring
+    description: System or resource monitoring and benchmarking.
+  - name: notification
+    description: Desktop or system notification.
+  - name: package-manager
+    description: System or language package manager.
+  - name: productivity
+    description: Notes, tasks, calendar, or personal organization.
+  - name: prompt
+    description: Shell prompt or theme.
+  - name: runtime
+    description: Language runtime or interpreter.
+  - name: search
+    description: Search, find, or fuzzy-finding tooling.
+  - name: shell
+    description: Shell, shell framework, or shell integration.
+  - name: speech
+    description: Speech-to-text or text-to-speech.
+  - name: task-runner
+    description: Build or task automation runner.
+  - name: terminal-multiplexer
+    description: Terminal multiplexer or session manager.
+  - name: test-tool
+    description: Test runner or testing utility.
+  - name: version-manager
+    description: Language or runtime version manager.
+  - name: video
+    description: Video processing, conversion, streaming, or recording.

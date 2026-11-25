@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install Factory Droid CLI (droid, non-root)
     summary: |
       Droid is Factory's terminal coding agent (binary: droid). The official
@@ -23,6 +25,8 @@ tasks:
     silent: true
 
   install-npm:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install Factory Droid CLI via npm (non-root)
     summary: |
       Installs the `droid` package into the current user's npm prefix, so no

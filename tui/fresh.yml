@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [tui, editor]
     desc: Install Fresh terminal editor (fresh, non-root)
     summary: |
       Fresh is a zero-config terminal IDE (binary: fresh). On Linux the

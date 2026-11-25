@@ -5,6 +5,8 @@ version: '3'
 # system packages use the platform manager.
 tasks:
   graphviz:
+    vars:
+      METADATA_CATEGORY: [cli, diagram]
     desc: Graph/flowchart rendering (dot)
     cmds:
       - cmd: sudo apt install -y graphviz
@@ -18,6 +20,8 @@ tasks:
     silent: true
 
   mermaid-cli:
+    vars:
+      METADATA_CATEGORY: [cli, diagram]
     desc: Mermaid diagrams to SVG/PNG (mmdc)
     cmds:
       - npm install -g @mermaid-js/mermaid-cli
@@ -27,6 +31,8 @@ tasks:
     silent: true
 
   d2:
+    vars:
+      METADATA_CATEGORY: [cli, diagram]
     desc: Declarative diagram language
     cmds:
       - go install github.com/terrastruct/d2/cmd/d2@latest
@@ -36,6 +42,8 @@ tasks:
     silent: true
 
   plantuml:
+    vars:
+      METADATA_CATEGORY: [cli, diagram]
     desc: UML and diagrams from text
     cmds:
       - cmd: sudo apt install -y plantuml
@@ -46,6 +54,8 @@ tasks:
     silent: true
 
   svgbob:
+    vars:
+      METADATA_CATEGORY: [cli, diagram]
     desc: ASCII art to SVG
     cmds:
       - cargo install svgbob
@@ -55,6 +65,8 @@ tasks:
     silent: true
 
   gnuplot:
+    vars:
+      METADATA_CATEGORY: [cli, diagram]
     desc: Scientific plotting
     cmds:
       - cmd: sudo apt install -y gnuplot
@@ -68,6 +80,8 @@ tasks:
     silent: true
 
   ditaa:
+    vars:
+      METADATA_CATEGORY: [cli, diagram]
     desc: ASCII art to diagrams
     cmds:
       - cmd: sudo apt install -y ditaa
@@ -78,6 +92,8 @@ tasks:
     silent: true
 
   decktape:
+    vars:
+      METADATA_CATEGORY: [cli, diagram]
     desc: Export HTML presentations to PDF/PNG
     cmds:
       - npm install -g decktape
@@ -87,6 +103,8 @@ tasks:
     silent: true
 
   install-all:
+    vars:
+      METADATA_CATEGORY: [installer, diagram]
     desc: Install the diagrams bundle (non-root where possible)
     cmds:
       - task: graphviz

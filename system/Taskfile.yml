@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   update:
+    vars:
+      METADATA_CATEGORY: [cli, os]
     desc: Update package lists
     cmds:
       - cmd: sudo apt update
@@ -19,6 +21,8 @@ tasks:
     silent: true
 
   upgrade:
+    vars:
+      METADATA_CATEGORY: [cli, os]
     desc: Upgrade all packages
     cmds:
       - cmd: sudo apt upgrade -y
@@ -34,6 +38,8 @@ tasks:
     silent: true
 
   cleanup:
+    vars:
+      METADATA_CATEGORY: [cli, os]
     desc: Remove unused packages and clean cache
     cmds:
       - cmd: sudo apt autoremove -y && sudo apt autoclean
@@ -47,6 +53,8 @@ tasks:
     silent: true
 
   snap-install:
+    vars:
+      METADATA_CATEGORY: [cli, os, package-manager]
     desc: "Install a snap package (usage: task snap-install PACKAGE=<name>)"
     cmds:
       - cmd: sudo snap install {{.PACKAGE}} --classic

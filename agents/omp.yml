@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install oh my pi coding agent (omp, non-root)
     summary: |
       oh my pi (binary: omp) is a coding-first fork of Pi by Stencil Labs. The
@@ -23,6 +25,8 @@ tasks:
     silent: true
 
   install-bun:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install oh my pi coding agent via Bun (non-root)
     summary: |
       Installs @oh-my-pi/pi-coding-agent globally with Bun into the user's Bun

@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install-all:
+    vars:
+      METADATA_CATEGORY: [installer, agent]
     desc: Install all AI coding agents
     summary: |
       Installs every agent in this section sequentially into user-owned

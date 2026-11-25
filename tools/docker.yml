@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   setup-repo:
+    vars:
+      METADATA_CATEGORY: [cli, container]
     desc: Add Docker's official APT repository (Ubuntu)
     cmds:
       - cmd: |
@@ -22,6 +24,8 @@ tasks:
     silent: true
 
   install-cli:
+    vars:
+      METADATA_CATEGORY: [cli, container]
     desc: Install Docker CLI (client only)
     deps:
       - setup-repo
@@ -39,6 +43,8 @@ tasks:
     silent: true
 
   install-engine:
+    vars:
+      METADATA_CATEGORY: [cli, container]
     desc: Install Docker Engine (client + daemon)
     deps:
       - setup-repo
@@ -56,6 +62,8 @@ tasks:
     silent: true
 
   install-desktop:
+    vars:
+      METADATA_CATEGORY: [gui, container]
     desc: Install Docker Desktop
     cmds:
       - cmd: |

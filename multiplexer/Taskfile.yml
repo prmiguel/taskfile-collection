@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install-all:
+    vars:
+      METADATA_CATEGORY: [installer, terminal-multiplexer]
     desc: Install all agent terminal multiplexers
     summary: |
       Installs every agent multiplexer in this section into user-owned

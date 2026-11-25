@@ -5,6 +5,8 @@ version: '3'
 # stay non-root; only the Darwin/Windows branches use brew/winget.
 tasks:
   kubectl:
+    vars:
+      METADATA_CATEGORY: [cli, kubernetes]
     desc: Kubernetes CLI
     cmds:
       - cmd: mkdir -p ~/.local/bin
@@ -23,6 +25,8 @@ tasks:
     silent: true
 
   krew:
+    vars:
+      METADATA_CATEGORY: [cli, kubernetes]
     desc: kubectl plugin manager (installs to ~/.krew)
     cmds:
       - cmd: |
@@ -43,6 +47,8 @@ tasks:
     silent: true
 
   kubectx:
+    vars:
+      METADATA_CATEGORY: [cli, kubernetes]
     desc: Fast context and namespace switching (via krew)
     deps: [krew]
     cmds:
@@ -53,6 +59,8 @@ tasks:
     silent: true
 
   k9s:
+    vars:
+      METADATA_CATEGORY: [tui, kubernetes]
     desc: Terminal UI for Kubernetes clusters
     cmds:
       - cmd: mkdir -p ~/.local/bin
@@ -69,6 +77,8 @@ tasks:
     silent: true
 
   stern:
+    vars:
+      METADATA_CATEGORY: [cli, kubernetes]
     desc: Multi-pod log tailing (via krew)
     deps: [krew]
     cmds:
@@ -77,6 +87,8 @@ tasks:
     silent: true
 
   helm:
+    vars:
+      METADATA_CATEGORY: [cli, kubernetes]
     desc: Kubernetes package manager
     cmds:
       - cmd: mkdir -p ~/.local/bin
@@ -91,6 +103,8 @@ tasks:
     silent: true
 
   kustomize:
+    vars:
+      METADATA_CATEGORY: [cli, kubernetes]
     desc: Kubernetes config customization (to ~/.local/bin)
     cmds:
       - cmd: curl -fsSL "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash -s -- ~/.local/bin
@@ -103,6 +117,8 @@ tasks:
     silent: true
 
   minikube:
+    vars:
+      METADATA_CATEGORY: [cli, kubernetes]
     desc: Local single-node Kubernetes cluster
     cmds:
       - cmd: mkdir -p ~/.local/bin
@@ -121,6 +137,8 @@ tasks:
     silent: true
 
   kind:
+    vars:
+      METADATA_CATEGORY: [cli, kubernetes]
     desc: Kubernetes-in-Docker
     cmds:
       - cmd: mkdir -p ~/.local/bin
@@ -139,6 +157,8 @@ tasks:
     silent: true
 
   k3d:
+    vars:
+      METADATA_CATEGORY: [cli, kubernetes]
     desc: k3s clusters in Docker
     cmds:
       - cmd: curl -fsSL https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | K3D_INSTALL_DIR=~/.local/bin bash
@@ -151,6 +171,8 @@ tasks:
     silent: true
 
   kubecolor:
+    vars:
+      METADATA_CATEGORY: [cli, kubernetes]
     desc: Colorized kubectl output (via Go)
     cmds:
       - go install github.com/kubecolor/kubecolor@latest
@@ -160,6 +182,8 @@ tasks:
     silent: true
 
   k8sgpt:
+    vars:
+      METADATA_CATEGORY: [cli, kubernetes, ai-tool]
     desc: AI-powered Kubernetes diagnostics (via Go)
     cmds:
       - go install github.com/k8sgpt-ai/k8sgpt@latest
@@ -169,6 +193,8 @@ tasks:
     silent: true
 
   install-all:
+    vars:
+      METADATA_CATEGORY: [installer, kubernetes]
     desc: Install full Kubernetes toolkit (non-root)
     cmds:
       - task: kubectl

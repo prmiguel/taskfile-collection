@@ -5,6 +5,8 @@ version: '3'
 # or a release binary into ~/.local/bin; shellcheck stays a system package.
 tasks:
   sops:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: Encrypted secrets in Git (via Go)
     cmds:
       - go install github.com/getsops/sops/v3/cmd/sops@latest
@@ -14,6 +16,8 @@ tasks:
     silent: true
 
   age:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: Simple modern file encryption (via Go)
     cmds:
       - go install filippo.io/age/cmd/age@latest
@@ -24,6 +28,8 @@ tasks:
     silent: true
 
   gopass:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: Team password manager (via Go)
     cmds:
       - go install github.com/gopasspw/gopass@latest
@@ -33,6 +39,8 @@ tasks:
     silent: true
 
   bitwarden-cli:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: Bitwarden password manager CLI (npm user prefix)
     cmds:
       - npm install -g @bitwarden/cli
@@ -42,6 +50,8 @@ tasks:
     silent: true
 
   mkcert:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: Locally-trusted dev certificates (via Go)
     cmds:
       - go install github.com/FiloSottile/mkcert@latest
@@ -51,6 +61,8 @@ tasks:
     silent: true
 
   step-cli:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: PKI, certs, and identity toolkit (via Go)
     cmds:
       - go install github.com/smallstep/cli/cmd/step@latest
@@ -60,6 +72,8 @@ tasks:
     silent: true
 
   trivy:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: Vulnerability + IaC + secret scanner (to ~/.local/bin)
     cmds:
       - cmd: mkdir -p ~/.local/bin
@@ -74,6 +88,8 @@ tasks:
     silent: true
 
   grype:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: Container/filesystem vulnerability scanner (to ~/.local/bin)
     cmds:
       - cmd: mkdir -p ~/.local/bin
@@ -86,6 +102,8 @@ tasks:
     silent: true
 
   syft:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: SBOM generator (to ~/.local/bin)
     cmds:
       - cmd: mkdir -p ~/.local/bin
@@ -98,6 +116,8 @@ tasks:
     silent: true
 
   cosign:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: Sign/verify containers and blobs (via Go)
     cmds:
       - go install github.com/sigstore/cosign/v2/cmd/cosign@latest
@@ -107,6 +127,8 @@ tasks:
     silent: true
 
   semgrep:
+    vars:
+      METADATA_CATEGORY: [cli, security, linter]
     desc: Static analysis / SAST (pip user)
     cmds:
       - pip3 install --user semgrep
@@ -116,6 +138,8 @@ tasks:
     silent: true
 
   osv-scanner:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: Dependency vulnerability scanner (via Go)
     cmds:
       - go install github.com/google/osv-scanner/cmd/osv-scanner@latest
@@ -125,6 +149,8 @@ tasks:
     silent: true
 
   shellcheck:
+    vars:
+      METADATA_CATEGORY: [cli, security, linter]
     desc: Shell script linter (system package)
     cmds:
       - cmd: sudo apt install -y shellcheck
@@ -140,6 +166,8 @@ tasks:
     silent: true
 
   shfmt:
+    vars:
+      METADATA_CATEGORY: [cli, security, formatter]
     desc: Shell script formatter (via Go)
     cmds:
       - go install mvdan.cc/sh/v3/cmd/shfmt@latest
@@ -149,6 +177,8 @@ tasks:
     silent: true
 
   hadolint:
+    vars:
+      METADATA_CATEGORY: [cli, security, linter]
     desc: Dockerfile linter (to ~/.local/bin)
     cmds:
       - cmd: mkdir -p ~/.local/bin
@@ -167,6 +197,8 @@ tasks:
     silent: true
 
   actionlint:
+    vars:
+      METADATA_CATEGORY: [cli, security, linter]
     desc: GitHub Actions workflow linter (via Go)
     cmds:
       - go install github.com/rhysd/actionlint/cmd/actionlint@latest
@@ -176,6 +208,8 @@ tasks:
     silent: true
 
   nuclei:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: Template-based vulnerability scanner (via Go)
     cmds:
       - go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
@@ -185,6 +219,8 @@ tasks:
     silent: true
 
   ffuf:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: Fast web fuzzer (via Go)
     cmds:
       - go install github.com/ffuf/ffuf/v2@latest
@@ -194,6 +230,8 @@ tasks:
     silent: true
 
   lynis:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: System security audit (clone to ~/.local/share)
     cmds:
       - cmd: git clone --depth 1 https://github.com/CISOfy/lynis ~/.local/share/lynis
@@ -206,6 +244,8 @@ tasks:
     silent: true
 
   pass:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: Standard Unix password manager (system package)
     cmds:
       - cmd: sudo apt install -y pass
@@ -219,6 +259,8 @@ tasks:
     silent: true
 
   onepassword-cli:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: 1Password CLI (op, requires an account)
     cmds:
       - cmd: brew install 1password-cli
@@ -230,6 +272,8 @@ tasks:
     silent: true
 
   bandit:
+    vars:
+      METADATA_CATEGORY: [cli, security, linter]
     desc: Python security linter (pip user)
     cmds:
       - pip3 install --user bandit
@@ -239,6 +283,8 @@ tasks:
     silent: true
 
   yamllint:
+    vars:
+      METADATA_CATEGORY: [cli, security, linter]
     desc: YAML linter (pip user)
     cmds:
       - pip3 install --user yamllint
@@ -248,6 +294,8 @@ tasks:
     silent: true
 
   trufflehog:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: Deep secret scanner (to ~/.local/bin)
     cmds:
       - cmd: mkdir -p ~/.local/bin && curl -fsSL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh | sh -s -- -b ~/.local/bin
@@ -260,6 +308,8 @@ tasks:
     silent: true
 
   slsa-verifier:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: Verify SLSA provenance (via Go)
     cmds:
       - go install github.com/slsa-framework/slsa-verifier/v2/cli/slsa-verifier@latest
@@ -269,6 +319,8 @@ tasks:
     silent: true
 
   chainctl:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: Chainguard CLI (via Go)
     cmds:
       - go install chainguard.dev/chainctl/cmd/chainctl@latest
@@ -278,6 +330,8 @@ tasks:
     silent: true
 
   gobuster:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: Directory/DNS brute forcer (via Go)
     cmds:
       - go install github.com/OJ/gobuster/v3@latest
@@ -287,6 +341,8 @@ tasks:
     silent: true
 
   sqlmap:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: SQL injection testing (authorized use only)
     cmds:
       - cmd: git clone --depth 1 https://github.com/sqlmapproject/sqlmap ~/.local/share/sqlmap
@@ -299,6 +355,8 @@ tasks:
     silent: true
 
   nikto:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: Web server scanner (authorized use only)
     cmds:
       - cmd: git clone --depth 1 https://github.com/sullo/nikto ~/.local/share/nikto
@@ -311,6 +369,8 @@ tasks:
     silent: true
 
   install-all:
+    vars:
+      METADATA_CATEGORY: [installer, security]
     desc: Security starter kit (non-root)
     cmds:
       - task: sops

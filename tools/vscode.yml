@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [gui, ide]
     desc: Install Visual Studio Code
     cmds:
       - cmd: |
@@ -24,6 +26,8 @@ tasks:
     silent: true
 
   install-insiders:
+    vars:
+      METADATA_CATEGORY: [gui, ide]
     desc: Install Visual Studio Code Insiders
     cmds:
       - cmd: |
@@ -44,6 +48,8 @@ tasks:
     silent: true
 
   install-cursor:
+    vars:
+      METADATA_CATEGORY: [gui, ide]
     desc: Install Cursor AI editor
     cmds:
       - cmd: sudo snap install cursor --classic

@@ -6,6 +6,8 @@ version: '3'
 # Installed via cargo (preferred), npm (@ast-grep/cli), or pip (ast-grep).
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, linter]
     desc: Install ast-grep (sg)
     cmds:
       - cmd: cargo install ast-grep

@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install MiMo Code AI agent (Xiaomi)
     summary: |
       Installs the Xiaomi MiMo Code terminal coding agent (binary: mimo).
@@ -21,6 +23,8 @@ tasks:
     silent: true
 
   install-npm:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install MiMo Code AI agent via npm
     cmds:
       - cmd: npm install -g @mimo-ai/cli

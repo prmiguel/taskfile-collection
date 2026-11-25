@@ -6,6 +6,8 @@ version: '3'
 tasks:
   # --- Documents, PDF & OCR ---
   pandoc:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: Universal document converter
     cmds:
       - cmd: sudo apt install -y pandoc
@@ -19,6 +21,8 @@ tasks:
     silent: true
 
   typst:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: Modern typesetting system (typst)
     cmds:
       - cmd: cargo install --locked typst-cli
@@ -31,6 +35,8 @@ tasks:
     silent: true
 
   tectonic:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: Self-contained LaTeX engine
     cmds:
       - cargo install tectonic
@@ -40,6 +46,8 @@ tasks:
     silent: true
 
   mdbook:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: Create books from Markdown
     cmds:
       - cargo install mdbook
@@ -49,6 +57,8 @@ tasks:
     silent: true
 
   marp-cli:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: Markdown to slides (HTML/PDF/PowerPoint)
     cmds:
       - npm install -g @marp-team/marp-cli
@@ -58,6 +68,8 @@ tasks:
     silent: true
 
   slides:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: Terminal Markdown presentations
     cmds:
       - go install github.com/maaslalani/slides@latest
@@ -67,6 +79,8 @@ tasks:
     silent: true
 
   asciidoctor:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: AsciiDoc processor
     cmds:
       - cmd: sudo apt install -y asciidoctor
@@ -77,6 +91,8 @@ tasks:
     silent: true
 
   groff:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: Man/PS document formatting
     cmds:
       - cmd: sudo apt install -y groff
@@ -87,6 +103,8 @@ tasks:
     silent: true
 
   tesseract:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: OCR engine (tesseract CLI)
     cmds:
       - cmd: sudo apt install -y tesseract-ocr
@@ -100,6 +118,8 @@ tasks:
     silent: true
 
   ocrmypdf:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: OCR layer for existing PDFs
     cmds:
       - pip3 install --user ocrmypdf
@@ -109,6 +129,8 @@ tasks:
     silent: true
 
   img2pdf:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: Images to PDF (lossless)
     cmds:
       - pip3 install --user img2pdf
@@ -118,6 +140,8 @@ tasks:
     silent: true
 
   pdfgrep:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: Grep inside PDFs
     cmds:
       - cmd: sudo apt install -y pdfgrep
@@ -128,6 +152,8 @@ tasks:
     silent: true
 
   qpdf:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: PDF transform and inspect
     cmds:
       - cmd: sudo apt install -y qpdf
@@ -138,6 +164,8 @@ tasks:
     silent: true
 
   pdftk:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: PDF toolkit
     cmds:
       - cmd: sudo apt install -y pdftk
@@ -148,6 +176,8 @@ tasks:
     silent: true
 
   mutool:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: MuPDF PDF render/manipulate
     cmds:
       - cmd: sudo apt install -y mupdf-tools
@@ -158,6 +188,8 @@ tasks:
     silent: true
 
   poppler-utils:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: pdftotext / pdftoppm / pdfinfo
     cmds:
       - cmd: sudo apt install -y poppler-utils
@@ -168,6 +200,8 @@ tasks:
     silent: true
 
   diff-pdf:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: Visual PDF comparison
     cmds:
       - cmd: sudo apt install -y diff-pdf
@@ -178,6 +212,8 @@ tasks:
     silent: true
 
   marker-pdf:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: PDF → Markdown (AI-powered)
     cmds:
       - pip3 install --user marker-pdf
@@ -187,6 +223,8 @@ tasks:
     silent: true
 
   docling:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: Documents to structured formats (AI)
     cmds:
       - pip3 install --user docling
@@ -196,6 +234,8 @@ tasks:
     silent: true
 
   nougat-ocr:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: Academic PDF OCR (AI)
     cmds:
       - pip3 install --user nougat-ocr
@@ -205,6 +245,8 @@ tasks:
     silent: true
 
   sioyek:
+    vars:
+      METADATA_CATEGORY: [gui, document]
     desc: PDF reader (GUI)
     cmds:
       - cmd: sudo apt install -y sioyek
@@ -215,6 +257,8 @@ tasks:
     silent: true
 
   epr:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: Terminal EPUB reader
     cmds:
       - pip3 install --user epr
@@ -224,6 +268,8 @@ tasks:
     silent: true
 
   hygg:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: Terminal document reader
     cmds:
       - cargo install hygg
@@ -234,6 +280,8 @@ tasks:
 
   # --- Data & structured text ---
   miller:
+    vars:
+      METADATA_CATEGORY: [cli, data-processing]
     desc: CSV/TSV/JSON toolkit (mlr)
     cmds:
       - cmd: sudo apt install -y miller
@@ -247,6 +295,8 @@ tasks:
     silent: true
 
   csvkit:
+    vars:
+      METADATA_CATEGORY: [cli, data-processing]
     desc: CSV toolkit (Python)
     cmds:
       - pip3 install --user csvkit
@@ -256,6 +306,8 @@ tasks:
     silent: true
 
   xsv:
+    vars:
+      METADATA_CATEGORY: [cli, data-processing]
     desc: Fast CSV CLI (Rust)
     cmds:
       - cargo install --locked xsv
@@ -265,6 +317,8 @@ tasks:
     silent: true
 
   visidata:
+    vars:
+      METADATA_CATEGORY: [tui, data-processing]
     desc: Spreadsheet multitool TUI
     cmds:
       - pip3 install --user visidata
@@ -274,6 +328,8 @@ tasks:
     silent: true
 
   csvlens:
+    vars:
+      METADATA_CATEGORY: [tui, data-processing]
     desc: CSV viewer TUI
     cmds:
       - cargo install csvlens
@@ -283,6 +339,8 @@ tasks:
     silent: true
 
   tidy-viewer:
+    vars:
+      METADATA_CATEGORY: [cli, data-processing]
     desc: Pretty-print CSV and tables
     cmds:
       - cargo install tidy-viewer
@@ -292,6 +350,8 @@ tasks:
     silent: true
 
   q-csv:
+    vars:
+      METADATA_CATEGORY: [cli, data-processing]
     desc: SQL queries on CSV/TSV (q)
     cmds:
       - pip3 install --user q
@@ -301,6 +361,8 @@ tasks:
     silent: true
 
   dasel:
+    vars:
+      METADATA_CATEGORY: [cli, data-processing]
     desc: JSON/YAML/TOML/XML selector (dasel)
     cmds:
       - go install github.com/tomwright/dasel@latest
@@ -310,6 +372,8 @@ tasks:
     silent: true
 
   gron:
+    vars:
+      METADATA_CATEGORY: [cli, data-processing]
     desc: Make JSON greppable
     cmds:
       - go install github.com/tomnomnom/gron@latest
@@ -319,6 +383,8 @@ tasks:
     silent: true
 
   jless:
+    vars:
+      METADATA_CATEGORY: [tui, data-processing]
     desc: JSON viewer TUI
     cmds:
       - cargo install jless
@@ -328,6 +394,8 @@ tasks:
     silent: true
 
   fx:
+    vars:
+      METADATA_CATEGORY: [cli, data-processing]
     desc: Command-line JSON viewer
     cmds:
       - npm install -g fx
@@ -337,6 +405,8 @@ tasks:
     silent: true
 
   jc:
+    vars:
+      METADATA_CATEGORY: [cli, data-processing]
     desc: CLI output → JSON
     cmds:
       - pip3 install --user jc
@@ -346,6 +416,8 @@ tasks:
     silent: true
 
   jo:
+    vars:
+      METADATA_CATEGORY: [cli, data-processing]
     desc: Build JSON from arguments
     cmds:
       - cmd: sudo apt install -y jo
@@ -356,6 +428,8 @@ tasks:
     silent: true
 
   htmlq:
+    vars:
+      METADATA_CATEGORY: [cli, data-processing]
     desc: Query HTML with CSS selectors
     cmds:
       - cargo install htmlq
@@ -365,6 +439,8 @@ tasks:
     silent: true
 
   pup:
+    vars:
+      METADATA_CATEGORY: [cli, data-processing]
     desc: HTML parser CLI
     cmds:
       - go install github.com/ericchiang/pup@latest
@@ -374,6 +450,8 @@ tasks:
     silent: true
 
   xmlstarlet:
+    vars:
+      METADATA_CATEGORY: [cli, data-processing]
     desc: XML command-line tool
     cmds:
       - cmd: sudo apt install -y xmlstarlet
@@ -384,6 +462,8 @@ tasks:
     silent: true
 
   xq:
+    vars:
+      METADATA_CATEGORY: [cli, data-processing]
     desc: XML and HTML processor (yq sibling)
     cmds:
       - npm install -g yq
@@ -393,6 +473,8 @@ tasks:
     silent: true
 
   dyff:
+    vars:
+      METADATA_CATEGORY: [cli, data-processing]
     desc: YAML diff tool
     cmds:
       - cargo install dyff
@@ -402,6 +484,8 @@ tasks:
     silent: true
 
   sc-im:
+    vars:
+      METADATA_CATEGORY: [tui, data-processing]
     desc: Vim-like spreadsheet calculator
     cmds:
       - cmd: sudo apt install -y sc-im
@@ -412,6 +496,8 @@ tasks:
     silent: true
 
   install-all:
+    vars:
+      METADATA_CATEGORY: [installer, document]
     desc: Install the docs/data bundle (non-root where possible)
     cmds:
       - task: pandoc

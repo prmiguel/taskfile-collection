@@ -6,6 +6,8 @@ version: '3'
 # possible; system packages use the platform manager.
 tasks:
   qrcode:
+    vars:
+      METADATA_CATEGORY: [cli, utility]
     desc: Generate QR codes from the CLI
     cmds:
       - cmd: sudo apt install -y qrencode
@@ -19,6 +21,8 @@ tasks:
     silent: true
 
   zbar:
+    vars:
+      METADATA_CATEGORY: [cli, utility]
     desc: Read QR/bar codes from camera/images
     cmds:
       - cmd: sudo apt install -y zbar-tools
@@ -29,6 +33,8 @@ tasks:
     silent: true
 
   gpg:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: GNU Privacy Guard
     cmds:
       - cmd: sudo apt install -y gnupg
@@ -42,6 +48,8 @@ tasks:
     silent: true
 
   openssl:
+    vars:
+      METADATA_CATEGORY: [cli, security]
     desc: TLS/crypto toolkit
     cmds:
       - cmd: sudo apt install -y openssl
@@ -52,6 +60,8 @@ tasks:
     silent: true
 
   aria2:
+    vars:
+      METADATA_CATEGORY: [cli, media]
     desc: Multi-protocol download accelerator
     cmds:
       - cmd: sudo apt install -y aria2
@@ -65,6 +75,8 @@ tasks:
     silent: true
 
   s5cmd:
+    vars:
+      METADATA_CATEGORY: [cli, cloud]
     desc: Fast S3 and local filesystem operations
     cmds:
       - go install github.com/peak/s5cmd@latest
@@ -74,6 +86,8 @@ tasks:
     silent: true
 
   s3cmd:
+    vars:
+      METADATA_CATEGORY: [cli, cloud]
     desc: S3 client
     cmds:
       - pip3 install --user s3cmd
@@ -83,6 +97,8 @@ tasks:
     silent: true
 
   aws-vault:
+    vars:
+      METADATA_CATEGORY: [cli, cloud, security]
     desc: Secure AWS credential storage
     cmds:
       - go install github.com/99designs/aws-vault@latest
@@ -92,6 +108,8 @@ tasks:
     silent: true
 
   localtunnel:
+    vars:
+      METADATA_CATEGORY: [cli, network]
     desc: Expose localhost to the public web
     cmds:
       - npm install -g localtunnel
@@ -101,6 +119,8 @@ tasks:
     silent: true
 
   tunnelmole:
+    vars:
+      METADATA_CATEGORY: [cli, network]
     desc: Tunnel localhost to the public web
     cmds:
       - npm install -g tunnelmole-client
@@ -110,6 +130,8 @@ tasks:
     silent: true
 
   gotty:
+    vars:
+      METADATA_CATEGORY: [cli, network]
     desc: Share terminal as a web app
     cmds:
       - go install github.com/yudai/gotty@latest
@@ -119,6 +141,8 @@ tasks:
     silent: true
 
   upterm:
+    vars:
+      METADATA_CATEGORY: [cli, network]
     desc: Instant terminal sharing
     cmds:
       - go install github.com/owenthereal/upterm@latest
@@ -128,6 +152,8 @@ tasks:
     silent: true
 
   xxh:
+    vars:
+      METADATA_CATEGORY: [cli, network]
     desc: Bring your shell over SSH
     cmds:
       - pip3 install --user xxh
@@ -137,6 +163,8 @@ tasks:
     silent: true
 
   sshuttle:
+    vars:
+      METADATA_CATEGORY: [cli, network]
     desc: Poor-man's VPN over SSH
     cmds:
       - pip3 install --user sshuttle
@@ -146,6 +174,8 @@ tasks:
     silent: true
 
   goaccess:
+    vars:
+      METADATA_CATEGORY: [tui, network, monitoring]
     desc: Web log analyzer (real-time)
     cmds:
       - cmd: sudo apt install -y goaccess
@@ -156,6 +186,8 @@ tasks:
     silent: true
 
   multitail:
+    vars:
+      METADATA_CATEGORY: [cli, monitoring]
     desc: Tail multiple log files
     cmds:
       - cmd: sudo apt install -y multitail
@@ -166,6 +198,8 @@ tasks:
     silent: true
 
   tailspin:
+    vars:
+      METADATA_CATEGORY: [cli, monitoring]
     desc: Log file highlighter
     cmds:
       - cargo install tailspin
@@ -175,6 +209,8 @@ tasks:
     silent: true
 
   newsboat:
+    vars:
+      METADATA_CATEGORY: [tui, productivity]
     desc: Terminal RSS feed reader
     cmds:
       - cmd: sudo apt install -y newsboat
@@ -185,6 +221,8 @@ tasks:
     silent: true
 
   taskwarrior:
+    vars:
+      METADATA_CATEGORY: [cli, productivity]
     desc: Task management (task)
     cmds:
       - cmd: sudo apt install -y taskwarrior
@@ -195,6 +233,8 @@ tasks:
     silent: true
 
   timewarrior:
+    vars:
+      METADATA_CATEGORY: [cli, productivity]
     desc: Time tracking (timew)
     cmds:
       - cmd: sudo apt install -y timewarrior
@@ -205,6 +245,8 @@ tasks:
     silent: true
 
   nb:
+    vars:
+      METADATA_CATEGORY: [cli, productivity]
     desc: Note-taking, bookmarking, archive, knowledge base
     cmds:
       - pip3 install --user nb
@@ -214,6 +256,8 @@ tasks:
     silent: true
 
   dnote:
+    vars:
+      METADATA_CATEGORY: [cli, productivity]
     desc: Interactive multi-device notebook
     cmds:
       - npm install -g dnote
@@ -223,6 +267,8 @@ tasks:
     silent: true
 
   taskbook:
+    vars:
+      METADATA_CATEGORY: [cli, productivity]
     desc: Tasks, boards and notes for the terminal
     cmds:
       - npm install -g taskbook
@@ -232,6 +278,8 @@ tasks:
     silent: true
 
   ledger:
+    vars:
+      METADATA_CATEGORY: [cli, productivity]
     desc: Double-entry accounting system
     cmds:
       - cmd: sudo apt install -y ledger
@@ -242,6 +290,8 @@ tasks:
     silent: true
 
   hledger:
+    vars:
+      METADATA_CATEGORY: [cli, productivity]
     desc: Plain text accounting (CLI/TUI/web)
     cmds:
       - cmd: sudo apt install -y hledger
@@ -252,6 +302,8 @@ tasks:
     silent: true
 
   calcurse:
+    vars:
+      METADATA_CATEGORY: [tui, productivity]
     desc: Calendar and scheduling
     cmds:
       - cmd: sudo apt install -y calcurse
@@ -262,6 +314,8 @@ tasks:
     silent: true
 
   khal:
+    vars:
+      METADATA_CATEGORY: [cli, productivity]
     desc: CalDAV CLI calendar
     cmds:
       - pip3 install --user khal
@@ -271,6 +325,8 @@ tasks:
     silent: true
 
   vdirsyncer:
+    vars:
+      METADATA_CATEGORY: [cli, productivity]
     desc: CalDAV/CardDAV synchronization
     cmds:
       - pip3 install --user vdirsyncer
@@ -280,6 +336,8 @@ tasks:
     silent: true
 
   buku:
+    vars:
+      METADATA_CATEGORY: [cli, productivity]
     desc: Browser-independent bookmark manager
     cmds:
       - pip3 install --user buku
@@ -289,6 +347,8 @@ tasks:
     silent: true
 
   gcalcli:
+    vars:
+      METADATA_CATEGORY: [cli, productivity]
     desc: Google Calendar CLI
     cmds:
       - pip3 install --user gcalcli
@@ -298,6 +358,8 @@ tasks:
     silent: true
 
   speedtest-cli:
+    vars:
+      METADATA_CATEGORY: [cli, network]
     desc: Speedtest.net bandwidth test
     cmds:
       - pip3 install --user speedtest-cli
@@ -307,6 +369,8 @@ tasks:
     silent: true
 
   fast-cli:
+    vars:
+      METADATA_CATEGORY: [cli, network]
     desc: Fast.com speed test
     cmds:
       - npm install -g fast-cli
@@ -316,6 +380,8 @@ tasks:
     silent: true
 
   s-web-search:
+    vars:
+      METADATA_CATEGORY: [cli, search]
     desc: Open a web search from the terminal
     cmds:
       - go install github.com/zquestz/s@latest
@@ -325,6 +391,8 @@ tasks:
     silent: true
 
   hget:
+    vars:
+      METADATA_CATEGORY: [cli, search]
     desc: Render websites as plain text
     cmds:
       - go install github.com/bevacqua/hget@latest
@@ -334,6 +402,8 @@ tasks:
     silent: true
 
   mapscii:
+    vars:
+      METADATA_CATEGORY: [tui, utility]
     desc: Terminal map viewer
     cmds:
       - npm install -g mapscii
@@ -343,6 +413,8 @@ tasks:
     silent: true
 
   cmatrix:
+    vars:
+      METADATA_CATEGORY: [cli, fun]
     desc: Matrix-style terminal screensaver
     cmds:
       - cmd: sudo apt install -y cmatrix
@@ -353,6 +425,8 @@ tasks:
     silent: true
 
   pipes-sh:
+    vars:
+      METADATA_CATEGORY: [cli, fun]
     desc: Animated pipes terminal screensaver
     cmds:
       - cmd: sudo apt install -y pipes.sh
@@ -363,6 +437,8 @@ tasks:
     silent: true
 
   install-all:
+    vars:
+      METADATA_CATEGORY: [installer, utility]
     desc: Install the misc bundle (non-root where possible)
     cmds:
       - task: qrcode

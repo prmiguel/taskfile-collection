@@ -7,6 +7,8 @@ vars:
 
 tasks:
   install-nvm:
+    vars:
+      METADATA_CATEGORY: [cli, version-manager, runtime]
     desc: Install nvm (Node Version Manager)
     cmds:
       - cmd: |
@@ -21,6 +23,8 @@ tasks:
     silent: true
 
   install-18:
+    vars:
+      METADATA_CATEGORY: [cli, version-manager, runtime]
     desc: Install Node.js 18 (via nvm)
     deps: [install-nvm]
     cmds:
@@ -34,6 +38,8 @@ tasks:
     silent: true
 
   install-20:
+    vars:
+      METADATA_CATEGORY: [cli, version-manager, runtime]
     desc: Install Node.js 20 (via nvm)
     deps: [install-nvm]
     cmds:
@@ -47,6 +53,8 @@ tasks:
     silent: true
 
   install-22:
+    vars:
+      METADATA_CATEGORY: [cli, version-manager, runtime]
     desc: Install Node.js 22 (via nvm)
     deps: [install-nvm]
     cmds:
@@ -60,6 +68,8 @@ tasks:
     silent: true
 
   install-23:
+    vars:
+      METADATA_CATEGORY: [cli, version-manager, runtime]
     desc: Install Node.js 23 (via nvm)
     deps: [install-nvm]
     cmds:
@@ -73,6 +83,8 @@ tasks:
     silent: true
 
   install-24:
+    vars:
+      METADATA_CATEGORY: [cli, version-manager, runtime]
     desc: Install Node.js 24 (via nvm)
     deps: [install-nvm]
     cmds:

@@ -63,6 +63,8 @@ includes:
 
 tasks:
   default:
+    vars:
+      METADATA_CATEGORY: [meta]
     desc: List all available tasks
     cmds:
       - task --list-all

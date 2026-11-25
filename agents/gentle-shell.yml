@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install gentle-shell coding agent (non-root)
     summary: |
       Installs the standalone gentle-shell launcher (npm package: gentle-pi,

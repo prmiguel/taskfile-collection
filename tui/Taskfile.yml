@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install-all:
+    vars:
+      METADATA_CATEGORY: [installer, editor]
     desc: Install all terminal TUI editors
     summary: |
       Installs every terminal editor in this section into user-owned

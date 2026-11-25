@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install Cursor Agent CLI (agent)
     summary: |
       Installs the standalone Cursor Agent CLI (binary: agent) into ~/.local/bin.

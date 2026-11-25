@@ -8,6 +8,8 @@ version: '3'
 tasks:
   # --- Image conversion & optimization ---
   imagemagick:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: ImageMagick image toolkit (magick)
     cmds:
       - cmd: sudo apt install -y imagemagick
@@ -21,6 +23,8 @@ tasks:
     silent: true
 
   graphicsmagick:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: GraphicsMagick image toolkit (gm)
     cmds:
       - cmd: sudo apt install -y graphicsmagick
@@ -34,6 +38,8 @@ tasks:
     silent: true
 
   libvips:
+    vars:
+      METADATA_CATEGORY: [library, media, image]
     desc: libvips image processing (vips)
     cmds:
       - cmd: sudo apt install -y libvips-tools
@@ -47,6 +53,8 @@ tasks:
     silent: true
 
   sharp-cli:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Image resize/convert via sharp (libvips)
     cmds:
       - npm install -g sharp-cli
@@ -56,6 +64,8 @@ tasks:
     silent: true
 
   oxipng:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: PNG optimizer
     cmds:
       - cmd: cargo install oxipng
@@ -68,6 +78,8 @@ tasks:
     silent: true
 
   optipng:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Lossless PNG optimizer
     cmds:
       - cmd: sudo apt install -y optipng
@@ -81,6 +93,8 @@ tasks:
     silent: true
 
   pngquant:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Lossy PNG quantizer
     cmds:
       - cmd: sudo apt install -y pngquant
@@ -94,6 +108,8 @@ tasks:
     silent: true
 
   zopfli:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: zopfli / zopflipng maximum compression
     cmds:
       - cmd: sudo apt install -y zopfli
@@ -107,6 +123,8 @@ tasks:
     silent: true
 
   jpegoptim:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: JPEG optimizer
     cmds:
       - cmd: sudo apt install -y jpegoptim
@@ -120,6 +138,8 @@ tasks:
     silent: true
 
   jpegtran:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Lossless JPEG transform (libjpeg-turbo)
     cmds:
       - cmd: sudo apt install -y libjpeg-turbo-progs
@@ -133,6 +153,8 @@ tasks:
     silent: true
 
   mozjpeg:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Perceptually-optimized JPEG encoder (cjpeg)
     cmds:
       - cmd: sudo apt install -y mozjpeg
@@ -143,6 +165,8 @@ tasks:
     silent: true
 
   guetzli:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: High-quality JPEG encoder
     cmds:
       - cmd: sudo apt install -y guetzli
@@ -153,6 +177,8 @@ tasks:
     silent: true
 
   libwebp:
+    vars:
+      METADATA_CATEGORY: [library, media, image]
     desc: WebP encode/decode (cwebp/dwebp)
     cmds:
       - cmd: sudo apt install -y webp
@@ -166,6 +192,8 @@ tasks:
     silent: true
 
   libavif:
+    vars:
+      METADATA_CATEGORY: [library, media, image]
     desc: AVIF encode/decode (avifenc/avifdec)
     cmds:
       - cmd: sudo apt install -y libavif-bin
@@ -179,6 +207,8 @@ tasks:
     silent: true
 
   gifsicle:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: GIF create/manipulate/optimize
     cmds:
       - cmd: sudo apt install -y gifsicle
@@ -192,6 +222,8 @@ tasks:
     silent: true
 
   gifski:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: High-quality GIF from video frames
     cmds:
       - cargo install gifski
@@ -201,6 +233,8 @@ tasks:
     silent: true
 
   svgo:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: SVG optimizer
     cmds:
       - npm install -g svgo
@@ -210,6 +244,8 @@ tasks:
     silent: true
 
   scour:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: SVG optimizer (Python)
     cmds:
       - pip3 install --user scour
@@ -219,6 +255,8 @@ tasks:
     silent: true
 
   resvg:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Fast SVG renderer and rasterizer
     cmds:
       - cargo install resvg
@@ -228,6 +266,8 @@ tasks:
     silent: true
 
   librsvg:
+    vars:
+      METADATA_CATEGORY: [library, media, image]
     desc: SVG rasterizer (rsvg-convert)
     cmds:
       - cmd: sudo apt install -y librsvg2-bin
@@ -241,6 +281,8 @@ tasks:
     silent: true
 
   inkscape:
+    vars:
+      METADATA_CATEGORY: [gui, media, image]
     desc: SVG editor/export (CLI export via inkscape CLI)
     cmds:
       - cmd: sudo apt install -y inkscape
@@ -251,6 +293,8 @@ tasks:
     silent: true
 
   potrace:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Bitmap to vector tracing
     cmds:
       - cmd: sudo apt install -y potrace
@@ -264,6 +308,8 @@ tasks:
     silent: true
 
   vtracer:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Raster-to-vector conversion (Rust)
     cmds:
       - cargo install vtracer
@@ -273,6 +319,8 @@ tasks:
     silent: true
 
   optimizt:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Prepare images for the web
     cmds:
       - npm install -g optimizt
@@ -282,6 +330,8 @@ tasks:
     silent: true
 
   imgp:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Batch image resize and rotate
     cmds:
       - pip3 install --user imgp
@@ -291,6 +341,8 @@ tasks:
     silent: true
 
   squoosh-cli:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Codec-based image compression CLI
     cmds:
       - npm install -g @squoosh/cli
@@ -300,6 +352,8 @@ tasks:
     silent: true
 
   exiftool:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Read/write image metadata
     cmds:
       - cmd: sudo apt install -y libimage-exiftool-perl
@@ -313,6 +367,8 @@ tasks:
     silent: true
 
   jhead:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: JPEG EXIF header editor
     cmds:
       - cmd: sudo apt install -y jhead
@@ -326,6 +382,8 @@ tasks:
     silent: true
 
   chafa:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Terminal image viewer (color/ANSI)
     cmds:
       - cmd: sudo apt install -y chafa
@@ -339,6 +397,8 @@ tasks:
     silent: true
 
   viu:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Terminal image viewer (Rust)
     cmds:
       - cargo install viu
@@ -348,6 +408,8 @@ tasks:
     silent: true
 
   timg:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Terminal image/video viewer
     cmds:
       - cmd: sudo apt install -y timg
@@ -358,6 +420,8 @@ tasks:
     silent: true
 
   catimg:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: ANSI images in the terminal
     cmds:
       - cmd: sudo apt install -y catimg
@@ -368,6 +432,8 @@ tasks:
     silent: true
 
   ueberzugpp:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Image previews in the terminal
     cmds:
       - cmd: cargo install ueberzugpp
@@ -380,6 +446,8 @@ tasks:
     silent: true
 
   carbon-now-cli:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Generate beautiful images of code
     cmds:
       - npm install -g carbon-now-cli
@@ -389,6 +457,8 @@ tasks:
     silent: true
 
   freeze:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Generate images of code and terminal output
     cmds:
       - go install github.com/charmbracelet/freeze@latest
@@ -398,6 +468,8 @@ tasks:
     silent: true
 
   gowall:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Recolor images, OCR, upscaling
     cmds:
       - cargo install gowall
@@ -408,6 +480,8 @@ tasks:
 
   # --- Image generation (local & API) ---
   stable-diffusion-cpp:
+    vars:
+      METADATA_CATEGORY: [service, media, image-generation]
     desc: Stable Diffusion / Flux inference CLI (C/C++). Builds to ~/.local/bin
     cmds:
       - cmd: |
@@ -421,6 +495,8 @@ tasks:
     silent: true
 
   comfyui:
+    vars:
+      METADATA_CATEGORY: [service, media, image-generation]
     desc: ComfyUI node-based SD/Flux workflows (API server)
     cmds:
       - cmd: |
@@ -432,6 +508,8 @@ tasks:
     silent: true
 
   invokeai:
+    vars:
+      METADATA_CATEGORY: [service, media, image-generation]
     desc: InvokeAI local SD/Flux suite with CLI
     cmds:
       - pip3 install --user invokeai
@@ -441,6 +519,8 @@ tasks:
     silent: true
 
   fooocus:
+    vars:
+      METADATA_CATEGORY: [service, media, image-generation]
     desc: Fooocus simplified SD/Flux UI + API
     cmds:
       - cmd: |
@@ -452,6 +532,8 @@ tasks:
     silent: true
 
   automatic1111:
+    vars:
+      METADATA_CATEGORY: [service, media, image-generation]
     desc: AUTOMATIC1111 Stable Diffusion WebUI + API
     cmds:
       - cmd: |
@@ -462,6 +544,8 @@ tasks:
     silent: true
 
   forge:
+    vars:
+      METADATA_CATEGORY: [service, media, image-generation]
     desc: Stable Diffusion Forge (faster WebUI + API)
     cmds:
       - cmd: |
@@ -472,6 +556,8 @@ tasks:
     silent: true
 
   mflux:
+    vars:
+      METADATA_CATEGORY: [cli, media, image-generation]
     desc: Flux on Apple Silicon via MLX
     cmds:
       - pip3 install --user mflux
@@ -481,6 +567,8 @@ tasks:
     silent: true
 
   imaginairy:
+    vars:
+      METADATA_CATEGORY: [cli, media, image-generation]
     desc: CLI image generation and editing (imagine)
     cmds:
       - pip3 install --user imaginairy
@@ -490,6 +578,8 @@ tasks:
     silent: true
 
   diffusers:
+    vars:
+      METADATA_CATEGORY: [library, media, image-generation]
     desc: HuggingFace diffusion model toolkit
     cmds:
       - pip3 install --user diffusers
@@ -499,6 +589,8 @@ tasks:
     silent: true
 
   kohya-ss:
+    vars:
+      METADATA_CATEGORY: [cli, media, image-generation]
     desc: SD/Flux LoRA/model training toolkit
     cmds:
       - cmd: |
@@ -510,6 +602,8 @@ tasks:
     silent: true
 
   onetrainer:
+    vars:
+      METADATA_CATEGORY: [cli, media, image-generation]
     desc: Model training frontend (OneTrainer)
     cmds:
       - cmd: |
@@ -521,6 +615,8 @@ tasks:
     silent: true
 
   stable-horde-worker:
+    vars:
+      METADATA_CATEGORY: [service, media, image-generation]
     desc: Stable Horde distributed SD worker
     cmds:
       - pip3 install --user stablehorde
@@ -530,6 +626,8 @@ tasks:
     silent: true
 
   openai-cli:
+    vars:
+      METADATA_CATEGORY: [cli, media, image-generation]
     desc: OpenAI API image generation/editing (openai)
     cmds:
       - pip3 install --user openai
@@ -539,6 +637,8 @@ tasks:
     silent: true
 
   llm-image-plugins:
+    vars:
+      METADATA_CATEGORY: [cli, media, image-generation]
     desc: llm + image provider plugins (llm-gemini, llm-openai)
     cmds:
       - pip3 install --user llm llm-gemini llm-openai
@@ -548,6 +648,8 @@ tasks:
     silent: true
 
   huggingface-hub:
+    vars:
+      METADATA_CATEGORY: [cli, ai-tool]
     desc: Download models/datasets (hf CLI)
     cmds:
       - pip3 install --user huggingface_hub
@@ -557,6 +659,8 @@ tasks:
     silent: true
 
   civitai-downloader:
+    vars:
+      METADATA_CATEGORY: [cli, media, image-generation]
     desc: Download Civitai models
     cmds:
       - pip3 install --user civitai-downloader
@@ -566,6 +670,8 @@ tasks:
     silent: true
 
   aria2:
+    vars:
+      METADATA_CATEGORY: [cli, media]
     desc: Multi-protocol model downloader
     cmds:
       - cmd: sudo apt install -y aria2
@@ -579,6 +685,8 @@ tasks:
     silent: true
 
   transmission-cli:
+    vars:
+      METADATA_CATEGORY: [cli, media]
     desc: BitTorrent client for models
     cmds:
       - cmd: sudo apt install -y transmission-cli
@@ -590,6 +698,8 @@ tasks:
 
   # --- Audio & video ---
   ffmpeg:
+    vars:
+      METADATA_CATEGORY: [cli, media, video]
     desc: ffmpeg/ffprobe media convert/inspect
     cmds:
       - cmd: sudo apt install -y ffmpeg
@@ -603,6 +713,8 @@ tasks:
     silent: true
 
   mediainfo:
+    vars:
+      METADATA_CATEGORY: [cli, media]
     desc: Media file metadata (MediaInfo CLI)
     cmds:
       - cmd: sudo apt install -y mediainfo
@@ -616,6 +728,8 @@ tasks:
     silent: true
 
   sox:
+    vars:
+      METADATA_CATEGORY: [cli, media, audio]
     desc: Audio processing and effects
     cmds:
       - cmd: sudo apt install -y sox
@@ -629,6 +743,8 @@ tasks:
     silent: true
 
   yt-dlp:
+    vars:
+      METADATA_CATEGORY: [cli, media]
     desc: Download video/audio from many sites
     cmds:
       - pip3 install --user yt-dlp
@@ -638,6 +754,8 @@ tasks:
     silent: true
 
   gallery-dl:
+    vars:
+      METADATA_CATEGORY: [cli, media]
     desc: Download image galleries/collections
     cmds:
       - pip3 install --user gallery-dl
@@ -647,6 +765,8 @@ tasks:
     silent: true
 
   you-get:
+    vars:
+      METADATA_CATEGORY: [cli, media]
     desc: Media downloader (Go)
     cmds:
       - go install github.com/soimort/you-get@latest
@@ -656,6 +776,8 @@ tasks:
     silent: true
 
   lux:
+    vars:
+      METADATA_CATEGORY: [cli, media]
     desc: Fast media downloader (Go)
     cmds:
       - go install github.com/xiaoyuanlux/lux@latest
@@ -665,6 +787,8 @@ tasks:
     silent: true
 
   streamlink:
+    vars:
+      METADATA_CATEGORY: [cli, media]
     desc: Pipe streams to a player
     cmds:
       - pip3 install --user streamlink
@@ -674,6 +798,8 @@ tasks:
     silent: true
 
   spotdl:
+    vars:
+      METADATA_CATEGORY: [cli, media, audio]
     desc: Spotify music downloader
     cmds:
       - pip3 install --user spotdl
@@ -683,6 +809,8 @@ tasks:
     silent: true
 
   mpv:
+    vars:
+      METADATA_CATEGORY: [cli, media, video]
     desc: Media player
     cmds:
       - cmd: sudo apt install -y mpv
@@ -696,6 +824,8 @@ tasks:
     silent: true
 
   cmus:
+    vars:
+      METADATA_CATEGORY: [tui, media, audio]
     desc: Terminal music player
     cmds:
       - cmd: sudo apt install -y cmus
@@ -709,6 +839,8 @@ tasks:
     silent: true
 
   ncmpcpp:
+    vars:
+      METADATA_CATEGORY: [tui, media, audio]
     desc: MPD client (needs mpd)
     cmds:
       - cmd: sudo apt install -y ncmpcpp mpd
@@ -719,6 +851,8 @@ tasks:
     silent: true
 
   moc:
+    vars:
+      METADATA_CATEGORY: [tui, media, audio]
     desc: Music on Console player
     cmds:
       - cmd: sudo apt install -y moc
@@ -729,6 +863,8 @@ tasks:
     silent: true
 
   termusic:
+    vars:
+      METADATA_CATEGORY: [tui, media, audio]
     desc: Rust music player with download support
     cmds:
       - cargo install termusic
@@ -738,6 +874,8 @@ tasks:
     silent: true
 
   musikcube:
+    vars:
+      METADATA_CATEGORY: [tui, media, audio]
     desc: Terminal music player, engine and server
     cmds:
       - cmd: sudo apt install -y musikcube
@@ -748,6 +886,8 @@ tasks:
     silent: true
 
   beets:
+    vars:
+      METADATA_CATEGORY: [cli, media, audio]
     desc: Music library manager and tagger
     cmds:
       - pip3 install --user beets
@@ -757,6 +897,8 @@ tasks:
     silent: true
 
   eyed3:
+    vars:
+      METADATA_CATEGORY: [cli, media, audio]
     desc: Audio ID3 tag editor
     cmds:
       - pip3 install --user eyed3
@@ -766,6 +908,8 @@ tasks:
     silent: true
 
   id3v2:
+    vars:
+      METADATA_CATEGORY: [cli, media, audio]
     desc: ID3v1/v2 tag editor
     cmds:
       - cmd: sudo apt install -y id3v2
@@ -776,6 +920,8 @@ tasks:
     silent: true
 
   audiowaveform:
+    vars:
+      METADATA_CATEGORY: [cli, media, audio]
     desc: Audio waveform generator
     cmds:
       - cmd: sudo apt install -y audiowaveform
@@ -786,6 +932,8 @@ tasks:
     silent: true
 
   handbrake-cli:
+    vars:
+      METADATA_CATEGORY: [cli, media, video]
     desc: Video transcoder
     cmds:
       - cmd: sudo apt install -y handbrake-cli
@@ -796,6 +944,8 @@ tasks:
     silent: true
 
   mkvtoolnix:
+    vars:
+      METADATA_CATEGORY: [cli, media, video]
     desc: Matroska tools (mkvmerge)
     cmds:
       - cmd: sudo apt install -y mkvtoolnix
@@ -806,6 +956,8 @@ tasks:
     silent: true
 
   av1an:
+    vars:
+      METADATA_CATEGORY: [cli, media, video]
     desc: AV1 encoding orchestration
     cmds:
       - cargo install av1an
@@ -815,6 +967,8 @@ tasks:
     silent: true
 
   svt-av1:
+    vars:
+      METADATA_CATEGORY: [cli, media, video]
     desc: AV1 encoder
     cmds:
       - cmd: sudo apt install -y svt-av1
@@ -825,6 +979,8 @@ tasks:
     silent: true
 
   ffmpeg-normalize:
+    vars:
+      METADATA_CATEGORY: [cli, media, audio]
     desc: Audio loudness normalization
     cmds:
       - pip3 install --user ffmpeg-normalize
@@ -834,6 +990,8 @@ tasks:
     silent: true
 
   video2x:
+    vars:
+      METADATA_CATEGORY: [cli, media, video]
     desc: AI video upscaling
     cmds:
       - pip3 install --user video2x
@@ -844,6 +1002,8 @@ tasks:
 
   # --- Speech: transcription & synthesis ---
   whisper-cpp:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: Fast local Whisper (C/C++). Builds to ~/.local/bin
     cmds:
       - cmd: |
@@ -858,6 +1018,8 @@ tasks:
     silent: true
 
   openai-whisper:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: Reference Whisper transcription CLI
     cmds:
       - pip3 install --user openai-whisper
@@ -867,6 +1029,8 @@ tasks:
     silent: true
 
   faster-whisper:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: CTranslate2 Whisper transcription
     cmds:
       - pip3 install --user faster-whisper
@@ -876,6 +1040,8 @@ tasks:
     silent: true
 
   whisper-ctranslate2:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: Whisper CLI using CTranslate2
     cmds:
       - pip3 install --user whisper-ctranslate2
@@ -885,6 +1051,8 @@ tasks:
     silent: true
 
   whisperx:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: Whisper with diarization
     cmds:
       - pip3 install --user whisperx
@@ -894,6 +1062,8 @@ tasks:
     silent: true
 
   insanely-fast-whisper:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: Batched GPU Whisper transcription
     cmds:
       - pip3 install --user insanely-fast-whisper
@@ -903,6 +1073,8 @@ tasks:
     silent: true
 
   whisper-diarization:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: Speaker-labeled transcription
     cmds:
       - pip3 install --user whisper-diarization
@@ -912,6 +1084,8 @@ tasks:
     silent: true
 
   piper-tts:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: Fast local TTS (piper)
     cmds:
       - cmd: pip3 install --user piper-tts
@@ -924,6 +1098,8 @@ tasks:
     silent: true
 
   coqui-tts:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: Neural TTS toolkit
     cmds:
       - pip3 install --user TTS
@@ -933,6 +1109,8 @@ tasks:
     silent: true
 
   bark:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: Text-to-audio model (Suno)
     cmds:
       - pip3 install --user bark
@@ -942,6 +1120,8 @@ tasks:
     silent: true
 
   tortoise-tts:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: High-quality TTS
     cmds:
       - pip3 install --user tortoise-tts
@@ -951,6 +1131,8 @@ tasks:
     silent: true
 
   edge-tts:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: Microsoft Edge online TTS
     cmds:
       - pip3 install --user edge-tts
@@ -960,6 +1142,8 @@ tasks:
     silent: true
 
   sherpa-onnx:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: On-device speech-to-text/text-to-speech
     cmds:
       - pip3 install --user sherpa-onnx
@@ -969,6 +1153,8 @@ tasks:
     silent: true
 
   kokoro:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: Lightweight TTS
     cmds:
       - pip3 install --user kokoro
@@ -978,6 +1164,8 @@ tasks:
     silent: true
 
   espeak-ng:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: Offline TTS engine
     cmds:
       - cmd: sudo apt install -y espeak-ng
@@ -988,6 +1176,8 @@ tasks:
     silent: true
 
   festival:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: Speech synthesis system
     cmds:
       - cmd: sudo apt install -y festival
@@ -998,6 +1188,8 @@ tasks:
     silent: true
 
   flite:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: Small run-time TTS engine
     cmds:
       - cmd: sudo apt install -y flite
@@ -1008,6 +1200,8 @@ tasks:
     silent: true
 
   vosk:
+    vars:
+      METADATA_CATEGORY: [cli, media, speech]
     desc: Offline speech recognition
     cmds:
       - pip3 install --user vosk
@@ -1018,6 +1212,8 @@ tasks:
 
   # --- Screenshot & recording ---
   asciinema:
+    vars:
+      METADATA_CATEGORY: [cli, media, video]
     desc: Terminal session recorder
     cmds:
       - pip3 install --user asciinema
@@ -1027,6 +1223,8 @@ tasks:
     silent: true
 
   agg:
+    vars:
+      METADATA_CATEGORY: [cli, media, video]
     desc: Asciinema → GIF converter
     cmds:
       - cargo install agg
@@ -1036,6 +1234,8 @@ tasks:
     silent: true
 
   terminalizer:
+    vars:
+      METADATA_CATEGORY: [cli, media, video]
     desc: Terminal GIF recorder
     cmds:
       - npm install -g terminalizer
@@ -1045,6 +1245,8 @@ tasks:
     silent: true
 
   termshot:
+    vars:
+      METADATA_CATEGORY: [cli, media, video]
     desc: Command output to image
     cmds:
       - go install github.com/tonistiigi/termshot@latest
@@ -1054,6 +1256,8 @@ tasks:
     silent: true
 
   scrot:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: X11 screenshot utility
     cmds:
       - cmd: sudo apt install -y scrot
@@ -1064,6 +1268,8 @@ tasks:
     silent: true
 
   maim:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: X11 screenshot with region selection
     cmds:
       - cmd: sudo apt install -y maim slop
@@ -1072,6 +1278,8 @@ tasks:
     silent: true
 
   grim:
+    vars:
+      METADATA_CATEGORY: [cli, media, image]
     desc: Wayland screenshot utility
     cmds:
       - cmd: sudo apt install -y grim slurp
@@ -1083,6 +1291,8 @@ tasks:
     silent: true
 
   wf-recorder:
+    vars:
+      METADATA_CATEGORY: [cli, media, video]
     desc: Wayland screen recorder
     cmds:
       - cmd: sudo apt install -y wf-recorder
@@ -1094,6 +1304,8 @@ tasks:
     silent: true
 
   simplescreenrecorder:
+    vars:
+      METADATA_CATEGORY: [gui, media, video]
     desc: Screen recorder (GUI)
     cmds:
       - cmd: sudo apt install -y simplescreenrecorder
@@ -1102,6 +1314,8 @@ tasks:
     silent: true
 
   ksnip:
+    vars:
+      METADATA_CATEGORY: [gui, media, image]
     desc: Screenshot + annotation tool (GUI)
     cmds:
       - cmd: sudo apt install -y ksnip
@@ -1112,6 +1326,8 @@ tasks:
     silent: true
 
   spectacle:
+    vars:
+      METADATA_CATEGORY: [gui, media, image]
     desc: KDE screenshot tool (GUI)
     cmds:
       - cmd: sudo apt install -y spectacle
@@ -1120,6 +1336,8 @@ tasks:
     silent: true
 
   peek:
+    vars:
+      METADATA_CATEGORY: [gui, media, video]
     desc: Simple screen recorder (GUI)
     cmds:
       - cmd: sudo apt install -y peek
@@ -1128,6 +1346,8 @@ tasks:
     silent: true
 
   kooha:
+    vars:
+      METADATA_CATEGORY: [gui, media, video]
     desc: Screen recorder (GUI)
     cmds:
       - cmd: sudo apt install -y kooha
@@ -1136,6 +1356,8 @@ tasks:
     silent: true
 
   obs-studio:
+    vars:
+      METADATA_CATEGORY: [gui, media, video]
     desc: Streaming and recording (GUI)
     cmds:
       - cmd: sudo apt install -y obs-studio
@@ -1146,6 +1368,8 @@ tasks:
     silent: true
 
   install-all:
+    vars:
+      METADATA_CATEGORY: [installer, media]
     desc: Install the media bundle (non-root where possible)
     cmds:
       - task: imagemagick

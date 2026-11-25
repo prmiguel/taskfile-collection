@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install-all:
+    vars:
+      METADATA_CATEGORY: [installer, ai-tool]
     desc: Install all AI tools
     summary: |
       Installs every tool in this section. Currently: rtk.

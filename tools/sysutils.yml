@@ -7,6 +7,8 @@ version: '3'
 tasks:
   # --- Monitoring & system info ---
   bottom:
+    vars:
+      METADATA_CATEGORY: [tui, monitoring]
     desc: Cross-platform process/system monitor (btm)
     cmds:
       - cmd: cargo install bottom --locked
@@ -19,6 +21,8 @@ tasks:
     silent: true
 
   zenith:
+    vars:
+      METADATA_CATEGORY: [tui, monitoring]
     desc: Zoomable CPU/memory/disk monitor
     cmds:
       - cargo install zenith
@@ -28,6 +32,8 @@ tasks:
     silent: true
 
   gtop:
+    vars:
+      METADATA_CATEGORY: [tui, monitoring]
     desc: System monitoring dashboard (Node)
     cmds:
       - npm install -g gtop
@@ -37,6 +43,8 @@ tasks:
     silent: true
 
   vtop:
+    vars:
+      METADATA_CATEGORY: [tui, monitoring]
     desc: Terminal activity monitor
     cmds:
       - npm install -g vtop
@@ -46,6 +54,8 @@ tasks:
     silent: true
 
   s-tui:
+    vars:
+      METADATA_CATEGORY: [tui, monitoring]
     desc: CPU stress test and monitor
     cmds:
       - pip3 install --user s-tui
@@ -55,6 +65,8 @@ tasks:
     silent: true
 
   nmon:
+    vars:
+      METADATA_CATEGORY: [cli, monitoring]
     desc: System performance monitor
     cmds:
       - cmd: sudo apt install -y nmon
@@ -68,6 +80,8 @@ tasks:
     silent: true
 
   tiptop:
+    vars:
+      METADATA_CATEGORY: [tui, monitoring]
     desc: System monitor
     cmds:
       - pip3 install --user tiptop
@@ -77,6 +91,8 @@ tasks:
     silent: true
 
   fastfetch:
+    vars:
+      METADATA_CATEGORY: [cli, monitoring]
     desc: Fast system information tool
     cmds:
       - cmd: sudo apt install -y fastfetch
@@ -92,6 +108,8 @@ tasks:
     silent: true
 
   macchina:
+    vars:
+      METADATA_CATEGORY: [cli, monitoring]
     desc: System info with themes
     cmds:
       - cmd: cargo install macchina
@@ -104,6 +122,8 @@ tasks:
     silent: true
 
   cpufetch:
+    vars:
+      METADATA_CATEGORY: [cli, monitoring]
     desc: CPU architecture info
     cmds:
       - cmd: sudo apt install -y cpufetch
@@ -117,6 +137,8 @@ tasks:
     silent: true
 
   bandwhich:
+    vars:
+      METADATA_CATEGORY: [cli, monitoring, network]
     desc: Per-process bandwidth monitor
     cmds:
       - cmd: cargo install bandwhich
@@ -129,6 +151,8 @@ tasks:
     silent: true
 
   nethogs:
+    vars:
+      METADATA_CATEGORY: [cli, monitoring, network]
     desc: Per-process network usage
     cmds:
       - cmd: sudo apt install -y nethogs
@@ -142,6 +166,8 @@ tasks:
     silent: true
 
   iftop:
+    vars:
+      METADATA_CATEGORY: [cli, monitoring, network]
     desc: Bandwidth by connection
     cmds:
       - cmd: sudo apt install -y iftop
@@ -155,6 +181,8 @@ tasks:
     silent: true
 
   nload:
+    vars:
+      METADATA_CATEGORY: [cli, monitoring, network]
     desc: Live network load
     cmds:
       - cmd: sudo apt install -y nload
@@ -168,6 +196,8 @@ tasks:
     silent: true
 
   vnstat:
+    vars:
+      METADATA_CATEGORY: [cli, monitoring, network]
     desc: Long-term network statistics
     cmds:
       - cmd: sudo apt install -y vnstat
@@ -181,6 +211,8 @@ tasks:
     silent: true
 
   iotop:
+    vars:
+      METADATA_CATEGORY: [cli, monitoring]
     desc: Per-process disk I/O monitor
     cmds:
       - cmd: sudo apt install -y iotop
@@ -194,6 +226,8 @@ tasks:
     silent: true
 
   sysbench:
+    vars:
+      METADATA_CATEGORY: [cli, monitoring]
     desc: CPU/memory/disk benchmarks
     cmds:
       - cmd: sudo apt install -y sysbench
@@ -207,6 +241,8 @@ tasks:
     silent: true
 
   stress-ng:
+    vars:
+      METADATA_CATEGORY: [cli, monitoring]
     desc: System stress testing
     cmds:
       - cmd: sudo apt install -y stress-ng
@@ -220,6 +256,8 @@ tasks:
     silent: true
 
   bcal:
+    vars:
+      METADATA_CATEGORY: [cli, utility]
     desc: Byte calculator and storage conversions
     cmds:
       - cmd: sudo apt install -y bcal
@@ -230,6 +268,8 @@ tasks:
     silent: true
 
   bitwise:
+    vars:
+      METADATA_CATEGORY: [cli, utility]
     desc: Base conversion and bit manipulation
     cmds:
       - cmd: sudo apt install -y bitwise
@@ -241,6 +281,8 @@ tasks:
 
   # --- Files, search & navigation ---
   yazi:
+    vars:
+      METADATA_CATEGORY: [tui, filesystem]
     desc: Blazing-fast TUI file manager
     cmds:
       - cmd: cargo install --locked yazi-fm yazi-cli
@@ -253,6 +295,8 @@ tasks:
     silent: true
 
   ranger:
+    vars:
+      METADATA_CATEGORY: [tui, filesystem]
     desc: VI-keyed console file manager
     cmds:
       - pip3 install --user ranger-fm
@@ -262,6 +306,8 @@ tasks:
     silent: true
 
   nnn:
+    vars:
+      METADATA_CATEGORY: [tui, filesystem]
     desc: File browser and disk usage analyzer
     cmds:
       - cmd: sudo apt install -y nnn
@@ -275,6 +321,8 @@ tasks:
     silent: true
 
   lf:
+    vars:
+      METADATA_CATEGORY: [tui, filesystem]
     desc: Fast, scriptable terminal file manager
     cmds:
       - go install github.com/gokcehan/lf@latest
@@ -284,6 +332,8 @@ tasks:
     silent: true
 
   joshuto:
+    vars:
+      METADATA_CATEGORY: [tui, filesystem]
     desc: Ranger-like file manager (Rust)
     cmds:
       - cargo install --locked joshuto
@@ -293,6 +343,8 @@ tasks:
     silent: true
 
   xplr:
+    vars:
+      METADATA_CATEGORY: [tui, filesystem]
     desc: Hackable TUI file explorer
     cmds:
       - cargo install --locked xplr
@@ -302,6 +354,8 @@ tasks:
     silent: true
 
   vifm:
+    vars:
+      METADATA_CATEGORY: [tui, filesystem]
     desc: VI-influenced file manager
     cmds:
       - cmd: sudo apt install -y vifm
@@ -315,6 +369,8 @@ tasks:
     silent: true
 
   mc:
+    vars:
+      METADATA_CATEGORY: [tui, filesystem]
     desc: Midnight Commander file manager
     cmds:
       - cmd: sudo apt install -y mc
@@ -328,6 +384,8 @@ tasks:
     silent: true
 
   fclones:
+    vars:
+      METADATA_CATEGORY: [cli, filesystem]
     desc: Fast duplicate file finder
     cmds:
       - cargo install fclones
@@ -337,6 +395,8 @@ tasks:
     silent: true
 
   rmlint:
+    vars:
+      METADATA_CATEGORY: [cli, filesystem]
     desc: Duplicate/lint remover
     cmds:
       - cmd: sudo apt install -y rmlint
@@ -347,6 +407,8 @@ tasks:
     silent: true
 
   czkawka:
+    vars:
+      METADATA_CATEGORY: [cli, filesystem]
     desc: Duplicate finder (czkawka_cli)
     cmds:
       - cmd: cargo install czkawka_cli
@@ -359,6 +421,8 @@ tasks:
     silent: true
 
   ncdu:
+    vars:
+      METADATA_CATEGORY: [cli, filesystem]
     desc: Disk usage analyzer (ncurses)
     cmds:
       - cmd: sudo apt install -y ncdu
@@ -372,6 +436,8 @@ tasks:
     silent: true
 
   gdu:
+    vars:
+      METADATA_CATEGORY: [cli, filesystem]
     desc: Fast disk usage analyzer (Go)
     cmds:
       - go install github.com/dundee/gdu/v5/cmd/gdu@latest
@@ -381,6 +447,8 @@ tasks:
     silent: true
 
   diskonaut:
+    vars:
+      METADATA_CATEGORY: [tui, filesystem]
     desc: Interactive disk-space navigator
     cmds:
       - cargo install diskonaut
@@ -390,6 +458,8 @@ tasks:
     silent: true
 
   dua-cli:
+    vars:
+      METADATA_CATEGORY: [tui, filesystem]
     desc: Disk usage analyzer (dua)
     cmds:
       - cargo install dua-cli
@@ -399,6 +469,8 @@ tasks:
     silent: true
 
   ripgrep-all:
+    vars:
+      METADATA_CATEGORY: [cli, search, filesystem]
     desc: Search inside PDFs, ebooks and archives (rga)
     cmds:
       - cargo install ripgrep_all
@@ -408,6 +480,8 @@ tasks:
     silent: true
 
   fselect:
+    vars:
+      METADATA_CATEGORY: [cli, search, filesystem]
     desc: Find files with SQL-like queries
     cmds:
       - cargo install fselect
@@ -417,6 +491,8 @@ tasks:
     silent: true
 
   skim:
+    vars:
+      METADATA_CATEGORY: [tui, search]
     desc: Fuzzy finder (sk, fzf alternative)
     cmds:
       - cargo install skim
@@ -426,6 +502,8 @@ tasks:
     silent: true
 
   television:
+    vars:
+      METADATA_CATEGORY: [tui, search]
     desc: Fast general-purpose fuzzy finder
     cmds:
       - cargo install television
@@ -435,6 +513,8 @@ tasks:
     silent: true
 
   entr:
+    vars:
+      METADATA_CATEGORY: [cli, filesystem]
     desc: Run commands when files change
     cmds:
       - cmd: sudo apt install -y entr
@@ -448,6 +528,8 @@ tasks:
     silent: true
 
   fswatch:
+    vars:
+      METADATA_CATEGORY: [cli, filesystem]
     desc: Cross-platform file change watcher
     cmds:
       - cmd: sudo apt install -y fswatch
@@ -458,6 +540,8 @@ tasks:
     silent: true
 
   inotify-tools:
+    vars:
+      METADATA_CATEGORY: [cli, filesystem]
     desc: inotify command-line utilities
     cmds:
       - cmd: sudo apt install -y inotify-tools
@@ -471,6 +555,8 @@ tasks:
     silent: true
 
   trash-cli:
+    vars:
+      METADATA_CATEGORY: [cli, filesystem]
     desc: Move files to the trash from the CLI
     cmds:
       - pip3 install --user trash-cli
@@ -480,6 +566,8 @@ tasks:
     silent: true
 
   renameutils:
+    vars:
+      METADATA_CATEGORY: [cli, filesystem]
     desc: Mass-rename files in your editor
     cmds:
       - cmd: sudo apt install -y renameutils
@@ -490,6 +578,8 @@ tasks:
     silent: true
 
   f2:
+    vars:
+      METADATA_CATEGORY: [cli, filesystem]
     desc: Fast, safe batch renaming
     cmds:
       - cmd: go install github.com/ayoisaiah/f2/v2/cmd/f2@latest
@@ -503,6 +593,8 @@ tasks:
 
   # --- Archives & compression ---
   7zip:
+    vars:
+      METADATA_CATEGORY: [cli, archive]
     desc: 7-Zip archive tool
     cmds:
       - cmd: sudo apt install -y p7zip-full
@@ -518,6 +610,8 @@ tasks:
     silent: true
 
   zstd:
+    vars:
+      METADATA_CATEGORY: [cli, compression]
     desc: Fast compression codec
     cmds:
       - cmd: sudo apt install -y zstd
@@ -531,6 +625,8 @@ tasks:
     silent: true
 
   pigz:
+    vars:
+      METADATA_CATEGORY: [cli, compression]
     desc: Parallel gzip
     cmds:
       - cmd: sudo apt install -y pigz
@@ -544,6 +640,8 @@ tasks:
     silent: true
 
   pbzip2:
+    vars:
+      METADATA_CATEGORY: [cli, compression]
     desc: Parallel bzip2
     cmds:
       - cmd: sudo apt install -y pbzip2
@@ -557,6 +655,8 @@ tasks:
     silent: true
 
   pixz:
+    vars:
+      METADATA_CATEGORY: [cli, compression]
     desc: Parallel xz
     cmds:
       - cmd: sudo apt install -y pixz
@@ -567,6 +667,8 @@ tasks:
     silent: true
 
   lz4:
+    vars:
+      METADATA_CATEGORY: [cli, compression]
     desc: Very fast compression
     cmds:
       - cmd: sudo apt install -y lz4
@@ -580,6 +682,8 @@ tasks:
     silent: true
 
   xz:
+    vars:
+      METADATA_CATEGORY: [cli, compression]
     desc: XZ compression utilities
     cmds:
       - cmd: sudo apt install -y xz-utils
@@ -593,6 +697,8 @@ tasks:
     silent: true
 
   brotli:
+    vars:
+      METADATA_CATEGORY: [cli, compression]
     desc: Brotli compression
     cmds:
       - cmd: sudo apt install -y brotli
@@ -606,6 +712,8 @@ tasks:
     silent: true
 
   unrar:
+    vars:
+      METADATA_CATEGORY: [cli, archive]
     desc: RAR extraction
     cmds:
       - cmd: sudo apt install -y unrar
@@ -619,6 +727,8 @@ tasks:
     silent: true
 
   unar:
+    vars:
+      METADATA_CATEGORY: [cli, archive]
     desc: Universal archive extractor (The Unarchiver)
     cmds:
       - cmd: sudo apt install -y unar
@@ -629,6 +739,8 @@ tasks:
     silent: true
 
   atool:
+    vars:
+      METADATA_CATEGORY: [cli, archive]
     desc: Wrapper for many archive formats
     cmds:
       - cmd: sudo apt install -y atool
@@ -639,6 +751,8 @@ tasks:
     silent: true
 
   ouch:
+    vars:
+      METADATA_CATEGORY: [cli, archive]
     desc: Painless compression and decompression
     cmds:
       - cargo install ouch
@@ -648,6 +762,8 @@ tasks:
     silent: true
 
   patool:
+    vars:
+      METADATA_CATEGORY: [cli, archive]
     desc: Archive wrapper (Python)
     cmds:
       - pip3 install --user patool
@@ -657,6 +773,8 @@ tasks:
     silent: true
 
   rmw:
+    vars:
+      METADATA_CATEGORY: [cli, filesystem]
     desc: Safe rm with trash support
     cmds:
       - cmd: sudo apt install -y rmw
@@ -668,6 +786,8 @@ tasks:
 
   # --- Disk, backup & sync ---
   restic:
+    vars:
+      METADATA_CATEGORY: [cli, backup]
     desc: Encrypted, deduplicated backups
     cmds:
       - cmd: sudo apt install -y restic
@@ -683,6 +803,8 @@ tasks:
     silent: true
 
   borgbackup:
+    vars:
+      METADATA_CATEGORY: [cli, backup]
     desc: Deduplicating backup (borg)
     cmds:
       - pip3 install --user borgbackup
@@ -692,6 +814,8 @@ tasks:
     silent: true
 
   kopia:
+    vars:
+      METADATA_CATEGORY: [cli, backup]
     desc: Fast encrypted snapshot backups
     cmds:
       - cmd: mkdir -p ~/.local/bin && curl -fsSL https://github.com/kopia/kopia/releases/latest/download/kopia-linux-x64.tar.gz | tar xz -C /tmp kopia && mv /tmp/kopia ~/.local/bin/ && chmod +x ~/.local/bin/kopia
@@ -706,6 +830,8 @@ tasks:
     silent: true
 
   duplicity:
+    vars:
+      METADATA_CATEGORY: [cli, backup]
     desc: Encrypted bandwidth-efficient backup
     cmds:
       - cmd: sudo apt install -y duplicity
@@ -716,6 +842,8 @@ tasks:
     silent: true
 
   rsync:
+    vars:
+      METADATA_CATEGORY: [cli, backup]
     desc: Fast incremental file transfer
     cmds:
       - cmd: sudo apt install -y rsync
@@ -729,6 +857,8 @@ tasks:
     silent: true
 
   unison:
+    vars:
+      METADATA_CATEGORY: [cli, backup]
     desc: Bidirectional file synchronization
     cmds:
       - cmd: sudo apt install -y unison
@@ -742,6 +872,8 @@ tasks:
     silent: true
 
   rsnapshot:
+    vars:
+      METADATA_CATEGORY: [cli, backup]
     desc: Filesystem snapshot backups
     cmds:
       - cmd: sudo apt install -y rsnapshot
@@ -752,6 +884,8 @@ tasks:
     silent: true
 
   bup:
+    vars:
+      METADATA_CATEGORY: [cli, backup]
     desc: Git-based backup tool
     cmds:
       - pip3 install --user bup
@@ -762,6 +896,8 @@ tasks:
 
   # --- Shell, terminal & version managers ---
   mcfly:
+    vars:
+      METADATA_CATEGORY: [cli, shell]
     desc: Smart shell history search
     cmds:
       - cmd: cargo install mcfly
@@ -774,6 +910,8 @@ tasks:
     silent: true
 
   choose:
+    vars:
+      METADATA_CATEGORY: [cli, utility]
     desc: Human-friendly cut/awk alternative
     cmds:
       - cargo install choose
@@ -783,6 +921,8 @@ tasks:
     silent: true
 
   hexyl:
+    vars:
+      METADATA_CATEGORY: [cli, utility]
     desc: Command-line hex viewer
     cmds:
       - cargo install hexyl
@@ -792,6 +932,8 @@ tasks:
     silent: true
 
   nushell:
+    vars:
+      METADATA_CATEGORY: [cli, shell]
     desc: Structured-data shell (nu)
     cmds:
       - cmd: cargo install nu --locked
@@ -806,6 +948,8 @@ tasks:
     silent: true
 
   fish:
+    vars:
+      METADATA_CATEGORY: [cli, shell]
     desc: Friendly interactive shell
     cmds:
       - cmd: sudo apt install -y fish
@@ -819,6 +963,8 @@ tasks:
     silent: true
 
   xonsh:
+    vars:
+      METADATA_CATEGORY: [cli, shell]
     desc: Python-powered shell
     cmds:
       - pip3 install --user xonsh
@@ -828,6 +974,8 @@ tasks:
     silent: true
 
   elvish:
+    vars:
+      METADATA_CATEGORY: [cli, shell]
     desc: Expressive shell
     cmds:
       - cmd: sudo apt install -y elvish
@@ -838,6 +986,8 @@ tasks:
     silent: true
 
   byobu:
+    vars:
+      METADATA_CATEGORY: [tui, terminal-multiplexer]
     desc: Terminal multiplexer wrapper
     cmds:
       - cmd: sudo apt install -y byobu
@@ -848,6 +998,8 @@ tasks:
     silent: true
 
   screen:
+    vars:
+      METADATA_CATEGORY: [tui, terminal-multiplexer]
     desc: GNU Screen multiplexer
     cmds:
       - cmd: sudo apt install -y screen
@@ -861,6 +1013,8 @@ tasks:
     silent: true
 
   dtach:
+    vars:
+      METADATA_CATEGORY: [cli, terminal-multiplexer]
     desc: Emulates the detach feature of screen
     cmds:
       - cmd: sudo apt install -y dtach
@@ -871,6 +1025,8 @@ tasks:
     silent: true
 
   abduco:
+    vars:
+      METADATA_CATEGORY: [cli, terminal-multiplexer]
     desc: Session attach/detach management
     cmds:
       - cmd: sudo apt install -y abduco
@@ -881,6 +1037,8 @@ tasks:
     silent: true
 
   dvtm:
+    vars:
+      METADATA_CATEGORY: [tui, terminal-multiplexer]
     desc: Dynamic virtual terminal manager
     cmds:
       - cmd: sudo apt install -y dvtm
@@ -891,6 +1049,8 @@ tasks:
     silent: true
 
   oh-my-posh:
+    vars:
+      METADATA_CATEGORY: [cli, shell, prompt]
     desc: Prompt theme engine (to ~/.local/bin)
     cmds:
       - cmd: mkdir -p ~/.local/bin && curl -fsSL https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin
@@ -905,6 +1065,8 @@ tasks:
     silent: true
 
   powerlevel10k:
+    vars:
+      METADATA_CATEGORY: [cli, shell, prompt]
     desc: Zsh prompt theme (cloned to ~/.local/share)
     cmds:
       - cmd: git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.local/share/powerlevel10k
@@ -915,6 +1077,8 @@ tasks:
     silent: true
 
   carapace:
+    vars:
+      METADATA_CATEGORY: [cli, shell]
     desc: Multi-shell completion generator
     cmds:
       - go install github.com/carapace-sh/carapace-bin/cmd/carapace@latest
@@ -924,6 +1088,8 @@ tasks:
     silent: true
 
   mise:
+    vars:
+      METADATA_CATEGORY: [cli, version-manager]
     desc: Polyglot dev tool version manager
     cmds:
       - cmd: curl https://mise.run | sh
@@ -936,6 +1102,8 @@ tasks:
     silent: true
 
   asdf:
+    vars:
+      METADATA_CATEGORY: [cli, version-manager]
     desc: Polyglot version manager (cloned to ~/.asdf)
     cmds:
       - cmd: git clone https://github.com/asdf-vm/asdf.git ~/.asdf
@@ -946,6 +1114,8 @@ tasks:
     silent: true
 
   proto:
+    vars:
+      METADATA_CATEGORY: [cli, version-manager]
     desc: Polyglot toolchain manager (to ~/.proto)
     cmds:
       - cmd: curl -fsSL https://moonrepo.dev/install/proto.sh | bash
@@ -956,6 +1126,8 @@ tasks:
     silent: true
 
   fnm:
+    vars:
+      METADATA_CATEGORY: [cli, version-manager, runtime]
     desc: Fast Node.js version manager
     cmds:
       - cmd: cargo install fnm
@@ -970,6 +1142,8 @@ tasks:
     silent: true
 
   volta:
+    vars:
+      METADATA_CATEGORY: [cli, version-manager, runtime]
     desc: JavaScript toolchain manager
     cmds:
       - cmd: curl https://get.volta.sh | bash
@@ -982,6 +1156,8 @@ tasks:
     silent: true
 
   pyenv:
+    vars:
+      METADATA_CATEGORY: [cli, version-manager]
     desc: Python version manager
     cmds:
       - cmd: curl -fsSL https://pyenv.run | bash
@@ -992,6 +1168,8 @@ tasks:
     silent: true
 
   rbenv:
+    vars:
+      METADATA_CATEGORY: [cli, version-manager]
     desc: Ruby version manager (cloned to ~/.rbenv)
     cmds:
       - cmd: git clone https://github.com/rbenv/rbenv.git ~/.rbenv
@@ -1004,6 +1182,8 @@ tasks:
     silent: true
 
   goenv:
+    vars:
+      METADATA_CATEGORY: [cli, version-manager]
     desc: Go version manager (cloned to ~/.goenv)
     cmds:
       - cmd: git clone https://github.com/go-nv/goenv.git ~/.goenv
@@ -1014,6 +1194,8 @@ tasks:
     silent: true
 
   jenv:
+    vars:
+      METADATA_CATEGORY: [cli, version-manager]
     desc: Java version manager (cloned to ~/.jenv)
     cmds:
       - cmd: git clone https://github.com/jenv/jenv.git ~/.jenv
@@ -1024,6 +1206,8 @@ tasks:
     silent: true
 
   tfenv:
+    vars:
+      METADATA_CATEGORY: [cli, version-manager]
     desc: Terraform version manager (cloned to ~/.tfenv)
     cmds:
       - cmd: git clone https://github.com/tfutils/tfenv.git ~/.tfenv
@@ -1034,6 +1218,8 @@ tasks:
     silent: true
 
   task-spooler:
+    vars:
+      METADATA_CATEGORY: [cli, utility]
     desc: Queue jobs for linear execution
     cmds:
       - cmd: sudo apt install -y task-spooler
@@ -1044,6 +1230,8 @@ tasks:
     silent: true
 
   moreutils:
+    vars:
+      METADATA_CATEGORY: [cli, utility]
     desc: sponge, ts, vidir, vipe and friends
     cmds:
       - cmd: sudo apt install -y moreutils
@@ -1057,6 +1245,8 @@ tasks:
     silent: true
 
   parallel:
+    vars:
+      METADATA_CATEGORY: [cli, utility]
     desc: GNU parallel command execution
     cmds:
       - cmd: sudo apt install -y parallel
@@ -1070,6 +1260,8 @@ tasks:
     silent: true
 
   pv:
+    vars:
+      METADATA_CATEGORY: [cli, utility]
     desc: Pipe progress viewer
     cmds:
       - cmd: sudo apt install -y pv
@@ -1083,6 +1275,8 @@ tasks:
     silent: true
 
   progress:
+    vars:
+      METADATA_CATEGORY: [cli, utility]
     desc: Coreutils progress viewer
     cmds:
       - cmd: sudo apt install -y progress
@@ -1094,6 +1288,8 @@ tasks:
 
   # --- Clipboard, notifications & desktop ---
   xclip:
+    vars:
+      METADATA_CATEGORY: [cli, clipboard]
     desc: X11 clipboard interface
     cmds:
       - cmd: sudo apt install -y xclip
@@ -1105,6 +1301,8 @@ tasks:
     silent: true
 
   xsel:
+    vars:
+      METADATA_CATEGORY: [cli, clipboard]
     desc: X11 selection/clipboard tool
     cmds:
       - cmd: sudo apt install -y xsel
@@ -1116,6 +1314,8 @@ tasks:
     silent: true
 
   wl-clipboard:
+    vars:
+      METADATA_CATEGORY: [cli, clipboard]
     desc: Wayland clipboard utilities
     cmds:
       - cmd: sudo apt install -y wl-clipboard
@@ -1127,6 +1327,8 @@ tasks:
     silent: true
 
   yank:
+    vars:
+      METADATA_CATEGORY: [cli, clipboard]
     desc: Yank terminal output to clipboard
     cmds:
       - cmd: sudo apt install -y yank
@@ -1137,6 +1339,8 @@ tasks:
     silent: true
 
   clipcat:
+    vars:
+      METADATA_CATEGORY: [cli, clipboard]
     desc: Clipboard manager (clipcatd/clipcatctl)
     cmds:
       - cargo install clipcat
@@ -1146,6 +1350,8 @@ tasks:
     silent: true
 
   copyq:
+    vars:
+      METADATA_CATEGORY: [gui, clipboard]
     desc: Clipboard manager with history (GUI)
     cmds:
       - cmd: sudo apt install -y copyq
@@ -1156,6 +1362,8 @@ tasks:
     silent: true
 
   ntfy:
+    vars:
+      METADATA_CATEGORY: [cli, notification]
     desc: Send push notifications from the CLI
     cmds:
       - cmd: sudo apt install -y ntfy
@@ -1166,6 +1374,8 @@ tasks:
     silent: true
 
   terminal-notifier:
+    vars:
+      METADATA_CATEGORY: [cli, notification]
     desc: macOS notifications from the CLI
     cmds:
       - cmd: brew install terminal-notifier
@@ -1173,6 +1383,8 @@ tasks:
     silent: true
 
   libnotify:
+    vars:
+      METADATA_CATEGORY: [cli, notification]
     desc: Desktop notifications (notify-send)
     cmds:
       - cmd: sudo apt install -y libnotify-bin
@@ -1186,6 +1398,8 @@ tasks:
     silent: true
 
   dunst:
+    vars:
+      METADATA_CATEGORY: [service, notification]
     desc: Lightweight notification daemon
     cmds:
       - cmd: sudo apt install -y dunst
@@ -1196,6 +1410,8 @@ tasks:
     silent: true
 
   mako:
+    vars:
+      METADATA_CATEGORY: [service, notification]
     desc: Wayland notification daemon
     cmds:
       - cmd: sudo apt install -y mako-notifier
@@ -1207,6 +1423,8 @@ tasks:
     silent: true
 
   wego:
+    vars:
+      METADATA_CATEGORY: [cli, utility]
     desc: Terminal weather client
     cmds:
       - go install github.com/schachmat/wego@latest
@@ -1216,6 +1434,8 @@ tasks:
     silent: true
 
   translate-shell:
+    vars:
+      METADATA_CATEGORY: [cli, utility]
     desc: Command-line translator (trans)
     cmds:
       - cmd: sudo apt install -y translate-shell
@@ -1226,6 +1446,8 @@ tasks:
     silent: true
 
   howdoi:
+    vars:
+      METADATA_CATEGORY: [cli, utility]
     desc: Instant coding answers from the CLI
     cmds:
       - pip3 install --user howdoi
@@ -1235,6 +1457,8 @@ tasks:
     silent: true
 
   thefuck:
+    vars:
+      METADATA_CATEGORY: [cli, shell]
     desc: Correct your previous console command
     cmds:
       - pip3 install --user thefuck
@@ -1244,6 +1468,8 @@ tasks:
     silent: true
 
   cheat:
+    vars:
+      METADATA_CATEGORY: [cli, document]
     desc: Interactive cheatsheets
     cmds:
       - go install github.com/cheat/cheat/cmd/cheat@latest
@@ -1253,6 +1479,8 @@ tasks:
     silent: true
 
   lolcat:
+    vars:
+      METADATA_CATEGORY: [cli, fun]
     desc: Rainbow-colored terminal output
     cmds:
       - cmd: sudo apt install -y lolcat
@@ -1263,6 +1491,8 @@ tasks:
     silent: true
 
   figlet:
+    vars:
+      METADATA_CATEGORY: [cli, fun]
     desc: Large ASCII text banners
     cmds:
       - cmd: sudo apt install -y figlet
@@ -1276,6 +1506,8 @@ tasks:
     silent: true
 
   toilet:
+    vars:
+      METADATA_CATEGORY: [cli, fun]
     desc: Colorful ASCII text art
     cmds:
       - cmd: sudo apt install -y toilet
@@ -1286,6 +1518,8 @@ tasks:
     silent: true
 
   cowsay:
+    vars:
+      METADATA_CATEGORY: [cli, fun]
     desc: Talking cow ASCII art
     cmds:
       - cmd: sudo apt install -y cowsay
@@ -1299,6 +1533,8 @@ tasks:
     silent: true
 
   install-all:
+    vars:
+      METADATA_CATEGORY: [installer, utility]
     desc: Install the sysutils bundle (non-root where possible)
     cmds:
       - task: bottom

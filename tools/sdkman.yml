@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, version-manager]
     desc: Install SDKMAN (Java SDK Manager)
     cmds:
       - cmd: |

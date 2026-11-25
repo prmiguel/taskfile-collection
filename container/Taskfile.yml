@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   run:
+    vars:
+      METADATA_CATEGORY: [cli, container-image, devtool]
     desc: Run a tool inside a Docker container
     summary: |
       Pulls a Docker image and runs a command inside it.
@@ -18,6 +20,8 @@ tasks:
       vars: [IMAGE, CMD]
 
   exec:
+    vars:
+      METADATA_CATEGORY: [cli, container-image, devtool]
     desc: Execute a task in a container with a Dockerfile
     summary: |
       Builds a Dockerfile from the container/ directory and runs it.
@@ -32,6 +36,8 @@ tasks:
       vars: [DOCKERFILE]
 
   node:
+    vars:
+      METADATA_CATEGORY: [cli, container-image, devtool]
     desc: Run Node.js in a Docker container
     summary: |
       Runs a Node.js command in a container without installing Node locally.
@@ -50,6 +56,8 @@ tasks:
       vars: [CMD]
 
   npm:
+    vars:
+      METADATA_CATEGORY: [cli, container-image, devtool]
     desc: Run npm in a Docker container (no local Node.js needed)
     summary: |
       Runs npm commands inside a Node.js container.
@@ -67,6 +75,8 @@ tasks:
       vars: [CMD]
 
   claude-cli:
+    vars:
+      METADATA_CATEGORY: [cli, container-image, ai-tool]
     desc: Run Claude CLI in a Docker container
     cmds:
       - docker pull ghcr.io/anthropics/claude-code:latest

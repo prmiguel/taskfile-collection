@@ -5,6 +5,8 @@ version: '3'
 # non-root: release tarballs land in ~/.local, the rest use pip/Go/Cargo.
 tasks:
   ollama:
+    vars:
+      METADATA_CATEGORY: [cli, ai-tool, llm]
     desc: Run LLMs locally (tarball to ~/.local)
     cmds:
       - cmd: mkdir -p ~/.local/bin ~/.local/lib/ollama
@@ -21,6 +23,8 @@ tasks:
     silent: true
 
   llama-cpp:
+    vars:
+      METADATA_CATEGORY: [cli, ai-tool, llm]
     desc: llama.cpp inference engine (build from source)
     cmds:
       - cmd: |
@@ -36,6 +40,8 @@ tasks:
     silent: true
 
   open-webui:
+    vars:
+      METADATA_CATEGORY: [service, ai-tool, llm]
     desc: ChatGPT-like web UI for local LLMs (pip user)
     cmds:
       - pip3 install --user open-webui
@@ -45,6 +51,8 @@ tasks:
     silent: true
 
   aider:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: AI pair programming in the terminal (pip user)
     cmds:
       - pip3 install --user aider-chat
@@ -54,6 +62,8 @@ tasks:
     silent: true
 
   llm:
+    vars:
+      METADATA_CATEGORY: [cli, ai-tool, llm]
     desc: LLM CLI + sqlite logger (pip user)
     cmds:
       - pip3 install --user llm
@@ -63,6 +73,8 @@ tasks:
     silent: true
 
   mods:
+    vars:
+      METADATA_CATEGORY: [cli, ai-tool, llm]
     desc: LLM on the command line (via Go)
     cmds:
       - go install github.com/charmbracelet/mods@latest
@@ -72,6 +84,8 @@ tasks:
     silent: true
 
   aichat:
+    vars:
+      METADATA_CATEGORY: [cli, ai-tool, llm]
     desc: All-in-one LLM CLI (via cargo)
     cmds:
       - cargo install aichat
@@ -81,6 +95,8 @@ tasks:
     silent: true
 
   tgpt:
+    vars:
+      METADATA_CATEGORY: [cli, ai-tool, llm]
     desc: ChatGPT in the terminal, no API key needed (via Go)
     cmds:
       - go install github.com/aandrew-me/tgpt/v2@latest
@@ -90,6 +106,8 @@ tasks:
     silent: true
 
   oterm:
+    vars:
+      METADATA_CATEGORY: [tui, ai-tool, llm]
     desc: Terminal TUI for Ollama (pip user)
     cmds:
       - pip3 install --user oterm
@@ -99,6 +117,8 @@ tasks:
     silent: true
 
   fabric:
+    vars:
+      METADATA_CATEGORY: [cli, ai-tool, llm]
     desc: AI prompt framework (via Go)
     cmds:
       - go install github.com/danielmiessler/fabric@latest
@@ -108,6 +128,8 @@ tasks:
     silent: true
 
   opencommit:
+    vars:
+      METADATA_CATEGORY: [cli, ai-tool, llm]
     desc: AI-generated commit messages (npm user prefix)
     cmds:
       - npm install -g opencommit
@@ -117,6 +139,8 @@ tasks:
     silent: true
 
   gemini-cli:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Google Gemini CLI (npm user prefix)
     cmds:
       - npm install -g @google/gemini-cli
@@ -126,6 +150,8 @@ tasks:
     silent: true
 
   codex:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: OpenAI Codex CLI (npm user prefix)
     cmds:
       - npm install -g @openai/codex
@@ -135,6 +161,8 @@ tasks:
     silent: true
 
   install-all:
+    vars:
+      METADATA_CATEGORY: [installer, ai-tool]
     desc: Local LLM starter kit (non-root)
     cmds:
       - task: ollama

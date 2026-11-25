@@ -4,6 +4,8 @@ version: '3'
 # Infrastructure-as-Code tools, installed to user space where possible.
 tasks:
   terraform:
+    vars:
+      METADATA_CATEGORY: [cli, iac]
     desc: Terraform to ~/.local/bin
     cmds:
       - cmd: |
@@ -22,6 +24,8 @@ tasks:
     silent: true
 
   opentofu:
+    vars:
+      METADATA_CATEGORY: [cli, iac]
     desc: Open-source Terraform fork (via official install script)
     cmds:
       - curl -fsSL https://get.opentofu.org/install-opentofu.sh | sh -s -- --install-method standalone --install-dir ~/.local/bin
@@ -31,6 +35,8 @@ tasks:
     silent: true
 
   terragrunt:
+    vars:
+      METADATA_CATEGORY: [cli, iac]
     desc: Terraform DRY wrapper (via go)
     cmds:
       - go install github.com/gruntwork-io/terragrunt@latest
@@ -40,6 +46,8 @@ tasks:
     silent: true
 
   terramate:
+    vars:
+      METADATA_CATEGORY: [cli, iac]
     desc: Terramate orchestration (via go)
     cmds:
       - go install github.com/terramate-io/terramate@latest
@@ -49,6 +57,8 @@ tasks:
     silent: true
 
   pulumi:
+    vars:
+      METADATA_CATEGORY: [cli, iac]
     desc: Pulumi IaC to ~/.pulumi
     cmds:
       - curl -fsSL https://get.pulumi.com | sh
@@ -58,6 +68,8 @@ tasks:
     silent: true
 
   cdk:
+    vars:
+      METADATA_CATEGORY: [cli, iac]
     desc: AWS CDK (npm)
     cmds:
       - npm install -g aws-cdk
@@ -67,6 +79,8 @@ tasks:
     silent: true
 
   ansible:
+    vars:
+      METADATA_CATEGORY: [cli, iac]
     desc: Ansible config management
     cmds:
       - pip3 install --user ansible
@@ -76,6 +90,8 @@ tasks:
     silent: true
 
   ansible-lint:
+    vars:
+      METADATA_CATEGORY: [cli, iac, linter]
     desc: Ansible playbook linter
     cmds:
       - pip3 install --user ansible-lint
@@ -85,6 +101,8 @@ tasks:
     silent: true
 
   packer:
+    vars:
+      METADATA_CATEGORY: [cli, iac]
     desc: HashiCorp Packer to ~/.local/bin
     cmds:
       - cmd: |
@@ -103,6 +121,8 @@ tasks:
     silent: true
 
   infracost:
+    vars:
+      METADATA_CATEGORY: [cli, iac]
     desc: Cloud cost estimates (to ~/.local/bin)
     cmds:
       - cmd: mkdir -p ~/.local/bin && curl -fsSL https://raw.githubusercontent.com/infracost/infracost/master/scripts/install.sh | sh -s -- -b ~/.local/bin
@@ -115,6 +135,8 @@ tasks:
     silent: true
 
   tflint:
+    vars:
+      METADATA_CATEGORY: [cli, iac, linter]
     desc: Terraform linter (to ~/.local/bin)
     cmds:
       - cmd: mkdir -p ~/.local/bin && curl -fsSL https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | TFLINT_INSTALL_PATH=~/.local/bin bash
@@ -129,6 +151,8 @@ tasks:
     silent: true
 
   tfsec:
+    vars:
+      METADATA_CATEGORY: [cli, iac, linter]
     desc: Terraform security scanner (via go)
     cmds:
       - go install github.com/aquasecurity/tfsec/cmd/tfsec@latest
@@ -138,6 +162,8 @@ tasks:
     silent: true
 
   checkov:
+    vars:
+      METADATA_CATEGORY: [cli, iac, linter]
     desc: IaC security scanner (pip)
     cmds:
       - pip3 install --user checkov
@@ -147,6 +173,8 @@ tasks:
     silent: true
 
   driftctl:
+    vars:
+      METADATA_CATEGORY: [cli, iac]
     desc: IaC drift detection (via go)
     cmds:
       - go install github.com/snyk/driftctl@latest
@@ -156,6 +184,8 @@ tasks:
     silent: true
 
   conftest:
+    vars:
+      METADATA_CATEGORY: [cli, iac, linter]
     desc: Policy-as-code with OPA (via go)
     cmds:
       - go install github.com/open-policy-agent/conftest@latest
@@ -165,6 +195,8 @@ tasks:
     silent: true
 
   terraform-docs:
+    vars:
+      METADATA_CATEGORY: [cli, iac]
     desc: Docs from Terraform modules (via go)
     cmds:
       - go install github.com/terraform-docs/terraform-docs@latest
@@ -174,6 +206,8 @@ tasks:
     silent: true
 
   crossplane:
+    vars:
+      METADATA_CATEGORY: [cli, iac]
     desc: K8s control planes (via script)
     cmds:
       - curl -fsSL https://cli.crossplane.io | INSTALL_DIR=~/.local/bin sh
@@ -183,6 +217,8 @@ tasks:
     silent: true
 
   vagrant:
+    vars:
+      METADATA_CATEGORY: [cli, iac, container]
     desc: VM environment manager (system package)
     cmds:
       - cmd: sudo apt install -y vagrant
@@ -198,6 +234,8 @@ tasks:
     silent: true
 
   install-all:
+    vars:
+      METADATA_CATEGORY: [installer, iac]
     desc: Install all IaC tools
     cmds:
       - task: terraform

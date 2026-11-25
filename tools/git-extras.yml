@@ -5,6 +5,8 @@ version: '3'
 # into the user's Go/Cargo/pip prefixes, so no sudo is needed.
 tasks:
   lazygit:
+    vars:
+      METADATA_CATEGORY: [tui, git]
     desc: Terminal Git UI (via Go)
     cmds:
       - go install github.com/jesseduffield/lazygit@latest
@@ -14,6 +16,8 @@ tasks:
     silent: true
 
   gitui:
+    vars:
+      METADATA_CATEGORY: [tui, git]
     desc: Fast terminal Git UI (via cargo)
     cmds:
       - cargo install gitui
@@ -23,6 +27,8 @@ tasks:
     silent: true
 
   delta:
+    vars:
+      METADATA_CATEGORY: [cli, git]
     desc: Syntax-highlighted diffs (via cargo)
     cmds:
       - cargo install git-delta
@@ -32,6 +38,8 @@ tasks:
     silent: true
 
   git-extras:
+    vars:
+      METADATA_CATEGORY: [cli, git]
     desc: Extra git utilities (git effort, summary, etc.)
     cmds:
       - cmd: git clone --depth 1 https://github.com/tj/git-extras /tmp/git-extras
@@ -46,6 +54,8 @@ tasks:
     silent: true
 
   git-cliff:
+    vars:
+      METADATA_CATEGORY: [cli, git]
     desc: Changelog generator from conventional commits (via cargo)
     cmds:
       - cargo install git-cliff
@@ -55,6 +65,8 @@ tasks:
     silent: true
 
   cocogitto:
+    vars:
+      METADATA_CATEGORY: [cli, git]
     desc: Conventional commits toolkit (cog, via cargo)
     cmds:
       - cargo install cocogitto
@@ -64,6 +76,8 @@ tasks:
     silent: true
 
   commitizen:
+    vars:
+      METADATA_CATEGORY: [cli, git]
     desc: Interactive conventional commits (pip user)
     cmds:
       - cmd: pip3 install --user commitizen
@@ -76,6 +90,8 @@ tasks:
     silent: true
 
   pre-commit:
+    vars:
+      METADATA_CATEGORY: [cli, git]
     desc: Git hook framework (pip user)
     cmds:
       - pip3 install --user pre-commit
@@ -85,6 +101,8 @@ tasks:
     silent: true
 
   gitleaks:
+    vars:
+      METADATA_CATEGORY: [cli, git, security]
     desc: Secret scanner for repos (via Go)
     cmds:
       - go install github.com/gitleaks/gitleaks/v8@latest
@@ -94,6 +112,8 @@ tasks:
     silent: true
 
   git-absorb:
+    vars:
+      METADATA_CATEGORY: [cli, git]
     desc: Auto-absorb fixup commits (via cargo)
     cmds:
       - cargo install git-absorb
@@ -103,6 +123,8 @@ tasks:
     silent: true
 
   git-town:
+    vars:
+      METADATA_CATEGORY: [cli, git]
     desc: High-level Git workflow automation (via Go)
     cmds:
       - go install github.com/git-town/git-town/v21@latest
@@ -112,6 +134,8 @@ tasks:
     silent: true
 
   glab:
+    vars:
+      METADATA_CATEGORY: [cli, git]
     desc: GitLab CLI (via Go)
     cmds:
       - go install gitlab.com/gitlab-org/cli/cmd/glab@latest
@@ -121,6 +145,8 @@ tasks:
     silent: true
 
   tea:
+    vars:
+      METADATA_CATEGORY: [cli, git]
     desc: Gitea CLI (via Go)
     cmds:
       - go install code.gitea.io/tea@latest
@@ -130,6 +156,8 @@ tasks:
     silent: true
 
   onefetch:
+    vars:
+      METADATA_CATEGORY: [cli, git]
     desc: Repo summary (neofetch for Git, via cargo)
     cmds:
       - cargo install onefetch
@@ -139,6 +167,8 @@ tasks:
     silent: true
 
   tokei:
+    vars:
+      METADATA_CATEGORY: [cli, git]
     desc: Lines-of-code counter (via cargo)
     cmds:
       - cargo install tokei
@@ -148,6 +178,8 @@ tasks:
     silent: true
 
   trufflehog:
+    vars:
+      METADATA_CATEGORY: [cli, git, security]
     desc: Deep secret scanner (via Go)
     cmds:
       - go install github.com/trufflesecurity/trufflehog/v3@latest
@@ -157,6 +189,8 @@ tasks:
     silent: true
 
   git-branchless:
+    vars:
+      METADATA_CATEGORY: [cli, git]
     desc: Stacked-diff / patch-stack workflow (via cargo)
     cmds:
       - cargo install --locked git-branchless
@@ -166,6 +200,8 @@ tasks:
     silent: true
 
   jujutsu:
+    vars:
+      METADATA_CATEGORY: [cli, git]
     desc: Jujutsu VCS (jj, via cargo)
     cmds:
       - cargo install --locked jj-cli
@@ -175,6 +211,8 @@ tasks:
     silent: true
 
   git-lfs:
+    vars:
+      METADATA_CATEGORY: [cli, git]
     desc: Git Large File Storage (system package)
     cmds:
       - cmd: sudo apt install -y git-lfs
@@ -190,6 +228,8 @@ tasks:
     silent: true
 
   git-flow:
+    vars:
+      METADATA_CATEGORY: [cli, git]
     desc: Vincent Driessen branching model (system package)
     cmds:
       - cmd: sudo apt install -y git-flow
@@ -200,6 +240,8 @@ tasks:
     silent: true
 
   install-all:
+    vars:
+      METADATA_CATEGORY: [installer, git]
     desc: Git power-user bundle (non-root)
     cmds:
       - task: lazygit

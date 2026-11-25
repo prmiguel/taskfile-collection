@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install Claude Code CLI (native installer)
     summary: |
       Installs Claude Code via Anthropic's official native installer

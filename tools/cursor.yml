@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [gui, ide]
     desc: Install Cursor AI editor
     cmds:
       - cmd: sudo snap install cursor --classic
@@ -19,6 +21,8 @@ tasks:
     silent: true
 
   install-cli:
+    vars:
+      METADATA_CATEGORY: [cli, ide]
     desc: Install Cursor CLI (cursor command in PATH)
     cmds:
       - cmd: |

@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [tui, terminal-multiplexer]
     desc: Install Luvus agent mission control (luvus, non-root)
     summary: |
       Luvus is a terminal multiplexer and mission control for AI coding

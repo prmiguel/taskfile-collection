@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [gui, ide]
     desc: Install Windsurf AI editor (Codeium)
     cmds:
       - cmd: |

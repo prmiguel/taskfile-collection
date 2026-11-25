@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install OpenClaude AI coding agent (non-root)
     summary: |
       Installs the OpenClaude CLI (binary: openclaude) from npm into the

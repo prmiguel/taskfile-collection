@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [gui, ide]
     desc: Install IntelliJ IDEA Community Edition
     cmds:
       - cmd: sudo snap install intellij-idea-community --classic

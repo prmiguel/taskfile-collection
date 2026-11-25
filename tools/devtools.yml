@@ -6,6 +6,8 @@ version: '3'
 tasks:
   # --- Build systems ---
   cmake:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, build-tool]
     desc: CMake build system
     cmds:
       - cmd: sudo apt install -y cmake
@@ -19,6 +21,8 @@ tasks:
     silent: true
 
   ninja:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, build-tool]
     desc: Ninja small build system
     cmds:
       - cmd: sudo apt install -y ninja-build
@@ -32,6 +36,8 @@ tasks:
     silent: true
 
   meson:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, build-tool]
     desc: Meson build system
     cmds:
       - pip3 install --user meson
@@ -41,6 +47,8 @@ tasks:
     silent: true
 
   bazelisk:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, build-tool]
     desc: Bazel version launcher
     cmds:
       - go install github.com/bazelbuild/bazelisk@latest
@@ -50,6 +58,8 @@ tasks:
     silent: true
 
   buck2:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, build-tool]
     desc: Fast, scalable build system
     cmds:
       - cmd: brew install buck2
@@ -62,6 +72,8 @@ tasks:
     silent: true
 
   ccache:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, build-tool]
     desc: Compiler cache
     cmds:
       - cmd: sudo apt install -y ccache
@@ -75,6 +87,8 @@ tasks:
     silent: true
 
   sccache:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, build-tool]
     desc: Shared compiler cache with cloud support
     cmds:
       - cargo install sccache
@@ -84,6 +98,8 @@ tasks:
     silent: true
 
   mold:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, build-tool]
     desc: Fast linker
     cmds:
       - cmd: sudo apt install -y mold
@@ -94,6 +110,8 @@ tasks:
     silent: true
 
   lld:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, build-tool]
     desc: LLVM linker
     cmds:
       - cmd: sudo apt install -y lld
@@ -105,6 +123,8 @@ tasks:
 
   # --- Linters / formatters ---
   ast-grep:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, linter]
     desc: Structural search, lint and rewrite
     cmds:
       - cargo install ast-grep
@@ -114,6 +134,8 @@ tasks:
     silent: true
 
   typos:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, linter]
     desc: Source-code typo checker
     cmds:
       - cargo install typos-cli
@@ -123,6 +145,8 @@ tasks:
     silent: true
 
   codespell:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, linter]
     desc: Spelling checker for source
     cmds:
       - pip3 install --user codespell
@@ -132,6 +156,8 @@ tasks:
     silent: true
 
   lychee:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, linter]
     desc: Fast link checker
     cmds:
       - cargo install lychee-cli
@@ -141,6 +167,8 @@ tasks:
     silent: true
 
   vale:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, linter]
     desc: Prose linter
     cmds:
       - cmd: brew install vale
@@ -153,6 +181,8 @@ tasks:
     silent: true
 
   markdownlint-cli2:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, linter]
     desc: Markdown linter
     cmds:
       - npm install -g markdownlint-cli2
@@ -162,6 +192,8 @@ tasks:
     silent: true
 
   prettier:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, formatter]
     desc: Code formatter
     cmds:
       - npm install -g prettier
@@ -171,6 +203,8 @@ tasks:
     silent: true
 
   biome:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, formatter]
     desc: Web frontend formatter/linter
     cmds:
       - npm install -g @biomejs/biome
@@ -180,6 +214,8 @@ tasks:
     silent: true
 
   ruff:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, formatter]
     desc: Python linting and formatting
     cmds:
       - pip3 install --user ruff
@@ -189,6 +225,8 @@ tasks:
     silent: true
 
   black:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, formatter]
     desc: Python code formatter
     cmds:
       - pip3 install --user black
@@ -198,6 +236,8 @@ tasks:
     silent: true
 
   mypy:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, linter]
     desc: Python static type checker
     cmds:
       - pip3 install --user mypy
@@ -207,6 +247,8 @@ tasks:
     silent: true
 
   pylint:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, linter]
     desc: Python linter
     cmds:
       - pip3 install --user pylint
@@ -216,6 +258,8 @@ tasks:
     silent: true
 
   golangci-lint:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, linter]
     desc: Go linter aggregator
     cmds:
       - go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
@@ -225,6 +269,8 @@ tasks:
     silent: true
 
   staticcheck:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, linter]
     desc: Go static analysis
     cmds:
       - go install honnef.co/go/tools/cmd/staticcheck@latest
@@ -234,6 +280,8 @@ tasks:
     silent: true
 
   gofumpt:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, formatter]
     desc: Stricter gofmt for Go
     cmds:
       - go install mvdan.cc/gofumpt@latest
@@ -243,6 +291,8 @@ tasks:
     silent: true
 
   golines:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, formatter]
     desc: Go source line formatter
     cmds:
       - go install github.com/segmentio/golines@latest
@@ -252,6 +302,8 @@ tasks:
     silent: true
 
   clang-format:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, formatter]
     desc: C/C++ code formatter
     cmds:
       - cmd: sudo apt install -y clang-format
@@ -262,6 +314,8 @@ tasks:
     silent: true
 
   clang-tidy:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, linter]
     desc: C/C++ linter
     cmds:
       - cmd: sudo apt install -y clang-tidy
@@ -272,6 +326,8 @@ tasks:
     silent: true
 
   cppcheck:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, linter]
     desc: C/C++ static analysis
     cmds:
       - cmd: sudo apt install -y cppcheck
@@ -282,6 +338,8 @@ tasks:
     silent: true
 
   editorconfig-checker:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, linter]
     desc: EditorConfig linter (ec)
     cmds:
       - go install github.com/editorconfig-checker/editorconfig-checker/cmd/ec@latest
@@ -291,6 +349,8 @@ tasks:
     silent: true
 
   difftastic:
+    vars:
+      METADATA_CATEGORY: [cli, devtool]
     desc: Structural diff tool (difft)
     cmds:
       - cargo install difftastic
@@ -300,6 +360,8 @@ tasks:
     silent: true
 
   gitoxide:
+    vars:
+      METADATA_CATEGORY: [cli, git]
     desc: Git reimplementation (gix CLI)
     cmds:
       - cargo install gix-cli
@@ -309,6 +371,8 @@ tasks:
     silent: true
 
   tig:
+    vars:
+      METADATA_CATEGORY: [tui, git]
     desc: Text-mode git browser
     cmds:
       - cmd: sudo apt install -y tig
@@ -319,6 +383,8 @@ tasks:
     silent: true
 
   shellspec:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, test-tool]
     desc: BDD shell test framework
     cmds:
       - curl -fsSL https://git.io/shellspec | sh -s -- --to ~/.local
@@ -328,6 +394,8 @@ tasks:
     silent: true
 
   bats-core:
+    vars:
+      METADATA_CATEGORY: [cli, devtool, test-tool]
     desc: Bash Automated Testing System
     cmds:
       - cmd: sudo apt install -y bats
@@ -338,6 +406,8 @@ tasks:
     silent: true
 
   hyperfine-dev:
+    vars:
+      METADATA_CATEGORY: [cli, devtool]
     desc: Command benchmarking (see shell:hyperfine)
     cmds:
       - cargo install hyperfine
@@ -347,6 +417,8 @@ tasks:
     silent: true
 
   install-all:
+    vars:
+      METADATA_CATEGORY: [installer, devtool]
     desc: Install the devtools bundle (non-root where possible)
     cmds:
       - task: cmake

@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [tui, editor]
     desc: Install SpiceEdit terminal editor (spiceedit, non-root)
     summary: |
       SpiceEdit is a mouse-first terminal code editor (binary: spiceedit).

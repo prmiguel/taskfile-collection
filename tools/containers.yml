@@ -4,6 +4,8 @@ version: '3'
 # Container engines and inspection tools (beyond Docker).
 tasks:
   podman:
+    vars:
+      METADATA_CATEGORY: [cli, container]
     desc: Daemonless container engine
     cmds:
       - cmd: sudo apt install -y podman
@@ -19,6 +21,8 @@ tasks:
     silent: true
 
   podman-compose:
+    vars:
+      METADATA_CATEGORY: [cli, container]
     desc: Docker Compose for Podman (user-level)
     deps: [podman]
     cmds:
@@ -29,6 +33,8 @@ tasks:
     silent: true
 
   buildah:
+    vars:
+      METADATA_CATEGORY: [cli, container]
     desc: OCI image builder (no daemon)
     cmds:
       - cmd: sudo apt install -y buildah
@@ -42,6 +48,8 @@ tasks:
     silent: true
 
   skopeo:
+    vars:
+      METADATA_CATEGORY: [cli, container]
     desc: Inspect/copy container images without a daemon
     cmds:
       - cmd: sudo apt install -y skopeo
@@ -55,6 +63,8 @@ tasks:
     silent: true
 
   nerdctl:
+    vars:
+      METADATA_CATEGORY: [cli, container]
     desc: Docker-compatible CLI for containerd
     cmds:
       - go install github.com/containerd/nerdctl/v2/cmd/nerdctl@latest
@@ -64,6 +74,8 @@ tasks:
     silent: true
 
   dive:
+    vars:
+      METADATA_CATEGORY: [tui, container]
     desc: Explore image layers (via Go)
     cmds:
       - go install github.com/wagoodman/dive@latest
@@ -73,6 +85,8 @@ tasks:
     silent: true
 
   ctop:
+    vars:
+      METADATA_CATEGORY: [tui, container]
     desc: Top-like container metrics (via Go)
     cmds:
       - go install github.com/bcicen/ctop@latest
@@ -82,6 +96,8 @@ tasks:
     silent: true
 
   lazydocker:
+    vars:
+      METADATA_CATEGORY: [tui, container]
     desc: TUI for Docker/Podman (via Go)
     cmds:
       - go install github.com/jesseduffield/lazydocker@latest
@@ -91,6 +107,8 @@ tasks:
     silent: true
 
   crane:
+    vars:
+      METADATA_CATEGORY: [cli, container]
     desc: Registry CLI (via Go)
     cmds:
       - go install github.com/google/go-containerregistry/cmd/crane@latest
@@ -100,6 +118,8 @@ tasks:
     silent: true
 
   regctl:
+    vars:
+      METADATA_CATEGORY: [cli, container]
     desc: Registry CLI (via Go)
     cmds:
       - go install github.com/regclient/regclient/cmd/regctl@latest
@@ -109,6 +129,8 @@ tasks:
     silent: true
 
   install-all:
+    vars:
+      METADATA_CATEGORY: [installer, container]
     desc: Install all container tools
     cmds:
       - task: podman

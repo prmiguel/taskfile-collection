@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [tui, terminal-multiplexer]
     desc: Install Herdr terminal workspace (herdr, non-root)
     summary: |
       Herdr is a single-binary terminal workspace/multiplexer built around

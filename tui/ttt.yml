@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [tui, editor]
     desc: Install TTT Editor (ttt, non-root)
     summary: |
       TTT (Terminal Text Tool) is a single-binary terminal IDE (binary: ttt).

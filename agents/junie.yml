@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, agent]
     desc: Install Junie AI coding agent
     summary: |
       Installs Junie via the official JetBrains installer script

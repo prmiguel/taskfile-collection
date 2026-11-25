@@ -4,6 +4,8 @@ version: '3'
 
 tasks:
   install:
+    vars:
+      METADATA_CATEGORY: [cli, ai-tool]
     desc: Install rtk (Rust Token Killer, non-root)
     summary: |
       rtk is a CLI proxy that cuts LLM token consumption on common dev
@@ -34,6 +36,8 @@ tasks:
     silent: true
 
   install-cargo:
+    vars:
+      METADATA_CATEGORY: [cli, ai-tool]
     desc: Install rtk from source via cargo (non-root)
     summary: |
       Builds rtk from the Git URL so the correct crate is installed, avoiding
@@ -51,6 +55,8 @@ tasks:
     silent: true
 
   init:
+    vars:
+      METADATA_CATEGORY: [cli, ai-tool]
     desc: Enable the rtk hook for Claude Code
     summary: |
       Patches the global Claude Code settings to route through the rtk token
